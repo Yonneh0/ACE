@@ -170,6 +170,9 @@ namespace ACE.Entity.Enum
         /// Infused Void Magic - foci for void magic
         /// </summary>
         FociVoid = 42,
+
+
+        ResistNether = 43,
     }
 
     public static class AugTypeHelper

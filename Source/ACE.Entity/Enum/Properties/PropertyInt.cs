@@ -492,6 +492,7 @@ namespace ACE.Entity.Enum.Properties
         AlternateRacialSkills                    = 325,
         [SendOnLogin]
         AugmentationJackOfAllTrades              = 326,
+        [SendOnLogin]
         AugmentationResistanceNether             = 327,
         [SendOnLogin]
         AugmentationInfusedVoidMagic             = 328,

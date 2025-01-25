@@ -800,6 +800,15 @@ namespace ACE.Server.WorldObjects
         }
 
         /// <summary>
+        /// Enhancement of the Yonneh
+        /// Grants the player 10% extra resistance to nether damage. You may only have 2 resistance augmentations in effect at any time.
+        /// </summary>
+        public int AugmentationResistanceNether {
+            get => GetProperty(PropertyInt.AugmentationResistanceNether) ?? 0;
+            set { if (value == 0) RemoveProperty(PropertyInt.AugmentationResistanceNether); else SetProperty(PropertyInt.AugmentationResistanceNether, value); }
+        }
+
+        /// <summary>
         /// The number of resistance augs that have been applied (max 2)
         /// </summary>
         public int AugmentationResistanceFamily
@@ -1363,6 +1372,9 @@ namespace ACE.Server.WorldObjects
 
                 case DamageType.Electric:
                     return AugmentationResistanceLightning;
+
+                case DamageType.Nether:
+                    return AugmentationResistanceNether;
             }
             return 0;
         }

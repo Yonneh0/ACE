@@ -302,6 +302,7 @@ namespace ACE.Server.WorldObjects
             { AugmentationType.DamageResist, PropertyInt.AugmentationDamageReduction },
             { AugmentationType.AllStats, PropertyInt.AugmentationJackOfAllTrades },
             { AugmentationType.FociVoid, PropertyInt.AugmentationInfusedVoidMagic },
+            { AugmentationType.ResistNether, PropertyInt.AugmentationResistanceNether },
         };
     }
 }
