@@ -17,16 +17,16 @@ namespace ACE.Entity
             switch (startArea)
             {
                 case (uint)StarterTown.Shoushi:
-                    landblockID = 2130903469;
+                    landblockID = 0x7F0301AD;
                     break;
                 case (uint)StarterTown.Yaraq:
-                    landblockID = 2349072813;
+                    landblockID = 0x8C0401AD;
                     break;
                 case (uint)StarterTown.Sanamar:
-                    landblockID = 1912799661;
+                    landblockID = 0x720301AD;
                     break;
                 default:
-                    landblockID = 2248343981;
+                    landblockID = 0x860301AD;
                     break;
             }
 
