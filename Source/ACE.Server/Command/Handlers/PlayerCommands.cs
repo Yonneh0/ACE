@@ -7,20 +7,31 @@ using ACE.Common;
 using ACE.Database;
 using ACE.Entity;
 using ACE.Entity.Enum;
+using ACE.Entity.Enum.Properties;
 using ACE.Server.Entity;
 using ACE.Server.Entity.Actions;
+using ACE.Entity.Models;
 using ACE.Server.Managers;
 using ACE.Server.Network;
 using ACE.Server.Network.GameEvent.Events;
 using ACE.Server.Network.GameMessages.Messages;
 using ACE.Server.WorldObjects;
 
-
 namespace ACE.Server.Command.Handlers
 {
     public static class PlayerCommands
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        // hotel
+        private static readonly Position HotelDrop = DatabaseManager.World.GetCachedWeenie("portalhotelswank")?.GetPosition(PositionType.Destination) ?? new Position(0x016C01BC, 49.206f, -31.935f, 0.005f, 0, 0, -0.707107f, 0.707107f);
+
+        [CommandHandler("hotel", AccessLevel.Player, CommandHandlerFlag.None, 0,
+            "Teleports you to The Funky Hotel",
+            "")]
+        public static void HandleHotel(Session session, params string[] parameters) {
+            session.Player.HandleActionTeleTo(HotelDrop,"The Funky Hotel");
+        }
 
         // pop
         [CommandHandler("pop", AccessLevel.Player, CommandHandlerFlag.None, 0,

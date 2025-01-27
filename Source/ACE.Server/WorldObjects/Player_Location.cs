@@ -56,6 +56,58 @@ namespace ACE.Server.WorldObjects
             get => IsBusy || suicideInProgress;     // recalls could be started from portal space?
         }
 
+
+
+        /// <summary>
+        /// Universal TeleTo for custom content
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="destName"></param>
+        public void HandleActionTeleTo(Position destination, string destName) {
+            if (IsOlthoiPlayer) {
+                Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.OlthoiCanOnlyRecallToLifestone));
+                return;
+            }
+
+            if (PKTimerActive) {
+                Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveBeenInPKBattleTooRecently));
+                return;
+            }
+
+            if (RecallsDisabled) {
+                Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.ExitTrainingAcademyToUseCommand));
+                return;
+            }
+
+            if (TooBusyToRecall) {
+                Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YoureTooBusy));
+                return;
+            }
+
+            if (CombatMode != CombatMode.NonCombat) {
+                // this should be handled by a different thing, probably a function that forces player into peacemode
+                var updateCombatMode = new GameMessagePrivateUpdatePropertyInt(this, PropertyInt.CombatMode, (int)CombatMode.NonCombat);
+                SetCombatMode(CombatMode.NonCombat);
+                Session.Network.EnqueueSend(updateCombatMode);
+            }
+            if (destName != null && destName.Length > 0)
+            EnqueueBroadcast(new GameMessageSystemChat($"{Name} is recalling to {destName}!", ChatMessageType.Recall), LocalBroadcastRange, ChatMessageType.Recall);
+
+            SendMotionAsCommands(MotionCommand.MarketplaceRecall, MotionStance.NonCombat);
+
+            ActionChain mpChain = new ActionChain();
+            mpChain.AddDelaySeconds(4);
+            IsBusy = true;
+            mpChain.AddAction(this, () => {
+                IsBusy = false;
+                Teleport(MarketplaceDrop);
+            });
+            mpChain.EnqueueChain();
+        }
+
+
+
+
         public void HandleActionTeleToHouse()
         {
             if (IsOlthoiPlayer)
@@ -102,24 +154,24 @@ namespace ACE.Server.WorldObjects
 
             SendMotionAsCommands(MotionCommand.HouseRecall, MotionStance.NonCombat);
 
-            var startPos = new Position(Location);
+            //var startPos = new Position(Location);
 
             // Wait for animation
             var actionChain = new ActionChain();
 
             // Then do teleport
             var animLength = DatManager.PortalDat.ReadFromDat<MotionTable>(MotionTableId).GetAnimationLength(MotionCommand.HouseRecall);
-            actionChain.AddDelaySeconds(animLength);
+            actionChain.AddDelaySeconds(4);
             IsBusy = true;
             actionChain.AddAction(this, () =>
             {
                 IsBusy = false;
-                var endPos = new Position(Location);
-                if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
-                {
-                    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
-                    return;
-                }
+                //var endPos = new Position(Location);
+                //if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
+                //{
+                //    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
+                //    return;
+                //}
                 Teleport(house.SlumLord.Location);
             });
 
@@ -170,23 +222,24 @@ namespace ACE.Server.WorldObjects
 
             SendMotionAsCommands(MotionCommand.LifestoneRecall, MotionStance.NonCombat);
 
-            var startPos = new Position(Location);
+            //var startPos = new Position(Location);
 
             // Wait for animation
             ActionChain lifestoneChain = new ActionChain();
 
             // Then do teleport
             IsBusy = true;
-            lifestoneChain.AddDelaySeconds(DatManager.PortalDat.ReadFromDat<MotionTable>(MotionTableId).GetAnimationLength(MotionCommand.LifestoneRecall));
+            //lifestoneChain.AddDelaySeconds(DatManager.PortalDat.ReadFromDat<MotionTable>(MotionTableId).GetAnimationLength(MotionCommand.LifestoneRecall));
+            lifestoneChain.AddDelaySeconds(4);
             lifestoneChain.AddAction(this, () =>
             {
                 IsBusy = false;
-                var endPos = new Position(Location);
-                if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
-                {
-                    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
-                    return;
-                }
+                //var endPos = new Position(Location);
+                //if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
+                //{
+                //    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
+                //    return;
+                //}
 
                 Teleport(Sanctuary);
             });
@@ -234,25 +287,25 @@ namespace ACE.Server.WorldObjects
 
             SendMotionAsCommands(MotionCommand.MarketplaceRecall, MotionStance.NonCombat);
 
-            var startPos = new Position(Location);
+            //var startPos = new Position(Location);
 
             // TODO: (OptimShi): Actual animation length is longer than in retail. 18.4s
             // float mpAnimationLength = MotionTable.GetAnimationLength((uint)MotionTableId, MotionCommand.MarketplaceRecall);
             // mpChain.AddDelaySeconds(mpAnimationLength);
             ActionChain mpChain = new ActionChain();
-            mpChain.AddDelaySeconds(14);
+            mpChain.AddDelaySeconds(4);
 
             // Then do teleport
             IsBusy = true;
             mpChain.AddAction(this, () =>
             {
                 IsBusy = false;
-                var endPos = new Position(Location);
-                if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
-                {
-                    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
-                    return;
-                }
+                //var endPos = new Position(Location);
+                //if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
+                //{
+                //    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
+                //    return;
+                //}
 
                 Teleport(MarketplaceDrop);
             });
@@ -307,7 +360,7 @@ namespace ACE.Server.WorldObjects
 
             SendMotionAsCommands(MotionCommand.AllegianceHometownRecall, MotionStance.NonCombat);
 
-            var startPos = new Position(Location);
+            //var startPos = new Position(Location);
 
             // Wait for animation
             var actionChain = new ActionChain();
@@ -315,16 +368,16 @@ namespace ACE.Server.WorldObjects
             // Then do teleport
             IsBusy = true;
             var animLength = DatManager.PortalDat.ReadFromDat<MotionTable>(MotionTableId).GetAnimationLength(MotionCommand.AllegianceHometownRecall);
-            actionChain.AddDelaySeconds(animLength);
+            actionChain.AddDelaySeconds(4);
             actionChain.AddAction(this, () =>
             {
                 IsBusy = false;
-                var endPos = new Position(Location);
-                if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
-                {
-                    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
-                    return;
-                }
+                //var endPos = new Position(Location);
+                //if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
+                //{
+                //    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
+                //    return;
+                //}
 
                 // re-verify
                 if (!VerifyRecallAllegianceHometown())
@@ -401,25 +454,25 @@ namespace ACE.Server.WorldObjects
 
             SendMotionAsCommands(MotionCommand.HouseRecall, MotionStance.NonCombat);
 
-            var startPos = new Position(Location);
+            //var startPos = new Position(Location);
 
             // Wait for animation
             var actionChain = new ActionChain();
 
             // Then do teleport
-            var animLength = DatManager.PortalDat.ReadFromDat<MotionTable>(MotionTableId).GetAnimationLength(MotionCommand.HouseRecall);
-            actionChain.AddDelaySeconds(animLength);
+            //var animLength = DatManager.PortalDat.ReadFromDat<MotionTable>(MotionTableId).GetAnimationLength(MotionCommand.HouseRecall);
+            actionChain.AddDelaySeconds(4);
 
             IsBusy = true;
             actionChain.AddAction(this, () =>
             {
                 IsBusy = false;
-                var endPos = new Position(Location);
-                if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
-                {
-                    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
-                    return;
-                }
+                //var endPos = new Position(Location);
+                //if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
+                //{
+                //    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
+                //    return;
+                //}
 
                 // re-verify
                 allegianceHouse = VerifyTeleToMansion();
@@ -517,7 +570,7 @@ namespace ACE.Server.WorldObjects
 
             SendMotionAsCommands(MotionCommand.PKArenaRecall, MotionStance.NonCombat);
 
-            var startPos = new Position(Location);
+            //var startPos = new Position(Location);
 
             // Wait for animation
             var actionChain = new ActionChain();
@@ -530,12 +583,12 @@ namespace ACE.Server.WorldObjects
             actionChain.AddAction(this, () =>
             {
                 IsBusy = false;
-                var endPos = new Position(Location);
-                if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
-                {
-                    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
-                    return;
-                }
+                //var endPos = new Position(Location);
+                //if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
+                //{
+                //    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
+                //    return;
+                //}
 
                 var rng = ThreadSafeRandom.Next(0, pkArenaLocs.Count - 1);
                 var loc = pkArenaLocs[rng];
@@ -601,7 +654,7 @@ namespace ACE.Server.WorldObjects
 
             SendMotionAsCommands(MotionCommand.PKArenaRecall, MotionStance.NonCombat);
 
-            var startPos = new Position(Location);
+            //var startPos = new Position(Location);
 
             // Wait for animation
             var actionChain = new ActionChain();
@@ -614,12 +667,12 @@ namespace ACE.Server.WorldObjects
             actionChain.AddAction(this, () =>
             {
                 IsBusy = false;
-                var endPos = new Position(Location);
-                if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
-                {
-                    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
-                    return;
-                }
+                //var endPos = new Position(Location);
+                //if (startPos.SquaredDistanceTo(endPos) > RecallMoveThresholdSq)
+                //{
+                //    Session.Network.EnqueueSend(new GameEventWeenieError(Session, WeenieError.YouHaveMovedTooFar));
+                //    return;
+                //}
 
                 var rng = ThreadSafeRandom.Next(0, pklArenaLocs.Count - 1);
                 var loc = pklArenaLocs[rng];
