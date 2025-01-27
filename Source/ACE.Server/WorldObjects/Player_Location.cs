@@ -100,7 +100,7 @@ namespace ACE.Server.WorldObjects
             IsBusy = true;
             mpChain.AddAction(this, () => {
                 IsBusy = false;
-                Teleport(MarketplaceDrop);
+                Teleport(destination);
             });
             mpChain.EnqueueChain();
         }
