@@ -7,10 +7,8 @@ using ACE.Common;
 using ACE.Database;
 using ACE.Entity;
 using ACE.Entity.Enum;
-using ACE.Entity.Enum.Properties;
 using ACE.Server.Entity;
 using ACE.Server.Entity.Actions;
-using ACE.Entity.Models;
 using ACE.Server.Managers;
 using ACE.Server.Network;
 using ACE.Server.Network.GameEvent.Events;
@@ -23,15 +21,19 @@ namespace ACE.Server.Command.Handlers
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        // hotel
-        private static readonly Position HotelDrop = DatabaseManager.World.GetCachedWeenie("portalhotelswank")?.GetPosition(PositionType.Destination) ?? new Position(0x016C01BC, 49.206f, -31.935f, 0.005f, 0, 0, -0.707107f, 0.707107f);
+        // hotel - Hotel Swank!
+        private static readonly Position HotelDrop = new Position(0x018A0273, 120.000000f, -79.900002f, 0.005000f, -0.707107f, 0.000000f, 0.000000f, -0.707107f);
+        [CommandHandler("hotel", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "Teleports you to The Funky Hotel", "")] public static void HandleHotel(Session session, params string[] parameters) { session.Player.HandleActionTeleTo(HotelDrop, "the Funky Hotel"); }
+        [CommandHandler("h", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "Teleports you to The Funky Hotel", "")] public static void HandleH(Session session, params string[] parameters) { session.Player.HandleActionTeleTo(HotelDrop, "the Funky Hotel"); }
 
-        [CommandHandler("hotel", AccessLevel.Player, CommandHandlerFlag.None, 0,
-            "Teleports you to The Funky Hotel",
-            "")]
-        public static void HandleHotel(Session session, params string[] parameters) {
-            session.Player.HandleActionTeleTo(HotelDrop,"The Funky Hotel");
-        }
+        // tn - Town Network
+        private static readonly Position TownNetworkDrop = new Position(0x00070145, 70.000000f, -80.000000f, 0.005000f, 1f, 0f, 0f, 0f);
+        [CommandHandler("tn", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "Teleports you to the Town Network", "")] public static void HandleTN(Session session, params string[] parameters) { session.Player.HandleActionTeleTo(TownNetworkDrop, "the Town Network"); }
+
+        // sub - Abandoned Mine (Subway)
+        private static readonly Position SubwayDrop = new Position(0x01C9022D, 72.900000f, -30.200000f, 0.005000f, 0.139173f, 0f, 0f, -0.990268f);
+        [CommandHandler("sub", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "Teleports you to the Abandoned Mine (Subway)", "")] public static void HandleSub(Session session, params string[] parameters) { session.Player.HandleActionTeleTo(SubwayDrop, "the Abandoned Mine (Subway)"); }
+
 
         // pop
         [CommandHandler("pop", AccessLevel.Player, CommandHandlerFlag.None, 0,
