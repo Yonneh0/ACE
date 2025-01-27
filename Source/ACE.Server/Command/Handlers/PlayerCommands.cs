@@ -42,16 +42,15 @@ namespace ACE.Server.Command.Handlers {
             session.Player.HandleActionTeleTo(SubwayDrop, "the Abandoned Mine (Subway)");
         }
 
-        // sub - Abandoned Mine (Subway)
+        // fh - Facility Hub
         private static readonly Position FacilityHubDrop = DatabaseManager.World.GetCachedWeenie(PropertyManager.GetString("ace42851_portaltofacilityhub").Item)?.GetPosition(PositionType.Destination) ?? new Position(0x8A020212, 58.64f, -90f, 6.005f, 0f, 0f, -0.099833f, 0.995004f);
-        [CommandHandler("fh", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "Teleports you to the Facility Hub", "")]
+        [CommandHandler("fh", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "(Level 10+) Teleports you to the Facility Hub", "")]
         public static void Handlefh(Session session, params string[] parameters) {
             if (session.Player.Level >= 10)
                 session.Player.HandleActionTeleTo(FacilityHubDrop, "the Facility Hub");
             else
                 session.Network.EnqueueSend(new GameMessageSystemChat("The Facility Hub requires you to be Level 10.", ChatMessageType.Broadcast));
         }
-
 
         // pop
         [CommandHandler("pop", AccessLevel.Player, CommandHandlerFlag.None, 0,
