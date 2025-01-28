@@ -39,11 +39,6 @@ namespace YonnehTown {
     public class PluginCore : PluginBase {
         public string PluginAssemblyPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        internal static unsafe string PSRefBufferCharData_ushort_read(int* pointer) {
-            try {
-                return Marshal.PtrToStringUni((IntPtr)(*pointer));
-            } catch { return ""; }
-        }
         public static unsafe string WorldName {
             get {
                 try {
@@ -61,7 +56,7 @@ namespace YonnehTown {
                 AppraisalHelper.Setup();
                 ExperienceSystem.Setup();
                 SpellTab.Setup(Core);
-                CharacterInfoUI.Setup();
+                //CharacterInfoUI.Setup();
                 Core.CharacterFilter.LoginComplete += CharacterFilter_LoginComplete;
                 Core.CommandLineText += Core_CommandLineText;
             }
@@ -115,5 +110,59 @@ namespace YonnehTown {
                     break;
             }
         }
+
+
+
+
+        #region PStringBase_char_new(string contents)
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)] internal delegate void __vecDelDtor(int obj, int a2); //no Entrypoint - comes from the object its' self.
+        internal static void Call_AC1Legacy__PStringBase_char__PStringBase_char(int s_NullBuffer, string message) => ((def_AC1Legacy__PStringBase_char__PStringBase_char)Marshal.GetDelegateForFunctionPointer((IntPtr)0x0048C3E0, typeof(def_AC1Legacy__PStringBase_char__PStringBase_char)))(s_NullBuffer, message);
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)] internal delegate void def_AC1Legacy__PStringBase_char__PStringBase_char(int s_NullBuffer, [MarshalAs(UnmanagedType.LPStr)] string message); // void __thiscall AC1Legacy::PStringBase<char>::PStringBase<char>(AC1Legacy::PStringBase<char> *this, const char *str)
+
+        internal static void Call_AC1Legacy__PStringBase_ushort__PStringBase_ushort(int s_NullBuffer, string message) => ((def_AC1Legacy__PStringBase_ushort__PStringBase_ushort)Marshal.GetDelegateForFunctionPointer((IntPtr)0x005444D0, typeof(def_AC1Legacy__PStringBase_ushort__PStringBase_ushort)))(s_NullBuffer, message);
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)] internal delegate void def_AC1Legacy__PStringBase_ushort__PStringBase_ushort(int s_NullBuffer, [MarshalAs(UnmanagedType.LPWStr)] string message); // void __thiscall AC1Legacy::PStringBase<char>::PStringBase<char>(AC1Legacy::PStringBase<char> *this, const char *str)
+
+
+
+        //
+
+        internal unsafe static int* PStringBase_char_new(string contents) {
+            void* s_NullBuffer = (void*)null;
+            Call_AC1Legacy__PStringBase_char__PStringBase_char((int)&s_NullBuffer, contents);
+            return (int*)s_NullBuffer;
+        }
+        internal unsafe static int* PStringBase_ushort_new(string contents) {
+            void* s_NullBuffer = (void*)null;
+            Call_AC1Legacy__PStringBase_ushort__PStringBase_ushort((int)&s_NullBuffer, contents);
+            return (int*)s_NullBuffer;
+        }
+        internal unsafe static void DisposeObject(int* obj) {
+            if (System.Threading.Interlocked.Decrement(ref *(int*)((int)obj + 4)) == 0)
+                ((__vecDelDtor)Marshal.GetDelegateForFunctionPointer((IntPtr)(*(int*)*obj), typeof(__vecDelDtor)))((int)obj, 1);
+        }
+        #endregion
+
+        #region PStringBase_char_read(int* pointer)
+        internal unsafe static string PStringBase_char_read(int* pointer) {
+            try {
+                return Marshal.PtrToStringAnsi((IntPtr)(*pointer + 0x14), (*(int*)(*pointer + 0x08)) - 1);
+            } catch { return ""; }
+        }
+        #endregion
+        #region PSRefBufferCharData_char_read(int* pointer)
+        internal unsafe static string PSRefBufferCharData_char_read(int* pointer) {
+            try {
+                return Marshal.PtrToStringAnsi((IntPtr)(*pointer));
+            } catch { return ""; }
+        }
+        #endregion
+        #region PSRefBufferCharData_ushort_read(int* pointer)
+        internal unsafe static string PSRefBufferCharData_ushort_read(int* pointer) {
+            try {
+                return Marshal.PtrToStringUni((IntPtr)(*pointer));
+            } catch { return ""; }
+        }
+        #endregion
+
     }
 }

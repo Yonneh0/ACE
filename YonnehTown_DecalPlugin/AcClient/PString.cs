@@ -247,11 +247,11 @@ namespace AcClient {
         //    throw new Exception("Not implemented.");
         //}
 
-        public void Dispose() {
-            if (this is PStringBase<UInt16> pShort) {
-                __Dtor_16(&pShort);
-            }
-        }
+        //public void Dispose() {
+        //    if (this is PStringBase<UInt16> pShort) {
+        //        __Dtor_16(&pShort);
+        //    }
+        //}
 
         public static delegate* unmanaged[Thiscall]<PStringBase<UInt16>*, UInt16[], void> __Ctor_16 = (delegate* unmanaged[Thiscall]<PStringBase<UInt16>*, UInt16[], void>)0x00402730;
         public static delegate* unmanaged[Thiscall]<PStringBase<UInt16>*, void> __Dtor_16 = (delegate* unmanaged[Thiscall]<PStringBase<UInt16>*, void>)0x004011B0;
@@ -428,7 +428,7 @@ namespace AcClient {
         public int vsprintf(UInt16* fmt, char* args) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt16*, char*, int>)0x00402520)(ref this, fmt, args); // .text:00402380 ; int __thiscall PStringBase<unsigned short>::vsprintf(PStringBase<unsigned short> *this, const unsigned __int16 *fmt, char *args) .text:00402380 ?vsprintf@?$PStringBase@G@@QAEJPBGPAD@Z
 
         // Globals:
-        public static PSRefBufferCharData<UInt16>** s_NullBuffer_w = (PSRefBufferCharData<UInt16>**)0x00818340; // .data:00817340 ; PSRefBufferCharData<unsigned short> *PStringBase<unsigned short>::s_NullBuffer .data:00817340 ?s_NullBuffer@?$PStringBase@G@@0PAV?$PSRefBufferCharData@G@@A
+        public static PSRefBufferCharData<T>** s_NullBuffer_w = (PSRefBufferCharData<T>**)0x00818340; // .data:00817340 ; PSRefBufferCharData<unsigned short> *PStringBase<unsigned short>::s_NullBuffer .data:00817340 ?s_NullBuffer@?$PStringBase@G@@0PAV?$PSRefBufferCharData@G@@A
         public static PStringBase<char>* s_NullBuffer = (PStringBase<char>*)0x00818344; // .data:00817344 ; PStringBase<char> PStringBase<char>::s_NullBuffer .data:00817344 ?s_NullBuffer@?$PStringBase@D@@0PAV?$PSRefBufferCharData@D@@A
         public static PStringBase<char>* null_string = (PStringBase<char>*)0x008183B4; // .data:008173B4 ; PStringBase<char> PStringBase<char>::null_string .data:008173B4 ?null_string@?$PStringBase@D@@2V1@B
                                                                                        // public static PStringBase<char>* whitespace_string = (PStringBase<char>*)0xDEADBEEF; // .data:00836748 ; PStringBase<char> PStringBase<char>::whitespace_string .data:00836748 ?whitespace_string@?$PStringBase@D@@2V1@B

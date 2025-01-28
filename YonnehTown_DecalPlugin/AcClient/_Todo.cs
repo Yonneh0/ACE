@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace AcClient {
@@ -1210,13 +1210,6 @@ namespace AcClient {
         public static _iobuf** s_pLogFile = (_iobuf**)0x008712C4; // .data:008702B4 ; _iobuf *ClientSystem::s_pLogFile .data:008702B4 ?s_pLogFile@ClientSystem@@1PAU_iobuf@@A
     }
 
-    public unsafe struct QualityChangeHandler {
-        public QualityChangeHandlerVtbl* vfptr;
-    };
-    public unsafe struct QualityChangeHandlerVtbl {
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)] public delegate void OnQualityChanged(QualityChangeHandler* This, CWeenieObject* a2, StatType a3, UInt32 a4); // void(__thiscall *OnQualityChanged)(QualityChangeHandler *this, CWeenieObject *, StatType, UInt32);
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)] public delegate void OnQualityRemoved(QualityChangeHandler* This, CWeenieObject* a2, StatType a3, UInt32 a4); // void(__thiscall *OnQualityRemoved)(QualityChangeHandler *this, CWeenieObject *, StatType, UInt32);
-    };
     public unsafe struct ObjDesc {
         public VisualDesc visualDesc;
         public UInt32 paletteID; // IDClass<_tagDataID, 32, 0>

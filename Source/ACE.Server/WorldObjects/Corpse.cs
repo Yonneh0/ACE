@@ -343,13 +343,9 @@ namespace ACE.Server.WorldObjects
             if (!wo.IconUnderlayId.HasValue || wo.IconUnderlayId.Value != 0x6005B0C) // ensure icon underlay exists for rare (loot profiles use this)
                 wo.IconUnderlayId = 0x6005B0C;
 
-            var tier = LootGenerationFactory.GetRareTier(wo.WeenieClassId);
-            LootGenerationFactory.RareChances.TryGetValue(tier, out var chance);
-
             if (log.IsDebugEnabled)
             {
-                log.Debug($"[LOOT][RARE] {Name} ({Guid}) generated rare {wo.Name} ({wo.Guid}) for {killer.Name} ({killer.Guid})");
-                log.Debug($"[LOOT][RARE] Tier {tier} -- 1 / {chance:N0} chance -- {luck:N0} luck");
+                log.Debug($"[LOOT][RARE] {Name} ({Guid}) generated rare {wo.Name} ({wo.Guid}) for {killer.Name} ({killer.Guid}) -- {luck:N0} luck");
             }
 
             if (TryAddToInventory(wo))

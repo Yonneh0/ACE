@@ -555,6 +555,15 @@ namespace AcClient {
         public override string ToString() => $"CPluginManager(CPluginManager):{CPluginManager}";
 
     }
+    public unsafe struct QualityChangeHandler {
+        // Struct:
+        public QualityChangeHandler.Vtbl* vfptr;
+        public override string ToString() => $"vfptr:->(QualityChangeHandler.Vtbl*)0x{(int)vfptr:X8}";
+        public unsafe struct Vtbl {
+            public static delegate* unmanaged[Thiscall]<QualityChangeHandler*, CWeenieObject*, StatType, UInt32, void> OnQualityChanged; // void (__thiscall *OnQualityChanged)(QualityChangeHandler *this, CWeenieObject *, StatType, unsigned int);
+            public static delegate* unmanaged[Thiscall]<QualityChangeHandler*, CWeenieObject*, StatType, UInt32, void> OnQualityRemoved; // void (__thiscall *OnQualityRemoved)(QualityChangeHandler *this, CWeenieObject *, StatType, unsigned int);
+        }
+    }
 
 
 
