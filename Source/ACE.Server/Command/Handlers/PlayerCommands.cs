@@ -22,34 +22,26 @@ namespace ACE.Server.Command.Handlers {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         // hotel - Hotel Swank!
-        private static readonly Position HotelDrop = DatabaseManager.World.GetCachedWeenie(PropertyManager.GetString("portalhotelswank").Item)?.GetPosition(PositionType.Destination) ?? new Position(0x018A0273, 120f, -79.9f, 0.005f, 0f, 0f, -0.707107f, -0.707107f);
+        private static readonly Position HotelDrop = new Position(0x018A0273, 120f, -79.9f, 0.005f, 0f, 0f, -0.707107f, -0.707107f);
         [CommandHandler("hotel", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "Teleports you to The Funky Hotel", "")]
-        public static void HandleHotel(Session session, params string[] parameters) {
-            session.Player.HandleActionTeleTo(HotelDrop, "the Funky Hotel");
-        }
+        public static void HandleHotel(Session session, params string[] parameters) => session.Player.HandleActionTeleTo(HotelDrop, "the Funky Hotel");
 
         // tn - Town Network
-        private static readonly Position TownNetworkDrop = DatabaseManager.World.GetCachedWeenie(PropertyManager.GetString("ace42852_portaltotownnetwork").Item)?.GetPosition(PositionType.Destination) ?? new Position(0x00070145, 70f, -80f, 0.005f, 0f, 0f, 0f, 1f);
+        private static readonly Position TownNetworkDrop = new Position(0x00070145, 70f, -80f, 0.005f, 0f, 0f, 0f, 1f);
         [CommandHandler("tn", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "Teleports you to the Town Network", "")]
-        public static void HandleTN(Session session, params string[] parameters) {
-            session.Player.HandleActionTeleTo(TownNetworkDrop, "the Town Network");
-        }
-
+        public static void HandleTN(Session session, params string[] parameters) => session.Player.HandleActionTeleTo(TownNetworkDrop, "the Town Network");
+        
         // sub - Abandoned Mine (Subway)
-        private static readonly Position SubwayDrop = DatabaseManager.World.GetCachedWeenie(PropertyManager.GetString("portalabandonedmine").Item)?.GetPosition(PositionType.Destination) ?? new Position(0x01C9022D, 72.9f, -30.2f, 0.005f, 0f, 0f, -0.990268f, 0.139173f);
+        private static readonly Position SubwayDrop = new Position(0x01C9022D, 72.9f, -30.2f, 0.005f, 0f, 0f, -0.990268f, 0.139173f);
         [CommandHandler("sub", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "Teleports you to the Abandoned Mine (Subway)", "")]
-        public static void HandleSub(Session session, params string[] parameters) {
-            session.Player.HandleActionTeleTo(SubwayDrop, "the Abandoned Mine (Subway)");
-        }
+        public static void HandleSub(Session session, params string[] parameters) => session.Player.HandleActionTeleTo(SubwayDrop, "the Abandoned Mine (Subway)");
 
         // fh - Facility Hub
-        private static readonly Position FacilityHubDrop = DatabaseManager.World.GetCachedWeenie(PropertyManager.GetString("ace42851_portaltofacilityhub").Item)?.GetPosition(PositionType.Destination) ?? new Position(0x8A020212, 58.64f, -90f, 6.005f, 0f, 0f, -0.099833f, 0.995004f);
+        private static readonly Position FacilityHubDrop = new Position(0x8A020212, 58.64f, -90f, 6.005f, 0f, 0f, -0.099833f, 0.995004f);
         [CommandHandler("fh", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "(Level 10+) Teleports you to the Facility Hub", "")]
         public static void Handlefh(Session session, params string[] parameters) {
-            if (session.Player.Level >= 10)
-                session.Player.HandleActionTeleTo(FacilityHubDrop, "the Facility Hub");
-            else
-                session.Network.EnqueueSend(new GameMessageSystemChat("The Facility Hub requires you to be Level 10.", ChatMessageType.Broadcast));
+            if (session.Player.Level >= 10) session.Player.HandleActionTeleTo(FacilityHubDrop, "the Facility Hub");
+            else session.Network.EnqueueSend(new GameMessageSystemChat("The Facility Hub requires you to be Level 10.", ChatMessageType.Broadcast));
         }
 
         // pop

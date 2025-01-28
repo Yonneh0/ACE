@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System;
 
@@ -13,8 +13,7 @@ namespace AcClient {
         internal int call;
         internal bool Hooked = false;
 
-        public Hook(int entrypoint, int call_location) {
-            Entrypoint = (IntPtr)entrypoint;
+        public Hook(int call_location) {
             call = call_location;
             hookers.Add(this);
         }

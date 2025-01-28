@@ -402,69 +402,41 @@ namespace ACE.Server.Factories
             if (PropertyManager.GetBool("loot_quality_mod").Item && profile.LootQualityMod > 0 && profile.LootQualityMod < 1)
                 lootQualityMod = 1.0f - profile.LootQualityMod;
 
-            // 1% chance for a legendary, 0.02% chance for 2 legendaries
-            if (ThreadSafeRandom.Next(1, (int)(100 * dropRateMod * lootQualityMod)) == 1)
-                numLegendaries = 1;
-            if (ThreadSafeRandom.Next(1, (int)(500 * dropRateMod * lootQualityMod)) == 1)
-                numLegendaries = 2;
+            // Legendary Spell Dropcount mod - Legendary Spellcount chances (goes up exponentially with LootQualityMod):
+            //   1   2   3   4   5   6
+            // 75% 56% 42% 31% 23%  0%
+            while (numLegendaries < 5 && ThreadSafeRandom.Next(1, (int)(100 * dropRateMod * lootQualityMod)) > 75)
+                numLegendaries++;
+
+            //// 1% chance for a legendary, 0.02% chance for 2 legendaries
+            //if (ThreadSafeRandom.Next(1, (int)(100 * dropRateMod * lootQualityMod)) == 1)
+            //    numLegendaries = 1;
+            //if (ThreadSafeRandom.Next(1, (int)(500 * dropRateMod * lootQualityMod)) == 1)
+            //    numLegendaries = 2;
 
             return numLegendaries;
         }
 
-        private static int GetLowSpellTier(int tier)
-        {
-            int lowSpellTier;
-            switch (tier)
-            {
-                case 1:
-                    lowSpellTier = 1;
-                    break;
-                case 2:
-                    lowSpellTier = 3;
-                    break;
-                case 3:
-                    lowSpellTier = 4;
-                    break;
-                case 4:
-                    lowSpellTier = 5;
-                    break;
-                case 5:
-                case 6:
-                    lowSpellTier = 6;
-                    break;
-                default:
-                    lowSpellTier = 7;
-                    break;
-            }
-
-            return lowSpellTier;
+        private static int GetLowSpellTier(int tier) {
+            return tier switch {
+                1 => 1,
+                2 => 3,
+                3 => 4,
+                4 => 5,
+                5 or 6 => 6,
+                _ => 7,
+            };
         }
 
         private static int GetHighSpellTier(int tier)
         {
-            int highSpellTier;
-            switch (tier)
-            {
-                case 1:
-                    highSpellTier = 3;
-                    break;
-                case 2:
-                    highSpellTier = 5;
-                    break;
-                case 3:
-                case 4:
-                    highSpellTier = 6;
-                    break;
-                case 5:
-                case 6:
-                    highSpellTier = 7;
-                    break;
-                default:
-                    highSpellTier = 8;
-                    break;
-            }
-
-            return highSpellTier;
+            return tier switch {
+                1 => 3,
+                2 => 5,
+                3 or 4 => 6,
+                5 or 6 => 7,
+                _ => 8,
+            };
         }
 
         private static void Shuffle(int[] array)

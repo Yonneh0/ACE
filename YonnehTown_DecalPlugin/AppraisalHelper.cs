@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AcClient;
 using System.Runtime.InteropServices;
 namespace YonnehTown {
@@ -20,14 +20,14 @@ namespace YonnehTown {
             _AppraisalProfile__InqFloat_BitingStrike.Setup(new Del_AppraisalProfile__InqFloat(Hook_AppraisalProfile__InqFloat));
 
         }
-        internal static Hook _AppendHelper_MagicAbsorbing = new Hook(0x004AD010, 0x004B0FA4);
-        internal static Hook _AppraisalProfile__InqFloat_MagicAbsorbing = new Hook(0x005B4970, 0x004B0F91);
+        internal static Hook _AppendHelper_MagicAbsorbing = new Hook(0x004B0FA4);
+        internal static Hook _AppraisalProfile__InqFloat_MagicAbsorbing = new Hook(0x004B0F91);
 
-        internal static Hook _AppendHelper_CrushingBlow = new Hook(0x004AD010, 0x004B1115);
-        internal static Hook _AppraisalProfile__InqFloat_CrushingBlow = new Hook(0x005B4970, 0x004B1102);
+        internal static Hook _AppendHelper_CrushingBlow = new Hook(0x004B1115);
+        internal static Hook _AppraisalProfile__InqFloat_CrushingBlow = new Hook(0x004B1102);
 
-        internal static Hook _AppendHelper_BitingStrike = new Hook(0x004AD010, 0x004B113F);
-        internal static Hook _AppraisalProfile__InqFloat_BitingStrike = new Hook(0x005B4970, 0x004B112C);
+        internal static Hook _AppendHelper_BitingStrike = new Hook(0x004B113F);
+        internal static Hook _AppraisalProfile__InqFloat_BitingStrike = new Hook(0x004B112C);
 
         internal static double Value = 0.0d;
 

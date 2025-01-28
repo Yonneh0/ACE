@@ -5,6 +5,34 @@ using AcClient;
 using System.Runtime.InteropServices;
 using Decal.Adapter.Wrappers;
 
+/*
+ * 
+ * 
+ *  base hook example
+
+using System;
+using AcClient;
+using System.Runtime.InteropServices;
+
+namespace YonnehTown {
+    /// <summary>
+    /// Hooks ...
+    /// </summary>
+    unsafe public class CharacterInfoUI {
+        internal static void Setup() {
+            _.Setup(new Del_(Hook_));
+        }
+        internal static Hook _ = new Hook(0x);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate UInt64 Del_(UInt32 level);
+        internal static UInt64 Hook_(UInt32 level) {
+            return ((delegate* unmanaged[Cdecl]<UInt32, UInt64>)0x005C9510)(level);
+        }
+
+    }
+}
+
+
+*/
 namespace YonnehTown {
     [WireUpBaseEvents]
     [FriendlyName("YonnehTown")]
@@ -33,6 +61,7 @@ namespace YonnehTown {
                 AppraisalHelper.Setup();
                 ExperienceSystem.Setup();
                 SpellTab.Setup(Core);
+                CharacterInfoUI.Setup();
                 Core.CharacterFilter.LoginComplete += CharacterFilter_LoginComplete;
                 Core.CommandLineText += Core_CommandLineText;
             }

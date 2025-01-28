@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -738,4 +738,205 @@ namespace AcClient {
         }
 
     }
+
+
+
+    /*RAW
+     * 
+
+
+    public unsafe struct PStringBase {
+    // Struct:
+  public PSRefBufferCharData<char>* m_charbuffer;
+  public override string ToString() => $"m_charbuffer:->(PSRefBufferCharData<char>*)0x{(int)m_charbuffer:X8}";
+  public unsafe struct PStringBase<unsigned short> {
+    public PSRefBufferCharData<UInt16>* m_charbuffer;
+    public override string ToString() => $"m_charbuffer:->(PSRefBufferCharData<UInt16>*)0x{(int)m_charbuffer:X8}";
+  }
+
+    // Functions:
+
+    // PStringBase.operator_equals<unsigned short>:
+    public PStringBase<UInt16>* operator_equals(UInt16* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt16*, PStringBase<UInt16>*>)0x00402070)(ref this, rhs); // .text:00401A50 ; PStringBase<unsigned short> *__thiscall PStringBase<unsigned short>::operator=(PStringBase<unsigned short> *this, const unsigned __int16 *rhs) .text:00401A50 ??4?$PStringBase@G@@QAEAAV0@ABV0@@Z
+
+    // PStringBase.operator_is_equal<char>:
+    public Byte operator_is_equal(PStringBase<char>* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, Byte>)0x00401920)(ref this, rhs); // .text:00401910 ; bool __thiscall PStringBase<char>::operator==(PStringBase<char> *this, PStringBase<char> *rhs) .text:00401910 ??8?$PStringBase@D@@QBE_NABV0@@Z
+
+    // PStringBase.operator_is_equal<unsigned short>:
+    public Byte operator_is_equal(PStringBase<UInt16>* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<UInt16>*, Byte>)0x0042C8C0)(ref this, rhs); // .text:0042C660 ; bool __thiscall PStringBase<unsigned short>::operator==(PStringBase<unsigned short> *this, PStringBase<unsigned short> *rhs) .text:0042C660 ??8?$PStringBase@G@@QBE_NABV0@@Z
+
+    // PStringBase.operator_not_equal<char>:
+    public Byte operator_not_equal(PStringBase<char>* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, Byte>)0x00426520)(ref this, rhs); // .text:00426240 ; bool __thiscall PStringBase<char>::operator!=(PStringBase<char> *this, PStringBase<char> *rhs) .text:00426240 ??9?$PStringBase@D@@QBE_NABV0@@Z
+
+    // PStringBase.operator_not_equal<unsigned short>:
+    public Byte operator_not_equal(PStringBase<UInt16>* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<UInt16>*, Byte>)0x00494E10)(ref this, rhs); // .text:00494B30 ; bool __thiscall PStringBase<unsigned short>::operator!=(PStringBase<unsigned short> *this, PStringBase<unsigned short> *rhs) .text:00494B30 ??9?$PStringBase@G@@QBE_NABV0@@Z
+
+    // PStringBase.operator_bracket<unsigned short>:
+    public UInt16* operator_bracket(UInt32 index) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, UInt16*>)0x004075C0)(ref this, index); // .text:00407310 ; const unsigned __int16 *__thiscall PStringBase<unsigned short>::operator[](PStringBase<unsigned short> *this, unsigned int index) .text:00407310 ??A?$PStringBase@G@@QBEABGK@Z
+
+    // PStringBase.operator_plus<char>:
+    public PStringBase<char>* operator_plus(PStringBase<char>* result, PStringBase<char>* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, PStringBase<char>*, PStringBase<char>*>)0x0040BBC0)(ref this, result, rhs); // .text:0040B860 ; PStringBase<char> *__thiscall PStringBase<char>::operator+(PStringBase<char> *this, PStringBase<char> *result, PStringBase<char> *rhs) .text:0040B860 ??H?$PStringBase@D@@QBE?AV0@ABV0@@Z
+
+    // PStringBase.operator_plus<unsigned short>:
+    public PStringBase<UInt16>* operator_plus(PStringBase<UInt16>* result, PStringBase<UInt16>* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<UInt16>*, PStringBase<UInt16>*, PStringBase<UInt16>*>)0x004086C0)(ref this, result, rhs); // .text:00408410 ; PStringBase<unsigned short> *__thiscall PStringBase<unsigned short>::operator+(PStringBase<unsigned short> *this, PStringBase<unsigned short> *result, PStringBase<unsigned short> *rhs) .text:00408410 ??H?$PStringBase@G@@QBE?AV0@ABV0@@Z
+
+    // PStringBase.operator_plus_equals<char>:
+    public PStringBase<char>* operator_plus_equals(PStringBase<char>* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, PStringBase<char>*>)0x004087D0)(ref this, rhs); // .text:00408520 ; PStringBase<char> *__thiscall PStringBase<char>::operator+=(PStringBase<char> *this, PStringBase<char> *rhs) .text:00408520 ??Y?$PStringBase@D@@QAEAAV0@ABV0@@Z
+
+    // PStringBase.operator_plus_equals<unsigned short>:
+    public PStringBase<UInt16>* operator_plus_equals(PStringBase<UInt16>* rhs) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<UInt16>*, PStringBase<UInt16>*>)0x00408800)(ref this, rhs); // .text:00408550 ; PStringBase<unsigned short> *__thiscall PStringBase<unsigned short>::operator+=(PStringBase<unsigned short> *this, PStringBase<unsigned short> *rhs) .text:00408550 ??Y?$PStringBase@G@@QAEAAV0@ABV0@@Z
+
+    // PStringBase.Serialize<char>:
+    public void Serialize(Archive* io_archive) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, Archive*, void>)0x00402400)(ref this, io_archive); // .text:00402260 ; void __thiscall PStringBase<char>::Serialize(PStringBase<char> *this, Archive *io_archive) .text:00402260 ?Serialize@?$PStringBase@D@@QAEXAAVArchive@@@Z
+
+    // PStringBase.Serialize<unsigned short>:
+    public void Serialize(Archive* io_archive) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, Archive*, void>)0x004227D0)(ref this, io_archive); // .text:004223B0 ; void __thiscall PStringBase<unsigned short>::Serialize(PStringBase<unsigned short> *this, Archive *io_archive) .text:004223B0 ?Serialize@?$PStringBase@G@@QAEXAAVArchive@@@Z
+
+    // PStringBase.SetAtIndex<char>:
+    public void SetAtIndex(UInt32 nIndex, char zCharacter) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, char, void>)0x00408770)(ref this, nIndex, zCharacter); // .text:004084C0 ; void __thiscall PStringBase<char>::SetAtIndex(PStringBase<char> *this, unsigned int nIndex, const char zCharacter) .text:004084C0 ?SetAtIndex@?$PStringBase@D@@QAEXKD@Z
+
+    // PStringBase.SetAtIndex<unsigned short>:
+    public void SetAtIndex(UInt32 nIndex, UInt16 zCharacter) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, UInt16, void>)0x004089F0)(ref this, nIndex, zCharacter); // .text:00408740 ; void __thiscall PStringBase<unsigned short>::SetAtIndex(PStringBase<unsigned short> *this, unsigned int nIndex, const unsigned __int16 zCharacter) .text:00408740 ?SetAtIndex@?$PStringBase@G@@QAEXKG@Z
+
+    // PStringBase.allocate<char>:
+    public Byte allocate(UInt32 num_chars) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, Byte>)0x00408D90)(ref this, num_chars); // .text:00408AE0 ; bool __thiscall PStringBase<char>::allocate(PStringBase<char> *this, unsigned int num_chars) .text:00408AE0 ?allocate@?$PStringBase@D@@QAE_NI@Z
+
+    // PStringBase.allocate<unsigned short>:
+    public Byte allocate(UInt32 num_chars) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, Byte>)0x00408EC0)(ref this, num_chars); // .text:00408C10 ; bool __thiscall PStringBase<unsigned short>::allocate(PStringBase<unsigned short> *this, unsigned int num_chars) .text:00408C10 ?allocate@?$PStringBase@G@@QAE_NI@Z
+
+    // PStringBase.allocate_ref_buffer<char>:
+    public Byte allocate_ref_buffer(UInt32 len) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, Byte>)0x00401280)(ref this, len); // .text:004012C0 ; bool __thiscall PStringBase<char>::allocate_ref_buffer(PStringBase<char> *this, unsigned int len) .text:004012C0 ?allocate_ref_buffer@?$PStringBase@D@@IAE_NI@Z
+
+    // PStringBase.allocate_ref_buffer<unsigned short>:
+    public Byte allocate_ref_buffer(UInt32 len) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, Byte>)0x004022D0)(ref this, len); // .text:00402130 ; bool __thiscall PStringBase<unsigned short>::allocate_ref_buffer(PStringBase<unsigned short> *this, unsigned int len) .text:00402130 ?allocate_ref_buffer@?$PStringBase@G@@IAE_NI@Z
+
+    // PStringBase.append_int32<unsigned short>:
+    public void append_int32(int num) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, int, void>)0x0047B520)(ref this, num); // .text:0047B160 ; void __thiscall PStringBase<unsigned short>::append_int32(PStringBase<unsigned short> *this, int num) .text:0047B160 ?append_int32@?$PStringBase@G@@QAEXJ@Z
+
+    // PStringBase.append_n_chars<char>:
+    public void append_n_chars(char* str, UInt32 count) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, char*, UInt32, void>)0x00404EF0)(ref this, str, count); // .text:00404CF0 ; void __thiscall PStringBase<char>::append_n_chars(PStringBase<char> *this, const char *str, unsigned int count) .text:00404CF0 ?append_n_chars@?$PStringBase@D@@QAEXPBDI@Z
+
+    // PStringBase.append_n_chars<unsigned short>:
+    public void append_n_chars(UInt16* str, UInt32 count) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt16*, UInt32, void>)0x00402490)(ref this, str, count); // .text:004022F0 ; void __thiscall PStringBase<unsigned short>::append_n_chars(PStringBase<unsigned short> *this, const unsigned __int16 *str, unsigned int count) .text:004022F0 ?append_n_chars@?$PStringBase@G@@QAEXPBGI@Z
+
+    // PStringBase.append_string<char>:
+    public void append_string(PStringBase<char>* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, void>)0x004064E0)(ref this, str); // .text:004061E0 ; void __thiscall PStringBase<char>::append_string(PStringBase<char> *this, PStringBase<char> *str) .text:004061E0 ?append_string@?$PStringBase@D@@QAEXABV1@@Z
+
+    // PStringBase.append_string<unsigned short>:
+    public void append_string(PStringBase<UInt16>* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<UInt16>*, void>)0x00402790)(ref this, str); // .text:004025F0 ; void __thiscall PStringBase<unsigned short>::append_string(PStringBase<unsigned short> *this, PStringBase<unsigned short> *str) .text:004025F0 ?append_string@?$PStringBase@G@@QAEXABV1@@Z
+
+    // PStringBase.append_string<unsigned short>:
+    public void append_string(UInt16* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt16*, void>)0x0040B8F0)(ref this, str); // .text:0040B590 ; void __thiscall PStringBase<unsigned short>::append_string(PStringBase<unsigned short> *this, const unsigned __int16 *str) .text:0040B590 ?append_string@?$PStringBase@G@@QAEXPBG@Z
+
+    // PStringBase.append_uint32<char>:
+    public void append_uint32(UInt32 num) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, void>)0x0040F110)(ref this, num); // .text:0040EDB0 ; void __thiscall PStringBase<char>::append_uint32(PStringBase<char> *this, unsigned int num) .text:0040EDB0 ?append_uint32@?$PStringBase@D@@QAEXK@Z
+
+    // PStringBase.append_uint32<unsigned short>:
+    public void append_uint32(UInt32 num) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32, void>)0x004827A0)(ref this, num); // .text:004823E0 ; void __thiscall PStringBase<unsigned short>::append_uint32(PStringBase<unsigned short> *this, unsigned int num) .text:004823E0 ?append_uint32@?$PStringBase@G@@QAEXK@Z
+
+    // PStringBase.break_reference<char>:
+    public void break_reference() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, void>)0x004080C0)(ref this); // .text:00407EB0 ; void __thiscall PStringBase<char>::break_reference(PStringBase<char> *this) .text:00407EB0 ?break_reference@?$PStringBase@D@@IAEXXZ
+
+    // PStringBase.break_reference<unsigned short>:
+    public void break_reference() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, void>)0x00408390)(ref this); // .text:004080E0 ; void __thiscall PStringBase<unsigned short>::break_reference(PStringBase<unsigned short> *this) .text:004080E0 ?break_reference@?$PStringBase@G@@IAEXXZ
+
+    // PStringBase.clear<char>:
+    public void clear() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, void>)0x00404CD0)(ref this); // .text:00404AD0 ; void __thiscall PStringBase<char>::clear(PStringBase<char> *this) .text:00404AD0 ?clear@?$PStringBase@D@@QAEXXZ
+
+    // PStringBase.clear<unsigned short>:
+    public void clear() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, void>)0x0040B220)(ref this); // .text:0040AEC0 ; void __thiscall PStringBase<unsigned short>::clear(PStringBase<unsigned short> *this) .text:0040AEC0 ?clear@?$PStringBase@G@@QAEXXZ
+
+    // PStringBase.cmp<char>:
+    public int cmp(PStringBase<char>* rhs, Byte case_sensitive) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, Byte, int>)0x00404B40)(ref this, rhs, case_sensitive); // .text:00404940 ; int __thiscall PStringBase<char>::cmp(PStringBase<char> *this, PStringBase<char> *rhs, bool case_sensitive) .text:00404940 ?cmp@?$PStringBase@D@@QBEJABV1@_N@Z
+
+    // PStringBase.eq<char>:
+    public Byte eq(PStringBase<char>* rhs, Byte case_sensitive) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, Byte, Byte>)0x00404D20)(ref this, rhs, case_sensitive); // .text:00404B20 ; bool __thiscall PStringBase<char>::eq(PStringBase<char> *this, PStringBase<char> *rhs, bool case_sensitive) .text:00404B20 ?eq@?$PStringBase@D@@QBE_NABV1@_N@Z
+
+    // PStringBase.find_substring<char>:
+    public int find_substring(PStringBase<char>* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, int>)0x00404D40)(ref this, str); // .text:00404B40 ; int __thiscall PStringBase<char>::find_substring(PStringBase<char> *this, PStringBase<char> *str) .text:00404B40 ?find_substring@?$PStringBase@D@@QBEJABV1@@Z
+
+    // PStringBase.hash<char>:
+    public UInt32 hash() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32>)0x004134B0)(ref this); // .text:004131A0 ; unsigned int __thiscall PStringBase<char>::hash(PStringBase<char> *this) .text:004131A0 ?hash@?$PStringBase@D@@QBEKXZ
+
+    // PStringBase.replace<char>:
+    public int replace(PStringBase<char>* search, PStringBase<char>* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, PStringBase<char>*, int>)0x004053A0)(ref this, search, str); // .text:004050A0 ; int __thiscall PStringBase<char>::replace(PStringBase<char> *this, PStringBase<char> *search, PStringBase<char> *str) .text:004050A0 ?replace@?$PStringBase@D@@QAEJABV1@0@Z
+
+    // PStringBase.replace<unsigned short>:
+    public int replace(PStringBase<UInt16>* search, PStringBase<UInt16>* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<UInt16>*, PStringBase<UInt16>*, int>)0x0040D870)(ref this, search, str); // .text:0040D510 ; int __thiscall PStringBase<unsigned short>::replace(PStringBase<unsigned short> *this, PStringBase<unsigned short> *search, PStringBase<unsigned short> *str) .text:0040D510 ?replace@?$PStringBase@G@@QAEJABV1@0@Z
+
+    // PStringBase.set<char>:
+    public void set(PStringBase<char>* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, void>)0x00401700)(ref this, str); // .text:004016F0 ; void __thiscall PStringBase<char>::set(PStringBase<char> *this, PStringBase<char> *str) .text:004016F0 ?set@?$PStringBase@D@@QAEXABV1@@Z
+
+    // PStringBase.set<char>:
+    public void set(char* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, char*, void>)0x00405000)(ref this, str); // .text:00404E00 ; void __thiscall PStringBase<char>::set(PStringBase<char> *this, const char *str) .text:00404E00 ?set@?$PStringBase@D@@QAEXPBD@Z
+
+    // PStringBase.set<unsigned short>:
+    public void set(UInt16* str) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt16*, void>)0x00407E40)(ref this, str); // .text:00407B90 ; void __thiscall PStringBase<unsigned short>::set(PStringBase<unsigned short> *this, const unsigned __int16 *str) .text:00407B90 ?set@?$PStringBase@G@@QAEXPBG@Z
+
+    // PStringBase.sprintf:
+    // (ERR) .text:00402710 ; int __cdecl PStringBase<char>::sprintf(int, char *Format, char ArgList) .text:00402710 ?sprintf@?$PStringBase@D@@QAAJPBDZZ
+
+    // PStringBase.sprintf:
+    // (ERR) .text:004027B0 ; int __cdecl PStringBase<unsigned short>::sprintf(int, wchar_t *Format, char ArgList) .text:004027B0 ?sprintf@?$PStringBase@G@@QAAJPBGZZ
+
+    // PStringBase.sprintf_append:
+    // (ERR) .text:00406500 ; int __cdecl PStringBase<char>::sprintf_append(int, char *Format, char ArgList) .text:00406500 ?sprintf_append@?$PStringBase@D@@QAAJPBDZZ
+
+    // PStringBase.sprintf_append:
+    // (ERR) .text:004300A0 ; int __cdecl PStringBase<unsigned short>::sprintf_append(int, wchar_t *Format, char ArgList) .text:004300A0 ?sprintf_append@?$PStringBase@G@@QAAJPBGZZ
+
+    // PStringBase.substring<char>:
+    public PStringBase<char>* substring(PStringBase<char>* result, UInt32 first, UInt32 last) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, UInt32, UInt32, PStringBase<char>*>)0x00404F80)(ref this, result, first, last); // .text:00404D80 ; PStringBase<char> *__thiscall PStringBase<char>::substring(PStringBase<char> *this, PStringBase<char> *result, unsigned int first, unsigned int last) .text:00404D80 ?substring@?$PStringBase@D@@QBE?AV1@KK@Z
+
+    // PStringBase.substring<unsigned short>:
+    // public PStringBase<UInt16>* substring(PStringBase<UInt16>* result, UInt32 first, UInt32 last) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<UInt16>*, UInt32, UInt32, PStringBase<UInt16>*>)0xDEADBEEF)(ref this, result, first, last); // .text:004F3FE0 ; PStringBase<unsigned short> *__thiscall PStringBase<unsigned short>::substring(PStringBase<unsigned short> *this, PStringBase<unsigned short> *result, unsigned int first, unsigned int last) .text:004F3FE0 ?substring@?$PStringBase@G@@QBE?AV1@KK@Z
+
+    // PStringBase.to_float<unsigned short>:
+    // public Single to_float() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, Single>)0xDEADBEEF)(ref this); // .text:00482110 ; float __thiscall PStringBase<unsigned short>::to_float(PStringBase<unsigned short> *this) .text:00482110 ?to_float@?$PStringBase@G@@QBEMXZ
+
+    // PStringBase.to_int32<char>:
+    public int to_int32() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, int>)0x00429A50)(ref this); // .text:004297B0 ; int __thiscall PStringBase<char>::to_int32(PStringBase<char> *this) .text:004297B0 ?to_int32@?$PStringBase@D@@QBEJXZ
+
+    // PStringBase.to_int32<unsigned short>:
+    // public int to_int32() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, int>)0xDEADBEEF)(ref this); // .text:00489B90 ; int __thiscall PStringBase<unsigned short>::to_int32(PStringBase<unsigned short> *this) .text:00489B90 ?to_int32@?$PStringBase@G@@QBEJXZ
+
+    // PStringBase.to_spstring<unsigned short>:
+    public PStringBase<char>* to_spstring(PStringBase<char>* result, UInt16 i_targetCodePage) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<char>*, UInt16, PStringBase<char>*>)0x00408FD0)(ref this, result, i_targetCodePage); // .text:00408D20 ; PStringBase<char> *__thiscall PStringBase<unsigned short>::to_spstring(PStringBase<unsigned short> *this, PStringBase<char> *result, const unsigned __int16 i_targetCodePage) .text:00408D20 ?to_spstring@?$PStringBase@G@@QBE?AV?$PStringBase@D@@G@Z
+
+    // PStringBase.to_uint32<char>:
+    public UInt32 to_uint32() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32>)0x00404D70)(ref this); // .text:00404B70 ; unsigned int __thiscall PStringBase<char>::to_uint32(PStringBase<char> *this) .text:00404B70 ?to_uint32@?$PStringBase@D@@QBEKXZ
+
+    // PStringBase.to_uint32<unsigned short>:
+    public UInt32 to_uint32() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt32>)0x00478B80)(ref this); // .text:00478780 ; unsigned int __thiscall PStringBase<unsigned short>::to_uint32(PStringBase<unsigned short> *this) .text:00478780 ?to_uint32@?$PStringBase@G@@QBEKXZ
+
+    // PStringBase.to_wpstring<char>:
+    public PStringBase<UInt16>* to_wpstring(PStringBase<UInt16>* result, UInt16 i_sourceCodePage) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, PStringBase<UInt16>*, UInt16, PStringBase<UInt16>*>)0x00403350)(ref this, result, i_sourceCodePage); // .text:00403170 ; PStringBase<unsigned short> *__thiscall PStringBase<char>::to_wpstring(PStringBase<char> *this, PStringBase<unsigned short> *result, const unsigned __int16 i_sourceCodePage) .text:00403170 ?to_wpstring@?$PStringBase@D@@QBE?AV?$PStringBase@G@@G@Z
+
+    // PStringBase.tolower<char>:
+    public void tolower() => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, void>)0x0041CCC0)(ref this); // .text:0041C8A0 ; void __thiscall PStringBase<char>::tolower(PStringBase<char> *this) .text:0041C8A0 ?tolower@?$PStringBase@D@@QAEXXZ
+
+    // PStringBase.trim<char>:
+    public void trim(Byte pre, Byte post, PStringBase<char> filter) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, Byte, Byte, PStringBase<char>, void>)0x00435720)(ref this, pre, post, filter); // .text:00435420 ; void __thiscall PStringBase<char>::trim(PStringBase<char> *this, bool pre, bool post, PStringBase<char> filter) .text:00435420 ?trim@?$PStringBase@D@@QAEX_N0V1@@Z
+
+    // PStringBase.trim<unsigned short>:
+    // public void trim(Byte pre, Byte post, PStringBase<UInt16> filter) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, Byte, Byte, PStringBase<UInt16>, void>)0xDEADBEEF)(ref this, pre, post, filter); // .text:004D5C60 ; void __thiscall PStringBase<unsigned short>::trim(PStringBase<unsigned short> *this, bool pre, bool post, PStringBase<unsigned short> filter) .text:004D5C60 ?trim@?$PStringBase@G@@QAEX_N0V1@@Z
+
+    // PStringBase.vsprintf<char>:
+    public int vsprintf(char* fmt, char* args) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, char*, char*, int>)0x00402390)(ref this, fmt, args); // .text:004021F0 ; int __thiscall PStringBase<char>::vsprintf(PStringBase<char> *this, const char *fmt, char *args) .text:004021F0 ?vsprintf@?$PStringBase@D@@QAEJPBDPAD@Z
+
+    // PStringBase.vsprintf<unsigned short>:
+    public int vsprintf(UInt16* fmt, char* args) => ((delegate* unmanaged[Thiscall]<ref PStringBase<T>, UInt16*, char*, int>)0x00402520)(ref this, fmt, args); // .text:00402380 ; int __thiscall PStringBase<unsigned short>::vsprintf(PStringBase<unsigned short> *this, const unsigned __int16 *fmt, char *args) .text:00402380 ?vsprintf@?$PStringBase@G@@QAEJPBGPAD@Z
+
+    // Globals:
+    // public static PStringBase<char>* whitespace_string = (PStringBase<char>*)0xDEADBEEF; // .data:00836748 ; PStringBase<char> PStringBase<char>::whitespace_string .data:00836748 ?whitespace_string@?$PStringBase@D@@2V1@B
+    public static PStringBase<UInt16>* null_string = (PStringBase<UInt16>*)0x0083774C; // .data:0083674C ; PStringBase<unsigned short> PStringBase<unsigned short>::null_string .data:0083674C ?null_string@?$PStringBase@G@@2V1@B
+    public static PStringBase<UInt16>* whitespace_string = (PStringBase<UInt16>*)0x00837750; // .data:00836750 ; PStringBase<unsigned short> PStringBase<unsigned short>::whitespace_string .data:00836750 ?whitespace_string@?$PStringBase@G@@2V1@B
+    public static PSRefBufferCharData<UInt16>** s_NullBuffer = (PSRefBufferCharData<UInt16>**)0x00818340; // .data:00817340 ; PSRefBufferCharData<unsigned short> *PStringBase<unsigned short>::s_NullBuffer .data:00817340 ?s_NullBuffer@?$PStringBase@G@@0PAV?$PSRefBufferCharData@G@@A
+    public static PStringBase<char>* s_NullBuffer = (PStringBase<char>*)0x00818344; // .data:00817344 ; PStringBase<char> PStringBase<char>::s_NullBuffer .data:00817344 ?s_NullBuffer@?$PStringBase@D@@0PAV?$PSRefBufferCharData@D@@A
+    public static PStringBase<char>* null_string = (PStringBase<char>*)0x008183B4; // .data:008173B4 ; PStringBase<char> PStringBase<char>::null_string .data:008173B4 ?null_string@?$PStringBase@D@@2V1@B
+}
+
+
+     */
+
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace AcClient {
@@ -555,5 +555,74 @@ namespace AcClient {
         public override string ToString() => $"CPluginManager(CPluginManager):{CPluginManager}";
 
     }
+
+
+
+    public unsafe struct gmCharacterInfoUI {
+        // Struct:
+        public UIElement_Field a0;
+        public gmNoticeHandler a1;
+        public QualityChangeHandler a2;
+        public UIElement_Text* m_pMainText;
+        public override string ToString() => $"a0(UIElement_Field):{a0}, a1(gmNoticeHandler):{a1}, a2(QualityChangeHandler):{a2}, m_pMainText:->(UIElement_Text*)0x{(int)m_pMainText:X8}";
+
+        // Functions:
+
+        // gmCharacterInfoUI.__Ctor:
+        public void __Ctor(LayoutDesc* _layout, ElementDesc* _full_desc) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, LayoutDesc*, ElementDesc*, void>)0x004B9800)(ref this, _layout, _full_desc); // .text:004B8BE0 ; void __thiscall gmCharacterInfoUI::gmCharacterInfoUI(gmCharacterInfoUI *this, LayoutDesc *_layout, ElementDesc *_full_desc) .text:004B8BE0 ??0gmCharacterInfoUI@@QAE@ABVLayoutDesc@@ABVElementDesc@@@Z
+
+        // gmCharacterInfoUI.Create:
+        public static UIElement* Create(LayoutDesc* _layout, ElementDesc* _full_desc) => ((delegate* unmanaged[Cdecl]<LayoutDesc*, ElementDesc*, UIElement*>)0x004B9880)(_layout, _full_desc); // .text:004B8C60 ; UIElement *__cdecl gmCharacterInfoUI::Create(LayoutDesc *_layout, ElementDesc *_full_desc) .text:004B8C60 ?Create@gmCharacterInfoUI@@SAPAVUIElement@@ABVLayoutDesc@@ABVElementDesc@@@Z
+
+        // gmCharacterInfoUI.DynamicCast:
+        public UIElement* DynamicCast(UInt32 i_eType) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, UInt32, UIElement*>)0x004B93D0)(ref this, i_eType); // .text:004B87B0 ; UIElement *__thiscall gmCharacterInfoUI::DynamicCast(gmCharacterInfoUI *this, unsigned int i_eType) .text:004B87B0 ?DynamicCast@gmCharacterInfoUI@@UAEPAVUIElement@@K@Z
+
+        // gmCharacterInfoUI.GetUIElementType:
+        public UInt32 GetUIElementType() => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, UInt32>)0x004B93F0)(ref this); // .text:004B87D0 ; unsigned int __thiscall gmCharacterInfoUI::GetUIElementType(gmCharacterInfoUI *this) .text:004B87D0 ?GetUIElementType@gmCharacterInfoUI@@UBEKXZ
+
+        // gmCharacterInfoUI.ListenToElementMessage:
+        public UIElementMessageListenResult ListenToElementMessage(UIElementMessageInfo* i_rMsg) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, UIElementMessageInfo*, UIElementMessageListenResult>)0x004BB690)(ref this, i_rMsg); // .text:004BAA00 ; UIElementMessageListenResult __thiscall gmCharacterInfoUI::ListenToElementMessage(gmCharacterInfoUI *this, UIElementMessageInfo *i_rMsg) .text:004BAA00 ?ListenToElementMessage@gmCharacterInfoUI@@UAE?AW4UIElementMessageListenResult@@ABUUIElementMessageInfo@@@Z
+
+        // gmCharacterInfoUI.OnQualityChanged:
+        public void OnQualityChanged(CWeenieObject* cwobj, StatType stype, UInt32 senum) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CWeenieObject*, StatType, UInt32, void>)0x004BB6D0)(ref this, cwobj, stype, senum); // .text:004BAA40 ; void __thiscall gmCharacterInfoUI::OnQualityChanged(gmCharacterInfoUI *this, CWeenieObject *cwobj, StatType stype, unsigned int senum) .text:004BAA40 ?OnQualityChanged@gmCharacterInfoUI@@UAEXPAVCWeenieObject@@W4StatType@@K@Z
+
+        // gmCharacterInfoUI.PostInit:
+        public void PostInit() => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, void>)0x004B9310)(ref this); // .text:004B86F0 ; void __thiscall gmCharacterInfoUI::PostInit(gmCharacterInfoUI *this) .text:004B86F0 ?PostInit@gmCharacterInfoUI@@UAEXXZ
+
+        // gmCharacterInfoUI.RecvNotice_LoadChanged:
+        public void RecvNotice_LoadChanged(Single fNewLoad) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, Single, void>)0x004BB6C0)(ref this, fNewLoad); // .text:004BAA30 ; void __thiscall gmCharacterInfoUI::RecvNotice_LoadChanged(gmCharacterInfoUI *this, float fNewLoad) .text:004BAA30 ?RecvNotice_LoadChanged@gmCharacterInfoUI@@UAEXM@Z
+
+        // gmCharacterInfoUI.RecvNotice_PlayerDescReceived:
+        public void RecvNotice_PlayerDescReceived(CACQualities* i_playerDesc, CPlayerModule* i_playerModule) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CACQualities*, CPlayerModule*, void>)0x004BB5C0)(ref this, i_playerDesc, i_playerModule); // .text:004BA930 ; void __thiscall gmCharacterInfoUI::RecvNotice_PlayerDescReceived(gmCharacterInfoUI *this, CACQualities *i_playerDesc, CPlayerModule *i_playerModule) .text:004BA930 ?RecvNotice_PlayerDescReceived@gmCharacterInfoUI@@UAEXABVCACQualities@@ABVCPlayerModule@@@Z
+
+        // gmCharacterInfoUI.Register:
+        public static void Register() => ((delegate* unmanaged[Cdecl]<void>)0x004B98B0)(); // .text:004B8C90 ; void __cdecl gmCharacterInfoUI::Register() .text:004B8C90 ?Register@gmCharacterInfoUI@@SAXXZ
+
+        // gmCharacterInfoUI.Update:
+        public Byte Update(CACQualities* i_playerDesc) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CACQualities*, Byte>)0x004BB420)(ref this, i_playerDesc); // .text:004BA790 ; bool __thiscall gmCharacterInfoUI::Update(gmCharacterInfoUI *this, CACQualities *i_playerDesc) .text:004BA790 ?Update@gmCharacterInfoUI@@IAE_NABVCACQualities@@@Z
+
+        // gmCharacterInfoUI.Update:
+        public Byte Update() => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, Byte>)0x004BB5E0)(ref this); // .text:004BA950 ; bool __thiscall gmCharacterInfoUI::Update(gmCharacterInfoUI *this) .text:004BA950 ?Update@gmCharacterInfoUI@@IAE_NXZ
+
+        // gmCharacterInfoUI.UpdateAugmentations:
+        public Byte UpdateAugmentations(CACQualities* i_playerDesc) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CACQualities*, Byte>)0x004B9C90)(ref this, i_playerDesc); // .text:004B9000 ; bool __thiscall gmCharacterInfoUI::UpdateAugmentations(gmCharacterInfoUI *this, CACQualities *i_playerDesc) .text:004B9000 ?UpdateAugmentations@gmCharacterInfoUI@@IAE_NABVCACQualities@@@Z
+
+        // gmCharacterInfoUI.UpdateEnduranceInfo:
+        public Byte UpdateEnduranceInfo(CACQualities* i_playerDesc) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CACQualities*, Byte>)0x004B9B40)(ref this, i_playerDesc); // .text:004B8EB0 ; bool __thiscall gmCharacterInfoUI::UpdateEnduranceInfo(gmCharacterInfoUI *this, CACQualities *i_playerDesc) .text:004B8EB0 ?UpdateEnduranceInfo@gmCharacterInfoUI@@IAE_NABVCACQualities@@@Z
+
+        // gmCharacterInfoUI.UpdateFakeSkills:
+        public Byte UpdateFakeSkills(CACQualities* i_playerDesc) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CACQualities*, Byte>)0x004B9550)(ref this, i_playerDesc); // .text:004B8930 ; bool __thiscall gmCharacterInfoUI::UpdateFakeSkills(gmCharacterInfoUI *this, CACQualities *i_playerDesc) .text:004B8930 ?UpdateFakeSkills@gmCharacterInfoUI@@IAE_NABVCACQualities@@@Z
+
+        // gmCharacterInfoUI.UpdateInnateAttributeInfo:
+        public Byte UpdateInnateAttributeInfo(CACQualities* i_playerDesc) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CACQualities*, Byte>)0x004B9400)(ref this, i_playerDesc); // .text:004B87E0 ; bool __thiscall gmCharacterInfoUI::UpdateInnateAttributeInfo(gmCharacterInfoUI *this, CACQualities *i_playerDesc) .text:004B87E0 ?UpdateInnateAttributeInfo@gmCharacterInfoUI@@IAE_NABVCACQualities@@@Z
+
+        // gmCharacterInfoUI.UpdateLoad:
+        public Byte UpdateLoad(CACQualities* i_playerDesc) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CACQualities*, Byte>)0x004B9640)(ref this, i_playerDesc); // .text:004B8A20 ; bool __thiscall gmCharacterInfoUI::UpdateLoad(gmCharacterInfoUI *this, CACQualities *i_playerDesc) .text:004B8A20 ?UpdateLoad@gmCharacterInfoUI@@IAE_NABVCACQualities@@@Z
+
+        // gmCharacterInfoUI.UpdatePlayerBirthAgeDeaths:
+        public Byte UpdatePlayerBirthAgeDeaths(CACQualities* i_playerDesc) => ((delegate* unmanaged[Thiscall]<ref gmCharacterInfoUI, CACQualities*, Byte>)0x004B98D0)(ref this, i_playerDesc); // .text:004B8CB0 ; bool __thiscall gmCharacterInfoUI::UpdatePlayerBirthAgeDeaths(gmCharacterInfoUI *this, CACQualities *i_playerDesc) .text:004B8CB0 ?UpdatePlayerBirthAgeDeaths@gmCharacterInfoUI@@IAE_NABVCACQualities@@@Z
+    }
+
+
 
 }

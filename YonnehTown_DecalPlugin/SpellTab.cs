@@ -32,7 +32,7 @@ namespace YonnehTown {
          * .text:006A26B0 ; bool __cdecl CM_Character::Event_RemoveSpellFavorite(unsigned long,long)
          * bool __cdecl CM_Character::Event_RemoveSpellFavorite(unsigned int i_spid, int i_list)
          */
-        internal static Hook _Event_RemoveSpellFavorite = new Hook(0x006A26B0, 0x004C708C);
+        internal static Hook _Event_RemoveSpellFavorite = new Hook(0x004C708C);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate byte Del_RemoveSpellFavorite(UInt32 i_spid, int i_list);
         internal static byte Hook_RemoveSpellFavorite(UInt32 i_spid, int i_list) {
             //(*(ClientSystem*)0x00871354).AddTextToScroll(System.Text.Encoding.ASCII.GetBytes($"[YonnehTown] Hook_RemoveSpellFavorite(i_spid:{i_spid}, i_list:{i_list})"), (uint)eChatTypes.eTextTypeWorld_broadcast, 1, 0);
@@ -44,7 +44,7 @@ namespace YonnehTown {
          * .text:006A1D90 ; bool __cdecl CM_Character::Event_AddSpellFavorite(unsigned long,long,long)
          * bool __cdecl CM_Character::Event_AddSpellFavorite(unsigned int i_spid, int i_index, int i_list)
          */
-        internal static Hook _Event_AddSpellFavorite = new Hook(0x006A1D90, 0x004C7142);
+        internal static Hook _Event_AddSpellFavorite = new Hook(0x004C7142);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate byte Del_AddSpellFavorite(UInt32 i_spid, int i_index, int i_list);
         internal static byte Hook_AddSpellFavorite(UInt32 i_spid, int i_index, int i_list) {
             //(*(ClientSystem*)0x00871354).AddTextToScroll(System.Text.Encoding.ASCII.GetBytes($"[YonnehTown] Hook_AddSpellFavorite(i_spid:{i_spid}, i_index:{i_index}, i_list:{i_list})"), (uint)eChatTypes.eTextTypeWorld_broadcast, 1, 0);

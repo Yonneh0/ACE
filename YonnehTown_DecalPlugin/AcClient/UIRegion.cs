@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace AcClient {
@@ -716,7 +716,7 @@ namespace AcClient {
         public PStringBase<char> m_strToken;
         public UInt32 m_stringID;
         public UInt32 m_tableID;
-        public HashTable<UInt32, StringInfoData> m_variables;
+        public HashTable<UInt32, PTR<StringInfoData>> m_variables;
         public PStringBase<UInt16> m_LiteralValue;
         public char m_Override;
         public PStringBase<char> m_strEnglish;

@@ -119,6 +119,7 @@
     <Compile Include="AcClient\SmartBox.cs" />
     <Compile Include="AcClient\_Todo.cs" />
     <Compile Include="AppraisalHelper.cs" />
+    <Compile Include="CharacterInfoUI.cs" />
     <Compile Include="ExperienceSystem.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

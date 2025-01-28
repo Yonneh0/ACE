@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AcClient;
 using System.Runtime.InteropServices;
 
@@ -13,8 +13,8 @@ namespace YonnehTown {
             _ExperienceToLevel1.Setup(new Del_ExperienceToLevel(Hook_ExperienceToLevel));
             _ExperienceToLevel2.Setup(new Del_ExperienceToLevel(Hook_ExperienceToLevel));
         }
-        internal static Hook _ExperienceToLevel1 = new Hook(0x005C9510, 0x004F17A6);
-        internal static Hook _ExperienceToLevel2 = new Hook(0x005C9510, 0x004F17B5);
+        internal static Hook _ExperienceToLevel1 = new Hook(0x004F17A6);
+        internal static Hook _ExperienceToLevel2 = new Hook(0x004F17B5);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate UInt64 Del_ExperienceToLevel(UInt32 level);
         internal static UInt64 Hook_ExperienceToLevel(UInt32 level) {
             if (level > 275) {
