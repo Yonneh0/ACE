@@ -49,3 +49,40 @@
 - Legendary Spellcount chances (goes up exponentially with LootQualityMod)
 - 75% 56% 42% 31% 23%  0%
 
+# Decal Plugin
+- Companion Decal plugin, with source, `YonnehTown_DecalPlugin`
+
+### Experience Display
+Updates the Client's XP Table, to support levels 276-300, on YonnehTown.
+
+### SpellTab Completion
+When you cast a spell that is not on your spellbar (vtank, other plugins)- you automatically add it to the following spellbar:
+- I: Unknown spells
+- V: Void and War
+- VI: Life
+- VII: Creature
+- VIII: Item
+
+### Appraisal Window % display for Magic Absorbing, Crushing Blow, and Biting Strike
+Adds the % Chance, to appraisal windows, for Magic Absorbing, Crushing Blow, and Biting Strike.
+Ex: Biting Strike (42%), Crushing Blow (300%)
+
+# Content
+
+### 33000000 - Funky Inviterer
+- Spawns 33000005 - Funky Inviterer in the 4 StarterTown dungeons that ACE uses.
+- Funky Inviterer is a direct copy of Jonathan, except that he teleports the character to the Advocate dungeon, instead of where that dungeon's Jonathan does.
+- Spawns Funky G, Funky Pathwarden Grandpa, Funky Pathwarden Chest, and Sanjo in the Advocate Dungeon, to complete the pathwarden quest.
+- Provides an alternate new character experience, and a quick way to get alts to the custom content areas.
+
+### 32000000 - Funky Rares
+- Rare items, and vendors for rare replacement
+
+### Funky Low Level Arena
+- WIP conversion from FunkyTown
+
+### 32000103 Snarf / 32000101 Enhancement of the Yonneh
+- Augmentation Gem vendor, selling all Augmentation Gems, including the Nether Resistance Augmentation for 1 Blank Augmentation Gem
+
+### 32000100 Purification Seer of Attributes
+- WIP Seer conversion
