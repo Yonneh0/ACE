@@ -9,63 +9,63 @@ using ACE.Server.Entity;
 using ACE.Server.Managers;
 using ACE.Server.Network.GameMessages.Messages;
 
-namespace ACE.Server.WorldObjects {
-    public class AugmentationDevice : WorldObject {
+namespace ACE.Server.WorldObjects
+{
+    public class AugmentationDevice : WorldObject
+    {
         /// <summary>
         /// Indicates that the server should enforce logic to prevent players
         /// from augmenting a given attribute's innate value over 100
         /// </summary>
         public static bool AttributeAugmentationSafetyCapEnabled => PropertyManager.GetBool("attribute_augmentation_safety_cap").Item;
 
-        public long? AugmentationCost {
+        public long? AugmentationCost
+        {
             get => GetProperty(PropertyInt64.AugmentationCost);
-            set {
-                if (!value.HasValue)
-                    RemoveProperty(PropertyInt64.AugmentationCost);
-                else
-                    SetProperty(PropertyInt64.AugmentationCost, value.Value);
-            }
+            set { if (!value.HasValue) RemoveProperty(PropertyInt64.AugmentationCost); else SetProperty(PropertyInt64.AugmentationCost, value.Value); }
         }
 
-        public int? AugmentationStat {
+        public int? AugmentationStat
+        {
             get => GetProperty(PropertyInt.AugmentationStat);
-            set {
-                if (!value.HasValue)
-                    RemoveProperty(PropertyInt.AugmentationStat);
-                else
-                    SetProperty(PropertyInt.AugmentationStat, value.Value);
-            }
+            set { if (!value.HasValue) RemoveProperty(PropertyInt.AugmentationStat); else SetProperty(PropertyInt.AugmentationStat, value.Value); }
         }
 
         /// <summary>
         /// A new biota be created taking all of its values from weenie.
         /// </summary>
-        public AugmentationDevice(Weenie weenie, ObjectGuid guid) : base(weenie, guid) {
+        public AugmentationDevice(Weenie weenie, ObjectGuid guid) : base(weenie, guid)
+        {
             SetEphemeralValues();
         }
 
         /// <summary>
         /// Restore a WorldObject from the database.
         /// </summary>
-        public AugmentationDevice(Biota biota) : base(biota) {
+        public AugmentationDevice(Biota biota) : base(biota)
+        {
             SetEphemeralValues();
         }
 
-        private void SetEphemeralValues() {
+        private void SetEphemeralValues()
+        {
         }
 
-        public override void ActOnUse(WorldObject activator) {
+        public override void ActOnUse(WorldObject activator)
+        {
             ActOnUse(activator, false);
         }
 
-        public void ActOnUse(WorldObject activator, bool confirmed = false) {
+        public void ActOnUse(WorldObject activator, bool confirmed = false)
+        {
             if (!(activator is Player player))
                 return;
 
             if (!VerifyRequirements(player))
                 return;
 
-            if (!confirmed) {
+            if (!confirmed)
+            {
                 if (!player.ConfirmationManager.EnqueueSend(new Confirmation_Augmentation(player.Guid, Guid),
                     $"This action will augment your character with {Name} and will cost {AugmentationCost:N0} available experience."))
                     player.SendWeenieError(WeenieError.ConfirmationInProgress);
@@ -75,7 +75,8 @@ namespace ACE.Server.WorldObjects {
             DoAugmentation(player);
         }
 
-        public void DoAugmentation(Player player) {
+        public void DoAugmentation(Player player)
+        {
             //Console.WriteLine($"{Name}.DoAugmentation({player.Name})");
 
             // set augmentation props for player
@@ -85,16 +86,19 @@ namespace ACE.Server.WorldObjects {
             var newVal = curVal + 1;
             player.SetProperty(augProp, newVal);
 
-            if (AugTypeHelper.IsAttribute(type)) {
+            if (AugTypeHelper.IsAttribute(type))
+            {
                 player.AugmentationInnateFamily++;
                 var attr = AugTypeHelper.GetAttribute(type);
                 var playerAttr = player.Attributes[attr];
                 playerAttr.StartingValue += 5;
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdateAttribute(player, playerAttr));
                 player.Session.Network.EnqueueSend(new GameMessageSystemChat($"You have acquired {player.AugmentationInnateFamily} of {(player.AugmentationFamilyStat / 2) + MaxAugs[type]} Innate Attribute Augmentations.", ChatMessageType.System));
-            } else if (AugTypeHelper.IsResist(type)) {
+            }
+            else if (AugTypeHelper.IsResist(type)) {
                 player.Session.Network.EnqueueSend(new GameMessageSystemChat($"You have acquired {newVal} of {MaxAugs[type] + (player.Level >= 350 ? 2 : player.Level > 275 ? 1 : 0)} {Name} Augmentation.", ChatMessageType.System));
-            } else if (AugTypeHelper.IsSkill(type)) {
+            }
+            else if (AugTypeHelper.IsSkill(type)) {
                 var playerSkill = player.GetCreatureSkill(AugTypeHelper.GetSkill(type));
                 playerSkill.AdvancementClass = SkillAdvancementClass.Specialized;
                 playerSkill.InitLevel = 10;
@@ -104,11 +108,13 @@ namespace ACE.Server.WorldObjects {
                 var specRank = Player.CalcSkillRank(SkillAdvancementClass.Specialized, playerSkill.ExperienceSpent);
                 playerSkill.Ranks = (ushort)specRank;
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdateSkill(player, playerSkill));
-            } else if (type == AugmentationType.PackSlot) {
+            }
+            else if (type == AugmentationType.PackSlot) {
                 // still seems to require the client to relog
                 player.ContainerCapacity++;
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdatePropertyInt(player, PropertyInt.ContainersCapacity, (int)player.ContainerCapacity));
-            } else if (type == AugmentationType.BurdenLimit) {
+            }
+            else if (type == AugmentationType.BurdenLimit) {
                 var capacity = player.GetEncumbranceCapacity();
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdatePropertyInt(player, PropertyInt.EncumbranceCapacity, capacity));
             }
@@ -133,16 +139,19 @@ namespace ACE.Server.WorldObjects {
             player.SaveBiotaToDatabase();
         }
 
-        public bool VerifyRequirements(Player player) {
+        public bool VerifyRequirements(Player player)
+        {
             var availableXP = player.AvailableExperience ?? 0;
             var augCost = AugmentationCost ?? 0;
 
-            if (AugmentationCost == null) {
+            if (AugmentationCost == null)
+            {
                 player.EnqueueBroadcast(new GameMessageSystemChat($"{Name} is missing AugmentationCost", ChatMessageType.System));
                 return false;
             }
 
-            if (availableXP < augCost) {
+            if (availableXP < augCost)
+            {
                 player.SendWeenieError(WeenieError.AugmentationNotEnoughExperience);
                 return false;
             }
@@ -151,14 +160,16 @@ namespace ACE.Server.WorldObjects {
 
             var augProp = player.GetProperty(AugProps[type]) ?? 0;
             // per-type checks
-            if (AugTypeHelper.IsAttribute(type)) {
+            if (AugTypeHelper.IsAttribute(type))
+            {
                 // innate attributes shared cap
 
                 // YonnehTown Mod: allow 1 additional AugmentationInnateFamily Augmentation, per 2 levels of AugmentationFamilyStat.
                 uint playerInnateAugCountLimit = (uint)(player.AugmentationFamilyStat / 2) + (uint)MaxAugs[type];
 
                 var thisPropCount = player.AugmentationInnateFamily;
-                if (thisPropCount >= playerInnateAugCountLimit) {
+                if (thisPropCount >= playerInnateAugCountLimit)
+                {
                     player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already acquired {thisPropCount} of {playerInnateAugCountLimit} Innate Attribute Augmentations.", ChatMessageType.Broadcast));
                     player.SendWeenieError(WeenieError.AugmentationTypeUsedTooManyTimes);
                     return false;
@@ -170,19 +181,24 @@ namespace ACE.Server.WorldObjects {
 
                 // YonnehTown Mod: allow 1 additional starting level, per level of AugmentationFamilyStat.
                 uint playerLimit = (uint)player.AugmentationFamilyStat + 96;
-                if (playerAttribute.StartingValue >= playerLimit) {
+                if (playerAttribute.StartingValue >= playerLimit)
+                {
                     player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because your {playerAttribute.Attribute.ToString()} is already at the maximum innate level!");
                     return false;
                 }
                 return true;
-            } else if (AugTypeHelper.IsSkill(type)) {
+            }
+            else if (AugTypeHelper.IsSkill(type))
+            {
                 var playerSkill = player.GetCreatureSkill(AugTypeHelper.GetSkill(type));
 
                 if (playerSkill.AdvancementClass != SkillAdvancementClass.Trained) {
                     player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because you are not trained in {playerSkill.Skill.ToSentence()}!");
                     return false;
                 }
-            } else if (AugTypeHelper.IsResist(type)) {
+            }
+            else if (AugTypeHelper.IsResist(type))
+            {
                 var resLimt = MaxAugs[type] + (player.Level >= 300 ? 2 : player.Level >= 275 ? 1 : 0);
                 if (augProp >= resLimt) {
 
@@ -195,7 +211,8 @@ namespace ACE.Server.WorldObjects {
 
             // common checks
 
-            if (augProp >= MaxAugs[type]) {
+            if (augProp >= MaxAugs[type])
+            {
                 player.SendWeenieError(WeenieError.AugmentationUsedTooManyTimes);
                 return false;
             }

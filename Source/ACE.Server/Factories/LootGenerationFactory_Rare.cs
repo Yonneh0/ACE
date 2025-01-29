@@ -5,7 +5,8 @@ using System.Linq;
 using ACE.Common;
 using ACE.Server.WorldObjects;
 
-namespace ACE.Server.Factories {
+namespace ACE.Server.Factories
+{
     public static partial class LootGenerationFactory
     {
         public static WorldObject TryCreateRare(int luck = 0)

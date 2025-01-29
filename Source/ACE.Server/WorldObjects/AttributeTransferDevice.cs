@@ -74,20 +74,17 @@ namespace ACE.Server.WorldObjects
                 return;
             }
 
+            var fromAmount = Math.Min(10, fromAttr.StartingValue - 10);
+            var toAmount = Math.Min(playerLimit - toAttr.StartingValue, 10);
+            var amount = Math.Min(fromAmount, toAmount);
+
             if (!confirmed)
             {
-                var afromAmount = Math.Min(10, fromAttr.StartingValue - 10);
-                var atoAmount = Math.Min(playerLimit - toAttr.StartingValue, 10);
-                var aamount = Math.Min(afromAmount, atoAmount);
-                if (!player.ConfirmationManager.EnqueueSend(new Confirmation_AlterAttribute(player.Guid, Guid), $"This action will transfer {aamount} point{(aamount > 1 ? "s" : "")} from your {fromAttr.Attribute} to your {toAttr.Attribute}."))
+                if (!player.ConfirmationManager.EnqueueSend(new Confirmation_AlterAttribute(player.Guid, Guid), $"This action will transfer {amount} point{(amount > 1 ? "s" : "")} from your {fromAttr.Attribute} to your {toAttr.Attribute}."))
                     player.SendWeenieError(WeenieError.ConfirmationInProgress);
                 return;
             }
 
-            var fromAmount = Math.Min(10, fromAttr.StartingValue - 10);
-            var toAmount = Math.Min(playerLimit - toAttr.StartingValue, 10);
-
-            var amount = Math.Min(fromAmount, toAmount);
 
             fromAttr.StartingValue -= amount;
             toAttr.StartingValue += amount;
