@@ -362,7 +362,7 @@ namespace ACE.Server.WorldObjects
                         killerPlayer.RaresLoginTimestamp = (int)Time.GetFutureUnixTime(ThreadSafeRandom.Next(1, (int)PropertyManager.GetLong("rares_max_seconds_between").Item));
                     else
                         killerPlayer.RaresLoginTimestamp = timestamp;
-                    switch (tier)
+                    switch (wo.WeenieClassId - 32000000)
                     {
                         case 1:
                             killerPlayer.RaresTierOne++;
@@ -388,10 +388,10 @@ namespace ACE.Server.WorldObjects
                             killerPlayer.RaresTierSix++;
                             killerPlayer.RaresTierSixLogin = timestamp;
                             break;
-                        //case 7:
-                        //    killerPlayer.RaresTierSeven++;
-                        //    killerPlayer.RaresTierSevenLogin = timestamp;
-                        //    break;
+                        case 7:
+                            killerPlayer.RaresTierSeven++;
+                            killerPlayer.RaresTierSevenLogin = timestamp;
+                            break;
                     }
                 }
             }

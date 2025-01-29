@@ -192,7 +192,7 @@ namespace ACE.Entity.Enum
         /// </summary>
         public static bool IsResist(AugmentationType type)
         {
-            return type >= AugmentationType.ResistSlash && type <= AugmentationType.ResistElectric;
+            return (type >= AugmentationType.ResistSlash && type <= AugmentationType.ResistElectric) || type == AugmentationType.ResistNether;
         }
 
         /// <summary>

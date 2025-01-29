@@ -297,7 +297,9 @@ namespace ACE.Entity.Enum.Properties
         RaresTierFour                            = 213,
         RaresTierFive                            = 214,
         AugmentationStat                         = 215,
+        [SendOnLogin]
         AugmentationFamilyStat                   = 216,
+        [SendOnLogin]
         AugmentationInnateFamily                 = 217,
         [SendOnLogin]
         AugmentationInnateStrength               = 218,

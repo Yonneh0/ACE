@@ -380,11 +380,11 @@ namespace ACE.Server.WorldObjects
         ///// <summary>
         ///// The timestamp when the player last generated a tier seven rare
         ///// </summary>
-        //public int? RaresTierSevenLogin
-        //{
-        //    get => GetProperty(PropertyInt.RaresTierSevenLogin);
-        //    set { if (!value.HasValue) RemoveProperty(PropertyInt.RaresTierSevenLogin); else SetProperty(PropertyInt.RaresTierSevenLogin, value.Value); }
-        //}
+        public int? RaresTierSevenLogin
+        {
+            get => GetProperty(PropertyInt.RaresTierSevenLogin);
+            set { if (!value.HasValue) RemoveProperty(PropertyInt.RaresTierSevenLogin); else SetProperty(PropertyInt.RaresTierSevenLogin, value.Value); }
+        }
 
         /// <summary>
         /// The amount of tier one rares generated for this player
@@ -443,11 +443,11 @@ namespace ACE.Server.WorldObjects
         ///// <summary>
         ///// The amount of tier seven rares generated for this player
         ///// </summary>
-        //public int RaresTierSeven
-        //{
-        //    get => GetProperty(PropertyInt.RaresTierSeven) ?? 0;
-        //    set { if (value == 0) RemoveProperty(PropertyInt.RaresTierSeven); else SetProperty(PropertyInt.RaresTierSeven, value); }
-        //}
+        public int RaresTierSeven
+        {
+            get => GetProperty(PropertyInt.RaresTierSeven) ?? 0;
+            set { if (value == 0) RemoveProperty(PropertyInt.RaresTierSeven); else SetProperty(PropertyInt.RaresTierSeven, value); }
+        }
 
         public bool IsAfk
         {
@@ -729,6 +729,14 @@ namespace ACE.Server.WorldObjects
             set { if (value == 0) RemoveProperty(PropertyInt.AugmentationInnateFamily); else SetProperty(PropertyInt.AugmentationInnateFamily, value); }
         }
 
+
+        /// <summary>
+        /// YonnehTown - Base Attribute Augmentation
+        /// </summary>
+        public int AugmentationFamilyStat {
+            get => GetProperty(PropertyInt.AugmentationFamilyStat) ?? 0;
+            set { if (value == 0) RemoveProperty(PropertyInt.AugmentationFamilyStat); else SetProperty(PropertyInt.AugmentationFamilyStat, value); }
+        }
         /// <summary>
         /// Enhancement of the Blade Turner
         /// Grants the player 10% extra resistance to slashing damage. You may only have 2 resistance augmentations in effect at any time.
@@ -815,6 +823,19 @@ namespace ACE.Server.WorldObjects
         {
             get => GetProperty(PropertyInt.AugmentationResistanceFamily) ?? 0;
             set { if (value == 0) RemoveProperty(PropertyInt.AugmentationResistanceFamily); else SetProperty(PropertyInt.AugmentationResistanceFamily, value); }
+        }
+
+        /// <summary>
+        /// AugmentationInnateAttributes
+        /// </summary>
+        public int AugmentationInnateAttributes {
+            get => GetProperty(PropertyInt.AugmentationInnateFamily) ?? 0;
+            set {
+                if (value == 0)
+                    RemoveProperty(PropertyInt.AugmentationInnateFamily);
+                else
+                    SetProperty(PropertyInt.AugmentationInnateFamily, value);
+            }
         }
 
         /// <summary>
