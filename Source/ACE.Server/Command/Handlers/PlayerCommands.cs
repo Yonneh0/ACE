@@ -74,11 +74,13 @@ namespace ACE.Server.Command.Handlers
                 return;
             }
 
-            foreach (var playerQuest in quests) {
+            foreach (var playerQuest in quests)
+            {
                 var text = "";
                 var questName = QuestManager.GetQuestName(playerQuest.QuestName);
                 var quest = DatabaseManager.World.GetCachedQuest(questName);
-                if (quest == null) {
+                if (quest == null)
+                {
                     Console.WriteLine($"Couldn't find quest {playerQuest.QuestName}");
                     continue;
                 }
@@ -103,7 +105,7 @@ namespace ACE.Server.Command.Handlers
             HandleHouseSelect(session, false, parameters);
         }
 
-        public static void HandleHouseSelect(Session session, bool confirmed, params string[] parameters
+        public static void HandleHouseSelect(Session session, bool confirmed, params string[] parameters)
         {
             if (!int.TryParse(parameters[0], out var houseIdx))
                 return;
@@ -186,10 +188,12 @@ namespace ACE.Server.Command.Handlers
         }
 
         [CommandHandler("fixcast", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, "Fixes magic casting if locked up for an extended time")]
-        public static void HandleFixCast(Session session, params string[] parameters) {
+        public static void HandleFixCast(Session session, params string[] parameters)
+        {
             var magicState = session.Player.MagicState;
 
-            if (magicState.IsCasting && DateTime.UtcNow - magicState.StartTime > TimeSpan.FromSeconds(5)) {
+            if (magicState.IsCasting && DateTime.UtcNow - magicState.StartTime > TimeSpan.FromSeconds(5))
+            {
                 session.Network.EnqueueSend(new GameEventCommunicationTransientString(session, "Fixed casting state"));
                 session.Player.SendUseDoneEvent();
                 magicState.OnCastDone();
@@ -202,7 +206,9 @@ namespace ACE.Server.Command.Handlers
             if (parameters.Length == 0)
             {
                 session.Player.MagicState.CastMeter = !session.Player.MagicState.CastMeter;
-            } else {
+            }
+            else
+            {
                 if (parameters[0].Equals("on", StringComparison.OrdinalIgnoreCase))
                     session.Player.MagicState.CastMeter = true;
                 else
@@ -473,7 +479,8 @@ namespace ACE.Server.Command.Handlers
             var w = "";
             var g = "";
 
-            if (cg == "creature" || cg == "npc" || cg == "item" || cg == "item") {
+            if (cg == "creature" || cg == "npc" || cg == "item" || cg == "item")
+            {
                 var objectId = new ObjectGuid();
                 if (session.Player.HealthQueryTarget.HasValue || session.Player.ManaQueryTarget.HasValue || session.Player.CurrentAppraisalTarget.HasValue)
                 {
