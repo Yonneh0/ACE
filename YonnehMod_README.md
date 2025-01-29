@@ -27,3 +27,10 @@
   - 32000015 Funky Rare Vendor (Tier V) sells original tier 5 and 6 rares for 1 tier 5 rare token each, and a Tier VI rare token for 5x Tier V Rare Tokens.
   - 32000016 Funky Rare Vendor (Tier VI) sells a Tier VII rare token for 5x Tier VI Rare Tokens. (todo: add custom content items)
   - 32000017 Funky Rare Vendor (Tier VII) sells nothing. (todo: add custom content items)
+
+
+### Additional Levels: 276-300
+- 25 additional levels added, with a fairly steep curve.
+- xp per level, starting at level 276 is: 198058069818, 218655824925, 301355811677, 633396258490, 1966538652443, 3319678182306, 4693114805116, 7460589600079, 14420788709410, 35405789024045, 56705564343399, 78324836292543, 121887669270068, 231448194208545, 561773176898053, 897053034327904, 1237362089619200, 1923084836031170, 3647677543257260, 8847324555543940, 14124966273014900, 19481772616248000, 30275737397862500, 57422558823623200, 139270225422292000
+- Every additional level comes with a skillpoint, for 25 additional skillpoints.
+

@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace ACE.DatLoader.FileTypes
-    {
+{
     /// <summary>
     /// Reads and stores the XP Tables from the client_portal.dat (file 0x0E000018).
     /// </summary>
     [DatFileType(DatFileType.XpTable)]
     public class XpTable : FileType
-        {
+    {
         internal const uint FILE_ID = 0x0E000018;
 
         public List<uint> AttributeXpList { get; } = new List<uint>();
@@ -27,7 +27,7 @@ namespace ACE.DatLoader.FileTypes
         public List<uint> CharacterLevelSkillCreditList { get; } = new List<uint>();
 
         public override void Unpack(BinaryReader reader)
-            {
+        {
             Id = reader.ReadUInt32();
 
             // The counts for each "Table" are at the top of the file.
