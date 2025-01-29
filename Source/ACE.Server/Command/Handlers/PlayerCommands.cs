@@ -17,8 +17,10 @@ using ACE.Server.Network.GameEvent.Events;
 using ACE.Server.Network.GameMessages.Messages;
 using ACE.Server.WorldObjects;
 
-namespace ACE.Server.Command.Handlers {
-    public static class PlayerCommands {
+namespace ACE.Server.Command.Handlers
+{
+    public static class PlayerCommands
+    {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         // hotel - Hotel Swank!
@@ -39,7 +41,8 @@ namespace ACE.Server.Command.Handlers {
         // fh - Facility Hub
         private static readonly Position FacilityHubDrop = new Position(0x8A020212, 58.64f, -90f, 6.005f, 0f, 0f, -0.099833f, 0.995004f);
         [CommandHandler("fh", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 0, "(Level 10+) Teleports you to the Facility Hub", "")]
-        public static void Handlefh(Session session, params string[] parameters) {
+        public static void Handlefh(Session session, params string[] parameters)
+        {
             if (session.Player.Level >= 10) session.Player.HandleActionTeleTo(FacilityHubDrop, "the Facility Hub");
             else session.Network.EnqueueSend(new GameMessageSystemChat("The Facility Hub requires you to be Level 10.", ChatMessageType.Broadcast));
         }
@@ -48,21 +51,25 @@ namespace ACE.Server.Command.Handlers {
         [CommandHandler("pop", AccessLevel.Player, CommandHandlerFlag.None, 0,
             "Show current world population",
             "")]
-        public static void HandlePop(Session session, params string[] parameters) {
+        public static void HandlePop(Session session, params string[] parameters)
+        {
             CommandHandlerHelper.WriteOutputInfo(session, $"Current world population: {PlayerManager.GetOnlineCount():N0}", ChatMessageType.Broadcast);
         }
 
         // quest info (uses GDLe formatting to match plugin expectations)
         [CommandHandler("myquests", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, "Shows your quest log")]
-        public static void HandleQuests(Session session, params string[] parameters) {
-            if (!PropertyManager.GetBool("quest_info_enabled").Item) {
+        public static void HandleQuests(Session session, params string[] parameters)
+        {
+            if (!PropertyManager.GetBool("quest_info_enabled").Item)
+            {
                 session.Network.EnqueueSend(new GameMessageSystemChat("The command \"myquests\" is not currently enabled on this server.", ChatMessageType.Broadcast));
                 return;
             }
 
             var quests = session.Player.QuestManager.GetQuests();
 
-            if (quests.Count == 0) {
+            if (quests.Count == 0)
+            {
                 session.Network.EnqueueSend(new GameMessageSystemChat("Quest list is empty.", ChatMessageType.Broadcast));
                 return;
             }
@@ -91,16 +98,19 @@ namespace ACE.Server.Command.Handlers {
         /// For characters/accounts who currently own multiple houses, used to select which house they want to keep
         /// </summary>
         [CommandHandler("house-select", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "For characters/accounts who currently own multiple houses, used to select which house they want to keep")]
-        public static void HandleHouseSelect(Session session, params string[] parameters) {
+        public static void HandleHouseSelect(Session session, params string[] parameters)
+        {
             HandleHouseSelect(session, false, parameters);
         }
 
-        public static void HandleHouseSelect(Session session, bool confirmed, params string[] parameters) {
+        public static void HandleHouseSelect(Session session, bool confirmed, params string[] parameters
+        {
             if (!int.TryParse(parameters[0], out var houseIdx))
                 return;
 
             // ensure current multihouse owner
-            if (!session.Player.IsMultiHouseOwner(false)) {
+            if (!session.Player.IsMultiHouseOwner(false))
+            {
                 log.Warn($"{session.Player.Name} tried to /house-select {houseIdx}, but they are not currently a multi-house owner!");
                 return;
             }
@@ -108,7 +118,8 @@ namespace ACE.Server.Command.Handlers {
             // get house info for this index
             var multihouses = session.Player.GetMultiHouses();
 
-            if (houseIdx < 1 || houseIdx > multihouses.Count) {
+            if (houseIdx < 1 || houseIdx > multihouses.Count)
+            {
                 session.Network.EnqueueSend(new GameMessageSystemChat($"Please enter a number between 1 and {multihouses.Count}.", ChatMessageType.Broadcast));
                 return;
             }
@@ -116,7 +127,8 @@ namespace ACE.Server.Command.Handlers {
             var keepHouse = multihouses[houseIdx - 1];
 
             // show confirmation popup
-            if (!confirmed) {
+            if (!confirmed)
+            {
                 var houseType = $"{keepHouse.HouseType}".ToLower();
                 var loc = HouseManager.GetCoords(keepHouse.SlumLord.Location);
 
@@ -130,7 +142,8 @@ namespace ACE.Server.Command.Handlers {
             var abandonHouses = new List<House>(multihouses);
             abandonHouses.RemoveAt(houseIdx - 1);
 
-            foreach (var abandonHouse in abandonHouses) {
+            foreach (var abandonHouse in abandonHouses)
+            {
                 var house = session.Player.GetHouse(abandonHouse.Guid.Full);
 
                 HouseManager.HandleEviction(house, house.HouseOwner ?? 0, true);
@@ -138,7 +151,8 @@ namespace ACE.Server.Command.Handlers {
 
             // set player properties for house to keep
             var player = PlayerManager.FindByGuid(keepHouse.HouseOwner ?? 0, out bool isOnline);
-            if (player == null) {
+            if (player == null)
+            {
                 log.Error($"{session.Player.Name}.HandleHouseSelect({houseIdx}) - couldn't find HouseOwner {keepHouse.HouseOwner} for {keepHouse.Name} ({keepHouse.Guid})");
                 return;
             }
@@ -158,7 +172,8 @@ namespace ACE.Server.Command.Handlers {
         }
 
         [CommandHandler("debugcast", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, "Shows debug information about the current magic casting state")]
-        public static void HandleDebugCast(Session session, params string[] parameters) {
+        public static void HandleDebugCast(Session session, params string[] parameters)
+        {
             var physicsObj = session.Player.PhysicsObj;
 
             var pendingActions = physicsObj.MovementManager.MoveToManager.PendingActions;
@@ -182,8 +197,10 @@ namespace ACE.Server.Command.Handlers {
         }
 
         [CommandHandler("castmeter", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, "Shows the fast casting efficiency meter")]
-        public static void HandleCastMeter(Session session, params string[] parameters) {
-            if (parameters.Length == 0) {
+        public static void HandleCastMeter(Session session, params string[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
                 session.Player.MagicState.CastMeter = !session.Player.MagicState.CastMeter;
             } else {
                 if (parameters[0].Equals("on", StringComparison.OrdinalIgnoreCase))
@@ -279,14 +296,17 @@ namespace ACE.Server.Command.Handlers {
         /// Manually sets a character option on the server. Use /config list to see a list of settings.
         /// </summary>
         [CommandHandler("config", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Manually sets a character option on the server.\nUse /config list to see a list of settings.", "<setting> <on/off>")]
-        public static void HandleConfig(Session session, params string[] parameters) {
-            if (!PropertyManager.GetBool("player_config_command").Item) {
+        public static void HandleConfig(Session session, params string[] parameters)
+        {
+            if (!PropertyManager.GetBool("player_config_command").Item)
+            {
                 session.Network.EnqueueSend(new GameMessageSystemChat("The command \"config\" is not currently enabled on this server.", ChatMessageType.Broadcast));
                 return;
             }
 
             // /config list - show character options
-            if (parameters[0].Equals("list", StringComparison.OrdinalIgnoreCase)) {
+            if (parameters[0].Equals("list", StringComparison.OrdinalIgnoreCase))
+            {
                 foreach (var line in configList)
                     session.Network.EnqueueSend(new GameMessageSystemChat(line, ChatMessageType.Broadcast));
 
@@ -294,7 +314,8 @@ namespace ACE.Server.Command.Handlers {
             }
 
             // translate GDLE CharacterOptions for existing plugins
-            if (!translateOptions.TryGetValue(parameters[0], out var param) || !Enum.TryParse(param, out CharacterOption characterOption)) {
+            if (!translateOptions.TryGetValue(parameters[0], out var param) || !Enum.TryParse(param, out CharacterOption characterOption))
+            {
                 session.Network.EnqueueSend(new GameMessageSystemChat($"Unknown character option: {parameters[0]}", ChatMessageType.Broadcast));
                 return;
             }
@@ -307,7 +328,8 @@ namespace ACE.Server.Command.Handlers {
             // - if none specified, default to toggle
             var mode = "toggle";
 
-            if (parameters.Length > 1) {
+            if (parameters.Length > 1)
+            {
                 if (parameters[1].Equals("on", StringComparison.OrdinalIgnoreCase))
                     mode = "on";
                 else if (parameters[1].Equals("off", StringComparison.OrdinalIgnoreCase))
@@ -335,13 +357,15 @@ namespace ACE.Server.Command.Handlers {
         /// Can only be used once every 5 mins max.
         /// </summary>
         [CommandHandler("objsend", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, "Force resend of all visible objects known to this player. Can fix rare cases of invisible object bugs. Can only be used once every 5 mins max.")]
-        public static void HandleObjSend(Session session, params string[] parameters) {
+        public static void HandleObjSend(Session session, params string[] parameters)
+        {
             // a good repro spot for this is the first room after the door in facility hub
             // in the portal drop / staircase room, the VisibleCells do not have the room after the door
             // however, the room after the door *does* have the portal drop / staircase room in its VisibleCells (the inverse relationship is imbalanced)
             // not sure how to fix this atm, seems like it triggers a client bug..
 
-            if (DateTime.UtcNow - session.Player.PrevObjSend < TimeSpan.FromMinutes(5)) {
+            if (DateTime.UtcNow - session.Player.PrevObjSend < TimeSpan.FromMinutes(5))
+            {
                 session.Player.SendTransientError("You have used this command too recently!");
                 return;
             }
@@ -350,7 +374,8 @@ namespace ACE.Server.Command.Handlers {
 
             var knownObjs = session.Player.GetKnownObjects();
 
-            foreach (var knownObj in knownObjs) {
+            foreach (var knownObj in knownObjs)
+            {
                 if (creaturesOnly && !(knownObj is Creature))
                     continue;
 
@@ -362,8 +387,10 @@ namespace ACE.Server.Command.Handlers {
 
         // show player ace server versions
         [CommandHandler("aceversion", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, "Shows this server's version data")]
-        public static void HandleACEversion(Session session, params string[] parameters) {
-            if (!PropertyManager.GetBool("version_info_enabled").Item) {
+        public static void HandleACEversion(Session session, params string[] parameters)
+        {
+            if (!PropertyManager.GetBool("version_info_enabled").Item)
+            {
                 session.Network.EnqueueSend(new GameMessageSystemChat("The command \"aceversion\" is not currently enabled on this server.", ChatMessageType.Broadcast));
                 return;
             }
@@ -397,8 +424,10 @@ namespace ACE.Server.Command.Handlers {
             "/reportbug recipe I cannot combine Bundle of Arrowheads with Bundle of Arrowshafts\n" +
             "/reportbug code I was killed by a Non-Player Killer\n"
             )]
-        public static void HandleReportbug(Session session, params string[] parameters) {
-            if (!PropertyManager.GetBool("reportbug_enabled").Item) {
+        public static void HandleReportbug(Session session, params string[] parameters)
+        {
+            if (!PropertyManager.GetBool("reportbug_enabled").Item)
+            {
                 session.Network.EnqueueSend(new GameMessageSystemChat("The command \"reportbug\" is not currently enabled on this server.", ChatMessageType.Broadcast));
                 return;
             }
@@ -411,7 +440,8 @@ namespace ACE.Server.Command.Handlers {
 
             description.Trim();
 
-            switch (category.ToLower()) {
+            switch (category.ToLower())
+            {
                 case "creature":
                 case "npc":
                 case "quest":
@@ -445,7 +475,8 @@ namespace ACE.Server.Command.Handlers {
 
             if (cg == "creature" || cg == "npc" || cg == "item" || cg == "item") {
                 var objectId = new ObjectGuid();
-                if (session.Player.HealthQueryTarget.HasValue || session.Player.ManaQueryTarget.HasValue || session.Player.CurrentAppraisalTarget.HasValue) {
+                if (session.Player.HealthQueryTarget.HasValue || session.Player.ManaQueryTarget.HasValue || session.Player.CurrentAppraisalTarget.HasValue)
+                {
                     if (session.Player.HealthQueryTarget.HasValue)
                         objectId = new ObjectGuid((uint)session.Player.HealthQueryTarget);
                     else if (session.Player.ManaQueryTarget.HasValue)
@@ -457,7 +488,8 @@ namespace ACE.Server.Command.Handlers {
 
                     var wo = session.Player.FindObject(objectId.Full, Player.SearchLocations.Everywhere);
 
-                    if (wo != null) {
+                    if (wo != null)
+                    {
                         w = $"{wo.WeenieClassId}";
                         g = $"0x{wo.Guid:X8}";
                     }
@@ -483,7 +515,8 @@ namespace ACE.Server.Command.Handlers {
                 url += $"&pv={Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(pv))}";
             //if (ct.Length > 0)
             //    url += $"&ct={Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(ct))}";
-            if (cg.Length > 0) {
+            if (cg.Length > 0)
+            {
                 if (cg == "npc")
                     cg = cg.ToUpper();
                 else
