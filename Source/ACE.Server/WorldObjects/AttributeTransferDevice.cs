@@ -8,17 +8,17 @@ using ACE.Server.Entity;
 using ACE.Server.Network.GameMessages.Messages;
 
 namespace ACE.Server.WorldObjects
-    {
+{
     public class AttributeTransferDevice : WorldObject
-        {
+    {
         public PropertyAttribute TransferFromAttribute
-            {
+        {
             get => (PropertyAttribute)(GetProperty(PropertyInt.TransferFromAttribute) ?? 0);
             set { if (value == 0) RemoveProperty(PropertyInt.TransferFromAttribute); else SetProperty(PropertyInt.TransferFromAttribute, (int)value); }
         }
 
         public PropertyAttribute TransferToAttribute
-            {
+        {
             get => (PropertyAttribute)(GetProperty(PropertyInt.TransferToAttribute) ?? 0);
             set { if (value == 0) RemoveProperty(PropertyInt.TransferToAttribute); else SetProperty(PropertyInt.TransferToAttribute, (int)value); }
         }
@@ -27,7 +27,7 @@ namespace ACE.Server.WorldObjects
         /// A new biota be created taking all of its values from weenie.
         /// </summary>
         public AttributeTransferDevice(Weenie weenie, ObjectGuid guid) : base(weenie, guid)
-            {
+        {
             SetEphemeralValues();
         }
 
@@ -35,21 +35,21 @@ namespace ACE.Server.WorldObjects
         /// Restore a WorldObject from the database.
         /// </summary>
         public AttributeTransferDevice(Biota biota) : base(biota)
-            {
+        {
             SetEphemeralValues();
         }
 
         private void SetEphemeralValues()
-            {
+        {
         }
 
         public override void ActOnUse(WorldObject activator)
-            {
+        {
             ActOnUse(activator, false);
         }
 
         public void ActOnUse(WorldObject activator, bool confirmed)
-            {
+        {
             var player = activator as Player;
             if (player == null) return;
 
@@ -63,19 +63,19 @@ namespace ACE.Server.WorldObjects
             var toAttr = player.Attributes[TransferToAttribute];
             uint playerLimit = (uint)player.AugmentationFamilyStat + 100;
             if (fromAttr.StartingValue <= 10)
-                {
+            {
                 player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your innate {TransferFromAttribute} must be above 10 to use the {Name}.", ChatMessageType.Broadcast));
                 return;
             }
 
             if (toAttr.StartingValue >= playerLimit)
-                {
+            {
                 player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your innate {TransferToAttribute} must be below {playerLimit} to use the {Name}.", ChatMessageType.Broadcast));
                 return;
             }
 
             if (!confirmed)
-                {
+            {
                 var afromAmount = Math.Min(10, fromAttr.StartingValue - 10);
                 var atoAmount = Math.Min(playerLimit - toAttr.StartingValue, 10);
                 var aamount = Math.Min(afromAmount, atoAmount);

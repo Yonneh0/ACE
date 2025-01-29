@@ -6,8 +6,10 @@ using ACE.Common;
 using ACE.Server.WorldObjects;
 
 namespace ACE.Server.Factories {
-    public static partial class LootGenerationFactory {
-        public static WorldObject TryCreateRare(int luck = 0) {
+    public static partial class LootGenerationFactory
+    {
+        public static WorldObject TryCreateRare(int luck = 0)
+        {
             //var t1_chance = 2500; // 1 in 2,500 chance // Old rate. Property default is 0.04 (which is 0.04%, or the same 1/2500)
             double rare_drop_rate_percent = (float)Managers.PropertyManager.GetDouble("rare_drop_rate_percent").Item;
 
