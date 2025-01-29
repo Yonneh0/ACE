@@ -26,6 +26,8 @@
 - `/tn` Teleports you to the Town Network
 - `/sub` Teleports you to the Abandoned Mine (Subway)
 - `/fh` Teleports you to the Facility Hub: Requires level 10+
+- All teleport commands animation time reduced to 4 seconds
+- All movement checks have been removed from teleport commands.
 
 # Attribute redistribution and respeccing
 - There is no pickup timer on the attribute redistribution gems, or the forgetfullness/enlightenment gems - at Hotel Swank! (`/hotel`)

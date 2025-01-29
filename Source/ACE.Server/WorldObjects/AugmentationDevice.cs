@@ -197,7 +197,8 @@ namespace ACE.Server.WorldObjects
             {
                 var playerSkill = player.GetCreatureSkill(AugTypeHelper.GetSkill(type));
 
-                if (playerSkill.AdvancementClass != SkillAdvancementClass.Trained) {
+                if (playerSkill.AdvancementClass != SkillAdvancementClass.Trained)
+                {
                     player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because you are not trained in {playerSkill.Skill.ToSentence()}!");
                     return false;
                 }
