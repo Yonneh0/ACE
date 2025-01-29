@@ -11,7 +11,7 @@ using ACE.Server.Network.GameMessages.Messages;
 
 namespace ACE.Server.WorldObjects
 {
-    public class AugmentationDevice : WorldObject
+    public class AugmentationDevice: WorldObject
     {
         /// <summary>
         /// Indicates that the server should enforce logic to prevent players
@@ -89,16 +89,19 @@ namespace ACE.Server.WorldObjects
             if (AugTypeHelper.IsAttribute(type))
             {
                 player.AugmentationInnateFamily++;
+
                 var attr = AugTypeHelper.GetAttribute(type);
                 var playerAttr = player.Attributes[attr];
                 playerAttr.StartingValue += 5;
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdateAttribute(player, playerAttr));
                 player.Session.Network.EnqueueSend(new GameMessageSystemChat($"You have acquired {player.AugmentationInnateFamily} of {(player.AugmentationFamilyStat / 2) + MaxAugs[type]} Innate Attribute Augmentations.", ChatMessageType.System));
             }
-            else if (AugTypeHelper.IsResist(type)) {
+            else if (AugTypeHelper.IsResist(type))
+            {
                 player.Session.Network.EnqueueSend(new GameMessageSystemChat($"You have acquired {newVal} of {MaxAugs[type] + (player.Level >= 350 ? 2 : player.Level > 275 ? 1 : 0)} {Name} Augmentation.", ChatMessageType.System));
             }
-            else if (AugTypeHelper.IsSkill(type)) {
+            else if (AugTypeHelper.IsSkill(type))
+            {
                 var playerSkill = player.GetCreatureSkill(AugTypeHelper.GetSkill(type));
                 playerSkill.AdvancementClass = SkillAdvancementClass.Specialized;
                 playerSkill.InitLevel = 10;
@@ -109,12 +112,14 @@ namespace ACE.Server.WorldObjects
                 playerSkill.Ranks = (ushort)specRank;
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdateSkill(player, playerSkill));
             }
-            else if (type == AugmentationType.PackSlot) {
+            else if (type == AugmentationType.PackSlot)
+            {
                 // still seems to require the client to relog
                 player.ContainerCapacity++;
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdatePropertyInt(player, PropertyInt.ContainersCapacity, (int)player.ContainerCapacity));
             }
-            else if (type == AugmentationType.BurdenLimit) {
+            else if (type == AugmentationType.BurdenLimit)
+            {
                 var capacity = player.GetEncumbranceCapacity();
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdatePropertyInt(player, PropertyInt.EncumbranceCapacity, capacity));
             }
