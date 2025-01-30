@@ -93,8 +93,12 @@ namespace ACE.Server.WorldObjects
                 var attr = AugTypeHelper.GetAttribute(type);
                 var playerAttr = player.Attributes[attr];
                 playerAttr.StartingValue += 5;
-                player.Session.Network.EnqueueSend(new GameMessagePrivateUpdateAttribute(player, playerAttr));
-                player.Session.Network.EnqueueSend(new GameMessageSystemChat($"You have acquired {player.AugmentationInnateFamily} of {(player.AugmentationFamilyStat / 2) + MaxAugs[type]} Innate Attribute Augmentations.", ChatMessageType.System));
+
+
+                player.Session.Network.EnqueueSend(
+                    new GameMessagePrivateUpdateAttribute(player, playerAttr),
+                    new GameMessageSystemChat($"You have acquired {player.AugmentationInnateFamily} of {(player.AugmentationFamilyStat / 2) + MaxAugs[type]} Maximum Innate Attribute Augmentations. Your base {attr} is now {playerAttr.Base}!", ChatMessageType.System)
+                );
             }
             else if (AugTypeHelper.IsResist(type))
             {
@@ -175,7 +179,7 @@ namespace ACE.Server.WorldObjects
                 var thisPropCount = player.AugmentationInnateFamily;
                 if (thisPropCount >= playerInnateAugCountLimit)
                 {
-                    player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already acquired {thisPropCount} of {playerInnateAugCountLimit} Innate Attribute Augmentations.", ChatMessageType.Broadcast));
+                    player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already acquired {thisPropCount} of {playerInnateAugCountLimit} Maximum Innate Attribute Augmentations.", ChatMessageType.Broadcast));
                     player.SendWeenieError(WeenieError.AugmentationTypeUsedTooManyTimes);
                     return false;
                 }
@@ -185,10 +189,10 @@ namespace ACE.Server.WorldObjects
                 // check InitLevel
 
                 // YonnehTown Mod: allow 1 additional starting level, per level of AugmentationFamilyStat.
-                uint playerLimit = (uint)player.AugmentationFamilyStat + 96;
-                if (playerAttribute.StartingValue >= playerLimit)
+                uint playerLimit = (uint)player.AugmentationFamilyStat + 95;
+                if (playerAttribute.StartingValue > playerLimit)
                 {
-                    player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because your {playerAttribute.Attribute.ToString()} is already at the maximum innate level!");
+                    player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because your {playerAttribute.Attribute.ToString()} is already above {playerLimit}!");
                     return false;
                 }
                 return true;

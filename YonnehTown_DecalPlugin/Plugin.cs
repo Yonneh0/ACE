@@ -55,11 +55,11 @@ namespace YonnehTown {
             if (WorldName.Equals("YonnehTown")) {
                 AppraisalHelper.Setup();
                 ExperienceSystem.Setup();
-                SpellTab.Setup(Core);
                 //CharacterInfoUI.Setup();
                 Core.CharacterFilter.LoginComplete += CharacterFilter_LoginComplete;
-                Core.CommandLineText += Core_CommandLineText;
             }
+            SpellTab.Setup(Core);
+            Core.CommandLineText += Core_CommandLineText;
         }
 
         unsafe private void CharacterFilter_LoginComplete(object sender, EventArgs e) {
@@ -106,7 +106,7 @@ namespace YonnehTown {
                         break;
 
                     }
-                    (*(ClientSystem*)0x00871354).AddTextToScroll(System.Text.Encoding.ASCII.GetBytes($"Selected: Int:{weenie->a0.a0.a0.id} Hex:0x{weenie->a0.a0.a0.id:X8} Type: {weenie->pwd._wcid}"), (uint)eChatTypes.eTextTypeWorld_broadcast, 1, 0);
+                    (*(ClientSystem*)0x00871354).AddTextToScroll(System.Text.Encoding.ASCII.GetBytes($"Selected: {weenie->pwd._name} Type: {weenie->pwd._wcid} ID: {weenie->a0.a0.a0.id} 0x{weenie->a0.a0.a0.id:X8}"), (uint)eChatTypes.eTextTypeWorld_broadcast, 1, 0);
                     break;
             }
         }

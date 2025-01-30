@@ -729,9 +729,8 @@ namespace ACE.Server.WorldObjects
             set { if (value == 0) RemoveProperty(PropertyInt.AugmentationInnateFamily); else SetProperty(PropertyInt.AugmentationInnateFamily, value); }
         }
 
-
         /// <summary>
-        /// YonnehTown - Base Attribute Augmentation
+        /// YonnehTown - Maximum Innate Attribute Augmentation
         /// </summary>
         public int AugmentationFamilyStat {
             get => GetProperty(PropertyInt.AugmentationFamilyStat) ?? 0;
@@ -823,19 +822,6 @@ namespace ACE.Server.WorldObjects
         {
             get => GetProperty(PropertyInt.AugmentationResistanceFamily) ?? 0;
             set { if (value == 0) RemoveProperty(PropertyInt.AugmentationResistanceFamily); else SetProperty(PropertyInt.AugmentationResistanceFamily, value); }
-        }
-
-        /// <summary>
-        /// AugmentationInnateAttributes
-        /// </summary>
-        public int AugmentationInnateAttributes {
-            get => GetProperty(PropertyInt.AugmentationInnateFamily) ?? 0;
-            set {
-                if (value == 0)
-                    RemoveProperty(PropertyInt.AugmentationInnateFamily);
-                else
-                    SetProperty(PropertyInt.AugmentationInnateFamily, value);
-            }
         }
 
         /// <summary>
