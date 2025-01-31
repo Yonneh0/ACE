@@ -380,11 +380,11 @@ namespace ACE.Server.WorldObjects
         ///// <summary>
         ///// The timestamp when the player last generated a tier seven rare
         ///// </summary>
-        //public int? RaresTierSevenLogin
-        //{
-        //    get => GetProperty(PropertyInt.RaresTierSevenLogin);
-        //    set { if (!value.HasValue) RemoveProperty(PropertyInt.RaresTierSevenLogin); else SetProperty(PropertyInt.RaresTierSevenLogin, value.Value); }
-        //}
+        public int? RaresTierSevenLogin
+        {
+            get => GetProperty(PropertyInt.RaresTierSevenLogin);
+            set { if (!value.HasValue) RemoveProperty(PropertyInt.RaresTierSevenLogin); else SetProperty(PropertyInt.RaresTierSevenLogin, value.Value); }
+        }
 
         /// <summary>
         /// The amount of tier one rares generated for this player
@@ -443,11 +443,11 @@ namespace ACE.Server.WorldObjects
         ///// <summary>
         ///// The amount of tier seven rares generated for this player
         ///// </summary>
-        //public int RaresTierSeven
-        //{
-        //    get => GetProperty(PropertyInt.RaresTierSeven) ?? 0;
-        //    set { if (value == 0) RemoveProperty(PropertyInt.RaresTierSeven); else SetProperty(PropertyInt.RaresTierSeven, value); }
-        //}
+        public int RaresTierSeven
+        {
+            get => GetProperty(PropertyInt.RaresTierSeven) ?? 0;
+            set { if (value == 0) RemoveProperty(PropertyInt.RaresTierSeven); else SetProperty(PropertyInt.RaresTierSeven, value); }
+        }
 
         public bool IsAfk
         {
