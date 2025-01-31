@@ -343,13 +343,9 @@ namespace ACE.Server.WorldObjects
             if (!wo.IconUnderlayId.HasValue || wo.IconUnderlayId.Value != 0x6005B0C) // ensure icon underlay exists for rare (loot profiles use this)
                 wo.IconUnderlayId = 0x6005B0C;
 
-            var tier = LootGenerationFactory.GetRareTier(wo.WeenieClassId);
-            LootGenerationFactory.RareChances.TryGetValue(tier, out var chance);
-
             if (log.IsDebugEnabled)
             {
-                log.Debug($"[LOOT][RARE] {Name} ({Guid}) generated rare {wo.Name} ({wo.Guid}) for {killer.Name} ({killer.Guid})");
-                log.Debug($"[LOOT][RARE] Tier {tier} -- 1 / {chance:N0} chance -- {luck:N0} luck");
+                log.Debug($"[LOOT][RARE] {Name} ({Guid}) generated rare {wo.Name} ({wo.Guid}) for {killer.Name} ({killer.Guid}) -- {luck:N0} luck");
             }
 
             if (TryAddToInventory(wo))
@@ -366,8 +362,7 @@ namespace ACE.Server.WorldObjects
                         killerPlayer.RaresLoginTimestamp = (int)Time.GetFutureUnixTime(ThreadSafeRandom.Next(1, (int)PropertyManager.GetLong("rares_max_seconds_between").Item));
                     else
                         killerPlayer.RaresLoginTimestamp = timestamp;
-                    switch (tier)
-                    {
+                    switch (wo.WeenieClassId - 32000000) {
                         case 1:
                             killerPlayer.RaresTierOne++;
                             killerPlayer.RaresTierOneLogin = timestamp;
@@ -392,10 +387,10 @@ namespace ACE.Server.WorldObjects
                             killerPlayer.RaresTierSix++;
                             killerPlayer.RaresTierSixLogin = timestamp;
                             break;
-                        //case 7:
-                        //    killerPlayer.RaresTierSeven++;
-                        //    killerPlayer.RaresTierSevenLogin = timestamp;
-                        //    break;
+                        case 7:
+                            killerPlayer.RaresTierSeven++;
+                            killerPlayer.RaresTierSevenLogin = timestamp;
+                            break;
                     }
                 }
             }

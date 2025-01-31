@@ -31,7 +31,6 @@ namespace ACE.Server.Factories
 
         static LootGenerationFactory()
         {
-            InitRares();
             InitClothingColors();
         }
 
