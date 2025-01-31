@@ -92,12 +92,17 @@ namespace ACE.Server.WorldObjects
 
                 var attr = AugTypeHelper.GetAttribute(type);
                 var playerAttr = player.Attributes[attr];
-                playerAttr.StartingValue += AttributeAugmentationSafetyCapEnabled ? Math.Min(5, 100 - playerAttr.StartingValue) : 5;
-                player.Session.Network.EnqueueSend(new GameMessagePrivateUpdateAttribute(player, playerAttr));
+                playerAttr.StartingValue += 5;
+
+
+                player.Session.Network.EnqueueSend(
+                    new GameMessagePrivateUpdateAttribute(player, playerAttr),
+                    new GameMessageSystemChat($"You have acquired {player.AugmentationInnateFamily} of {(player.AugmentationFamilyStat / 2) + MaxAugs[type]} Maximum Innate Attribute Augmentations. Your base {attr} is now {playerAttr.Base}!", ChatMessageType.System)
+                );
             }
             else if (AugTypeHelper.IsResist(type))
             {
-                player.AugmentationResistanceFamily++;
+                player.Session.Network.EnqueueSend(new GameMessageSystemChat($"You have acquired {newVal} of {MaxAugs[type] + (player.Level >= 350 ? 2 : player.Level > 275 ? 1 : 0)} {Name} Augmentation.", ChatMessageType.System));
             }
             else if (AugTypeHelper.IsSkill(type))
             {
@@ -162,12 +167,19 @@ namespace ACE.Server.WorldObjects
 
             var type = (AugmentationType)(AugmentationStat ?? 0);
 
+            var augProp = player.GetProperty(AugProps[type]) ?? 0;
             // per-type checks
             if (AugTypeHelper.IsAttribute(type))
             {
                 // innate attributes shared cap
-                if (player.AugmentationInnateFamily >= MaxAugs[type])
+
+                // YonnehTown Mod: allow 1 additional AugmentationInnateFamily Augmentation, per 2 levels of AugmentationFamilyStat.
+                uint playerInnateAugCountLimit = (uint)(player.AugmentationFamilyStat / 2) + (uint)MaxAugs[type];
+
+                var thisPropCount = player.AugmentationInnateFamily;
+                if (thisPropCount >= playerInnateAugCountLimit)
                 {
+                    player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already acquired {thisPropCount} of {playerInnateAugCountLimit} Maximum Innate Attribute Augmentations.", ChatMessageType.Broadcast));
                     player.SendWeenieError(WeenieError.AugmentationTypeUsedTooManyTimes);
                     return false;
                 }
@@ -175,12 +187,15 @@ namespace ACE.Server.WorldObjects
                 var playerAttribute = player.Attributes[AugTypeHelper.GetAttribute(type)];
 
                 // check InitLevel
-                var maxInnateValue = AttributeAugmentationSafetyCapEnabled ? 96 : 100;
-                if (playerAttribute.StartingValue >= maxInnateValue)
+
+                // YonnehTown Mod: allow 1 additional starting level, per level of AugmentationFamilyStat.
+                uint playerLimit = (uint)player.AugmentationFamilyStat + 95;
+                if (playerAttribute.StartingValue > playerLimit)
                 {
-                    player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because your {playerAttribute.Attribute.ToString()} is already at the maximum innate level!");
+                    player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because your {playerAttribute.Attribute.ToString()} is already above {playerLimit}!");
                     return false;
                 }
+                return true;
             }
             else if (AugTypeHelper.IsSkill(type))
             {
@@ -194,16 +209,17 @@ namespace ACE.Server.WorldObjects
             }
             else if (AugTypeHelper.IsResist(type))
             {
-                // resistance shared cap
-                if (player.AugmentationResistanceFamily >= MaxAugs[type])
-                {
+                var resLimt = MaxAugs[type] + (player.Level >= 300 ? 2 : player.Level >= 275 ? 1 : 0);
+                if (augProp >= resLimt) {
+
+                    player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already acquired {augProp} of {resLimt} {Name} augmentations.", ChatMessageType.Broadcast));
                     player.SendWeenieError(WeenieError.AugmentationTypeUsedTooManyTimes);
                     return false;
                 }
+                return true;
             }
 
             // common checks
-            var augProp = player.GetProperty(AugProps[type]) ?? 0;
 
             if (augProp >= MaxAugs[type])
             {
@@ -244,6 +260,7 @@ namespace ACE.Server.WorldObjects
             { AugmentationType.ResistFire, 2 },
             { AugmentationType.ResistCold, 2 },
             { AugmentationType.ResistElectric, 2 },
+            { AugmentationType.ResistNether, 2 },
             { AugmentationType.FociCreature, 1 },
             { AugmentationType.FociItem, 1 },
             { AugmentationType.FociLife, 1 },
@@ -302,6 +319,7 @@ namespace ACE.Server.WorldObjects
             { AugmentationType.DamageResist, PropertyInt.AugmentationDamageReduction },
             { AugmentationType.AllStats, PropertyInt.AugmentationJackOfAllTrades },
             { AugmentationType.FociVoid, PropertyInt.AugmentationInfusedVoidMagic },
+            { AugmentationType.ResistNether, PropertyInt.AugmentationResistanceNether },
         };
     }
 }

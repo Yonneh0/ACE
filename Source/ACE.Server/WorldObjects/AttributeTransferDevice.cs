@@ -61,30 +61,30 @@ namespace ACE.Server.WorldObjects
 
             var fromAttr = player.Attributes[TransferFromAttribute];
             var toAttr = player.Attributes[TransferToAttribute];
-
+            uint playerLimit = (uint)player.AugmentationFamilyStat + 100;
             if (fromAttr.StartingValue <= 10)
             {
                 player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your innate {TransferFromAttribute} must be above 10 to use the {Name}.", ChatMessageType.Broadcast));
                 return;
             }
 
-            if (toAttr.StartingValue >= 100)
+            if (toAttr.StartingValue >= playerLimit)
             {
-                player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your innate {TransferToAttribute} must be below 100 to use the {Name}.", ChatMessageType.Broadcast));
-                return;
-            }
-
-            if (!confirmed)
-            {
-                if (!player.ConfirmationManager.EnqueueSend(new Confirmation_AlterAttribute(player.Guid, Guid), $"This action will transfer 10 points from your {fromAttr.Attribute} to your {toAttr.Attribute}."))
-                    player.SendWeenieError(WeenieError.ConfirmationInProgress);
+                player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your innate {TransferToAttribute} must be below {playerLimit} to use the {Name}.", ChatMessageType.Broadcast));
                 return;
             }
 
             var fromAmount = Math.Min(10, fromAttr.StartingValue - 10);
-            var toAmount = Math.Min(100 - toAttr.StartingValue, 10);
-
+            var toAmount = Math.Min(playerLimit - toAttr.StartingValue, 10);
             var amount = Math.Min(fromAmount, toAmount);
+
+            if (!confirmed)
+            {
+                if (!player.ConfirmationManager.EnqueueSend(new Confirmation_AlterAttribute(player.Guid, Guid), $"This action will transfer {amount} point{(amount > 1 ? "s" : "")} from your {fromAttr.Attribute} to your {toAttr.Attribute}."))
+                    player.SendWeenieError(WeenieError.ConfirmationInProgress);
+                return;
+            }
+
 
             fromAttr.StartingValue -= amount;
             toAttr.StartingValue += amount;

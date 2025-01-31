@@ -730,6 +730,13 @@ namespace ACE.Server.WorldObjects
         }
 
         /// <summary>
+        /// YonnehTown - Maximum Innate Attribute Augmentation
+        /// </summary>
+        public int AugmentationFamilyStat {
+            get => GetProperty(PropertyInt.AugmentationFamilyStat) ?? 0;
+            set { if (value == 0) RemoveProperty(PropertyInt.AugmentationFamilyStat); else SetProperty(PropertyInt.AugmentationFamilyStat, value); }
+        }
+        /// <summary>
         /// Enhancement of the Blade Turner
         /// Grants the player 10% extra resistance to slashing damage. You may only have 2 resistance augmentations in effect at any time.
         /// </summary>
@@ -797,6 +804,15 @@ namespace ACE.Server.WorldObjects
         {
             get => GetProperty(PropertyInt.AugmentationResistanceLightning) ?? 0;
             set { if (value == 0) RemoveProperty(PropertyInt.AugmentationResistanceLightning); else SetProperty(PropertyInt.AugmentationResistanceLightning, value); }
+        }
+
+        /// <summary>
+        /// Enhancement of the Yonneh
+        /// Grants the player 10% extra resistance to nether damage. You may only have 2 resistance augmentations in effect at any time.
+        /// </summary>
+        public int AugmentationResistanceNether {
+            get => GetProperty(PropertyInt.AugmentationResistanceNether) ?? 0;
+            set { if (value == 0) RemoveProperty(PropertyInt.AugmentationResistanceNether); else SetProperty(PropertyInt.AugmentationResistanceNether, value); }
         }
 
         /// <summary>
@@ -1363,6 +1379,9 @@ namespace ACE.Server.WorldObjects
 
                 case DamageType.Electric:
                     return AugmentationResistanceLightning;
+
+                case DamageType.Nether:
+                    return AugmentationResistanceNether;
             }
             return 0;
         }

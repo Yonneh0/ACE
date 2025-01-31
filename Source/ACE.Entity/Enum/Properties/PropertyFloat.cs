@@ -160,6 +160,7 @@ namespace ACE.Entity.Enum.Properties
         CriticalMultiplier             = 136,
         [AssessmentProperty]
         ManaStoneDestroyChance         = 137,
+        [AssessmentProperty]
         SlayerDamageBonus              = 138,
         AllegianceInfoSpamTimestamp    = 139,
         AllegianceInfoSpamRate         = 140,

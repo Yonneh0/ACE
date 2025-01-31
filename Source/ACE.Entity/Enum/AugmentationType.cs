@@ -170,6 +170,10 @@ namespace ACE.Entity.Enum
         /// Infused Void Magic - foci for void magic
         /// </summary>
         FociVoid = 42,
+        /// <summary>
+        /// Enchantment of the Yonneh - reduced nether damage
+        /// </summary>
+        ResistNether = 43,
     }
 
     public static class AugTypeHelper
@@ -189,7 +193,7 @@ namespace ACE.Entity.Enum
         /// </summary>
         public static bool IsResist(AugmentationType type)
         {
-            return type >= AugmentationType.ResistSlash && type <= AugmentationType.ResistElectric;
+            return (type >= AugmentationType.ResistSlash && type <= AugmentationType.ResistElectric) || type == AugmentationType.ResistNether;
         }
 
         /// <summary>

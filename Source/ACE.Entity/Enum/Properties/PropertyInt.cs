@@ -297,7 +297,9 @@ namespace ACE.Entity.Enum.Properties
         RaresTierFour                            = 213,
         RaresTierFive                            = 214,
         AugmentationStat                         = 215,
+        [SendOnLogin]
         AugmentationFamilyStat                   = 216,
+        [SendOnLogin]
         AugmentationInnateFamily                 = 217,
         [SendOnLogin]
         AugmentationInnateStrength               = 218,
@@ -492,6 +494,7 @@ namespace ACE.Entity.Enum.Properties
         AlternateRacialSkills                    = 325,
         [SendOnLogin]
         AugmentationJackOfAllTrades              = 326,
+        [SendOnLogin]
         AugmentationResistanceNether             = 327,
         [SendOnLogin]
         AugmentationInfusedVoidMagic             = 328,

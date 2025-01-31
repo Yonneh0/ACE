@@ -402,11 +402,11 @@ namespace ACE.Server.Factories
             if (PropertyManager.GetBool("loot_quality_mod").Item && profile.LootQualityMod > 0 && profile.LootQualityMod < 1)
                 lootQualityMod = 1.0f - profile.LootQualityMod;
 
-            // 1% chance for a legendary, 0.02% chance for 2 legendaries
-            if (ThreadSafeRandom.Next(1, (int)(100 * dropRateMod * lootQualityMod)) == 1)
-                numLegendaries = 1;
-            if (ThreadSafeRandom.Next(1, (int)(500 * dropRateMod * lootQualityMod)) == 1)
-                numLegendaries = 2;
+            // Legendary Spell Dropcount mod - Legendary Spellcount chances (goes up exponentially with LootQualityMod):
+            //   1   2   3   4   5   6
+            // 75% 56% 42% 31% 23%  0%
+            while (numLegendaries < 5 && ThreadSafeRandom.Next(1, (int)(100 * dropRateMod * lootQualityMod)) > 75)
+                numLegendaries++;
 
             return numLegendaries;
         }

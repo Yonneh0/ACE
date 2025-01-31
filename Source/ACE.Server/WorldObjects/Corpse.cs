@@ -362,7 +362,8 @@ namespace ACE.Server.WorldObjects
                         killerPlayer.RaresLoginTimestamp = (int)Time.GetFutureUnixTime(ThreadSafeRandom.Next(1, (int)PropertyManager.GetLong("rares_max_seconds_between").Item));
                     else
                         killerPlayer.RaresLoginTimestamp = timestamp;
-                    switch (wo.WeenieClassId - 32000000) {
+                    switch (wo.WeenieClassId - 32000000)
+                    {
                         case 1:
                             killerPlayer.RaresTierOne++;
                             killerPlayer.RaresTierOneLogin = timestamp;
