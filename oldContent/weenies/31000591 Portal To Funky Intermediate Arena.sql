@@ -1,0 +1,38 @@
+DELETE FROM `weenie` WHERE `class_Id` = 31000591;
+
+INSERT INTO `weenie` (`class_Id`, `class_Name`, `type`, `last_Modified`)
+VALUES (31000591, 'ace31000591-portaltofunkyintermediatearena', 7, '2025-01-25 08:52:11') /* Portal */;
+
+INSERT INTO `weenie_properties_int` (`object_Id`, `type`, `value`)
+VALUES (31000591,   1,      65536) /* ItemType - Portal */
+     , (31000591,  16,         32) /* ItemUseable - Remote */
+     , (31000591,  26,          1) /* AccountRequirements - AsheronsCall_Subscription */
+     , (31000591,  86,         30) /* MinLevel */
+     , (31000591,  93,       3084) /* PhysicsState - Ethereal, ReportCollisions, Gravity, LightingOn */
+     , (31000591, 111,         49) /* PortalBitmask - Unrestricted, NoSummon, NoRecall */
+     , (31000591, 133,          4) /* ShowableOnRadar - ShowAlways */;
+
+INSERT INTO `weenie_properties_bool` (`object_Id`, `type`, `value`)
+VALUES (31000591,   1, True ) /* Stuck */
+     , (31000591,  11, False) /* IgnoreCollisions */
+     , (31000591,  12, True ) /* ReportCollisions */
+     , (31000591,  13, True ) /* Ethereal */
+     , (31000591,  15, True ) /* LightsStatus */
+     , (31000591,  88, True ) /* PortalShowDestination */;
+
+INSERT INTO `weenie_properties_float` (`object_Id`, `type`, `value`)
+VALUES (31000591,  54,    -0.1) /* UseRadius */;
+
+INSERT INTO `weenie_properties_string` (`object_Id`, `type`, `value`)
+VALUES (31000591,   1, 'Portal To Funky Intermediate Arena') /* Name */
+     , (31000591,  16, 'The Intermediate Arena contains Kill Tasks, and hunting dungeons for levels 30-75') /* LongDesc */
+     , (31000591,  38, 'Funky Intermediate Arena') /* AppraisalPortalDestination */;
+
+INSERT INTO `weenie_properties_d_i_d` (`object_Id`, `type`, `value`)
+VALUES (31000591,   1, 0x020005D3) /* Setup */
+     , (31000591,   2, 0x09000003) /* MotionTable */
+     , (31000591,   8, 0x0600106B) /* Icon */;
+
+INSERT INTO `weenie_properties_position` (`object_Id`, `position_Type`, `obj_Cell_Id`, `origin_X`, `origin_Y`, `origin_Z`, `angles_W`, `angles_X`, `angles_Y`, `angles_Z`)
+VALUES (31000591, 2, 0x231F002D, 144, 110, 66.006, 1, 0, 0, 0) /* Destination */
+/* @teleloc 0x231F002D [144.000000 110.000000 66.005997] 1.000000 0.000000 0.000000 0.000000 */;

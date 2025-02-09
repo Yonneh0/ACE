@@ -1,0 +1,496 @@
+Give: 30001322
+    - TurnToTarget
+
+
+
+
+
+    - StampQuest: FunkyAttributePoints
+    - InqQuestSolves: FunkyAttributePoints@51, 51 - 9,999
+        QuestSuccess:
+            - InqQuest: SkillCredit51PointsRewarded
+                QuestSuccess:
+                    - Tell: I can accept no more souls from you for you have learned all you can from me.
+                    - Give: 30001322, 0
+                QuestFailure:
+                    - Delay: 0.3, Tell: I can teach you nothing more, and therefore may not accept any more Harnessed Souls. Be well, you have advanced greatly.
+                    - Delay: 0.3, Give: 30001322
+                    - DecrementQuest: FunkyAttributePoints
+        QuestFailure:
+            - InqQuestSolves: FunkyAttributePoints@50, 50 - 9,999
+                QuestSuccess:
+                    - InqQuest: SkillCredit50PointsRewarded
+                        QuestSuccess:
+                            - Tell: You are well on your way to your final technique! Do not falter! Bring us more souls!
+                        QuestFailure:
+                            - Delay: 0.5, Tell: Thank you for your help in Soul Purification.
+                            - Delay: 0.3, Tell: Now prepare for your final Skill Credit!
+                            - WorldBroadcast: %s has received all Skill Credits from Soul Purification!
+                            - Delay: 1, CastSpell: 2927 - Old School Fireworks
+                            - AwardTrainingCredits
+                            - Delay: 1, DirectBroadcast: You have gained a Skill Credit!
+                            - Tell: Be sure to use your skill credits before you log off for the time being...
+                            - StampQuest: SkillCredit50PointsRewarded
+                QuestFailure:
+                    - Tell: You have turned in %tqc Harnessed Souls!
+                    - InqQuestSolves: FunkyAttributePoints@40, 40 - 49
+                        QuestSuccess:
+                            - InqQuest: SkillCredit40PointsRewarded
+                                QuestSuccess:
+                                    - Delay: 0.3, Tell: Bring me more Harnessed souls to recieve your second Skill Credit.
+                                QuestFailure:
+                                    - Delay: 0.3, Tell: You have turned in 40 Harnessed Souls! 10 More and you will have your final skill credit from me!
+                                    - StampQuest: SkillCredit40PointsRewarded
+                        QuestFailure:
+                            - InqQuestSolves: FunkyAttributePoints@30, 30 - 39
+                                QuestSuccess:
+                                    - InqQuest: SkillCredit30PointsRewarded
+                                        QuestSuccess:
+                                            - Delay: 0.3, Tell: Bring me more Harnessed souls to recieve your second Skill Credit.
+                                        QuestFailure:
+                                            - Delay: 0.3, Tell: You have turned in 30 Harnessed Souls! You need to turn in 20 more for a skill credit!
+                                            - StampQuest: SkillCredit30PointsRewarded
+                                QuestFailure:
+                                    - InqQuestSolves: FunkyAttributePoints@20, 20 - 29
+                                        QuestSuccess:
+                                            - InqQuest: SkillCredit20PointsRewarded
+                                                QuestSuccess:
+                                                    - Delay: 0.3, Tell: Bring me more Harnessed souls to recieve your second Skill Credit.
+                                                QuestFailure:
+                                                    - Delay: 0.3, Tell: Thank you for your help in Soul Purification.
+                                                    - Delay: 1, CastSpell: 2927 - Old School Fireworks
+                                                    - AwardTrainingCredits
+                                                    - Delay: 1, DirectBroadcast: You have gained a Skill Credit!
+                                                    - Tell: Be sure to use your skill credits before you log off for the time being...
+                                                    - StampQuest: SkillCredit20PointsRewarded
+                                        QuestFailure:
+                                            - InqQuestSolves: FunkyAttributePoints@10, 10 - 19
+                                                QuestSuccess:
+                                                    - InqQuest: SkillCredit10PointsRewarded
+                                                        QuestSuccess:
+                                                            - Delay: 0.3, Tell: Bring me more Harnessed souls to recieve your first Skill Credit.
+                                                        QuestFailure:
+                                                            - Delay: 0.3, Tell: You have turned in 10 Harnessed Souls so far, you need 10 more for a skill credit.
+                                                            - StampQuest: SkillCredit10PointsRewarded
+                                                QuestFailure:
+                                                    - Delay: 0.3, Tell: You wish to begin augmentation through Soul Purification? Then bring me some more Harnessed Souls for your first Skill Credit...
+
+Use:
+    - TurnToTarget
+    - Delay: 0.9, Tell: Greetings!
+    - Delay: 0.9, Tell: I can offer you more innate attributes so that you may hone your skills even further. I will require souls to do this. There are no prerequisites for this form of Purification.
+    - Delay: 1.3, Tell: you will receive a skill credit at 20 souls turned in and a second one at 50 souls turned in.
+
+
+
+
+Refuse: 30000585
+    - InqIntStat: Level, 200 - 9,999
+        TestSuccess:
+            - InqOwnsItems: 30000585, 10
+                TestSuccess:
+                    - InqYesNo: Would you like to offer 10 Funky Arena Crystals to the Funky Trainer?
+                        TestSuccess:
+                            - TakeItems: 30000585, 10
+                            - Delay: 1, AwardLuminance: 5,500
+                            - Delay: 1, Tell: Thank you!
+                            - Delay: 1, Tell: We've been studying these crystals as people have been turning them in. I wonder what will come of these crystals. The possibilities are very interesting.
+                        TestFailure:
+                            - TakeItems: 30000585
+                            - TurnToTarget
+                            - Tell: Getting tired of smacking monsters, eh?
+                            - Delay: 0.5, AwardLuminance: 500
+                TestFailure:
+                    - TakeItems: 30000585
+                    - TurnToTarget
+                    - Tell: Getting tired of smacking monsters, eh?
+                    - Delay: 0.5, AwardLuminance: 500
+        TestFailure:
+            - TextDirect: You must be level 200+ to receive luminance.
+
+Refuse: 30000603
+    - InqIntStat: Level, 50 - 9,999
+        TestSuccess:
+            - TakeItems: 30000603
+            - TurnToTarget
+            - Delay: 0.5, Tell: Looks like you've been getting busy!
+            - AwardNoShareXP: 1,000,000,000
+        TestFailure:
+            - TurnToTarget
+            - Delay: 0.5, Tell: You must be level 50!
+
+HeartBeat: Style: NonCombat, Substyle: Ready, Probability: 0.003
+    - Delay: 0.5, Say: Get to work, slacker!
+
+Give: 30000500
+    - InqIntStat: Level, 50 - 9,999
+        TestSuccess:
+            - TurnToTarget
+            - Delay: 0.5, Tell: Great! Now pay attention this time!
+            - AwardNoShareXP: 20,000,000
+        TestFailure:
+            - InqIntStat: Level, 30 - 49
+                TestSuccess:
+                    - TurnToTarget
+                    - Delay: 0.5, Tell: Great! Now pay attention this time!
+                    - AwardNoShareXP: 10,000,000
+                TestFailure:
+                    - TurnToTarget
+                    - Delay: 0.5, Tell: Great! Now pay attention this time!
+                    - AwardNoShareXP: 2,000,000
+
+Use:
+    - Delay: 0.1, TurnToTarget
+    - Delay: 1, Tell: I can help train you, if you're willing to part with some Funky Arena Tokens. If you are below level 30, I can only give you 2m XP per token. 30-49 gets 10m XP, and 50+ gets 20m XP. If you have spare Funky Arena Crystals, and are level 200+, I will offer you 5,500 Luminance per 10, or 500 Luminance each.
+
+
+
+
+Refuse: Ravenous Eater Jaw (28718)
+    - TakeItems: Ravenous Eater Jaw (28718)
+    - TurnToTarget
+    - Tell: Wonderful. You are a warrior of incredible ability. The Kingdom of Viamont would do well to enlist your aid in our continuing fight against the Bloodless.
+    - AwardXP: 11,500,000
+    - AwardNoShareXP: 23,500,000
+    - Give: Trade Note (250,000) (20630)
+    - Give: Trade Note (50,000) (2626)
+    - AddCharacterTitle: RavenousKiller
+    - Tell: I do now grant you the title of Ravenous Killer.
+    - InqQuest: ravenouseaterjaw
+        QuestSuccess:
+            - DirectBroadcast: You must wait %tqt to complete this quest again.
+
+Refuse: Engorged Eater Jaw (28725)
+    - TakeItems: Engorged Eater Jaw (28725)
+    - TurnToTarget
+    - Tell: Very good. Though this jaw comes from the weakest of the King's weapons. If you wish for greater rewards than these, try your hand at a beast of a little more strength.
+    - AwardXP: 830,000
+    - AwardNoShareXP: 1,670,000
+    - Give: Trade Note (75,000) (7377)
+    - AddCharacterTitle: EngorgedScourge
+    - Tell: I do now grant you the title of Engorged Scourge.
+    - InqQuest: engorgedeaterjaw
+        QuestSuccess:
+            - DirectBroadcast: You must wait %tqt to complete this quest again.
+
+Refuse: Voracious Eater Jaw (28726)
+    - TakeItems: Voracious Eater Jaw (28726)
+    - TurnToTarget
+    - Tell: Nice work. You have proven yourself a competent warrior. There are, however, many beasts of greater ability that await you in the world beyond.
+    - AwardXP: 2,600,000
+    - AwardNoShareXP: 5,400,000
+    - Give: Trade Note (100,000) (2627)
+    - AddCharacterTitle: VoraciousFlayer
+    - Tell: I do now grant you the title of Voracious Flayer.
+    - InqQuest: voraciouseaterjaw
+        QuestSuccess:
+            - DirectBroadcast: You must wait %tqt to complete this quest again.
+
+Refuse: Abhorrent Eater Jaw (28727)
+    - TakeItems: Abhorrent Eater Jaw (28727)
+    - TurnToTarget
+    - Tell: Very nice. You are indeed a warrior of much skill. We may well call upon your services in the future.
+    - AwardXP: 5,000,000
+    - AwardNoShareXP: 10,000,000
+    - Give: Trade Note (250,000) (20630)
+    - AddCharacterTitle: AbhorrentWarrior
+    - Tell: I do now grant you the title of Abhorrent Warrior.
+    - InqQuest: abhorrenteaterjaw
+        QuestSuccess:
+            - DirectBroadcast: You must wait %tqt to complete this quest again.
+
+Refuse: Upper Insatiable Eater Jaw (42104)
+    - TakeItems: Upper Insatiable Eater Jaw (42104)
+    - TurnToTarget
+    - Tell: Excellent! You are a warrior of unparalleled ability! You have done what few of even our bravest knights can accomplish. I am humbled to be in your presence.
+    - AwardXP: 13,300,000
+    - AwardNoShareXP: 26,600,000
+    - Give: Trade Note (250,000) (20630), 2
+    - AddCharacterTitle: InsatiableSlayer
+    - Tell: I do now grant you the title of Insatiable Slayer.
+    - InqQuest: upperinsatiablejaw
+        QuestSuccess:
+            - DirectBroadcast: You must wait %tqt to complete this quest again.
+
+Use:
+    - TurnToTarget
+    - Delay: 1, Tell: I am looking for warriors of exceptional ability to test against the kingdom's weapons. There are five Eater dens that I wish you to infiltrate. Return to me with the jaws of the beasts therein and I will reward you appropriately.
+
+
+
+Use:
+    - InqIntStat: Level, 0 - 274
+        TestSuccess:
+            - InqYesNo: 'Would you like to Gain 191,226,310,247 XP and forever be known as a dirty little cheater?'
+                TestSuccess:
+                    - AwardXP: 191,226,310,247
+                    - Tell: Ok then. Tell Ulgrim I said hi.
+        TestFailure:
+            - InqIntStat: Level, 0 - 279
+                TestSuccess:
+                    - InqYesNo: 'Would you like to Gain 1,775,312,342,196 XP and forever be known as a dirty little cheater?'
+                        TestSuccess:
+                            - AwardXP: 1,775,312,342,196
+                            - Tell: Ok then. Tell Ulgrim I said hi.
+                TestFailure:
+                    - InqIntStat: Level, 0 - 284
+                        TestSuccess:
+                            - InqYesNo: 'Would you like to Gain 33,439,250,371,602 XP and forever be known as a dirty little cheater?'
+                                TestSuccess:
+                                    - AwardXP: 33,439,250,371,602
+                                    - Tell: Ok then. Tell Ulgrim I said hi.
+                        TestFailure:
+                            - InqIntStat: Level, 0 - 289
+                                TestSuccess:
+                                    - InqYesNo: 'Would you like to Gain 526,367,387,874,008 XP and forever be known as a dirty little cheater?'
+                                        TestSuccess:
+                                            - AwardXP: 526,367,387,874,008
+                                            - Tell: Ok then. Tell Ulgrim I said hi.
+                                TestFailure:
+                                    - InqIntStat: Level, 0 - 294
+                                        TestSuccess:
+                                            - InqYesNo: 'Would you like to Gain 8,285,551,378,645,890 XP and forever be known as a dirty little cheater?'
+                                                TestSuccess:
+                                                    - AwardXP: 8,285,551,378,645,890
+                                                    - Tell: Ok then. Tell Ulgrim I said hi.
+                                        TestFailure:
+                                            - InqIntStat: Level, 0 - 299
+                                                TestSuccess:
+                                                    - InqYesNo: 'Would you like to Gain 130,422,900,866,748,000 XP and forever be known as a dirty little cheater?'
+                                                        TestSuccess:
+                                                            - AwardXP: 130,422,900,866,748,000
+                                                            - Tell: Ok then. Tell Ulgrim I said hi.
+                                                TestFailure:
+                                                    - Tell: Ok then.
+                        
+
+
+
+Use:
+    - TurnToTarget
+    - Tell: Greetings!
+    - InqInt64Stat: AvailableExperience, 0 - 1,000,000,000,000
+        TestSuccess:
+            - Tell: You need 1,000,000,000,000 available experience to extend your innate attributes!
+        TestFailure:
+            - InqIntStat: Level, 0 - 274
+                TestSuccess:
+                    - Tell: You must be level 275+ to extend your innate attributes!
+                TestFailure:
+                    - InqIntStat: AugmentationFamilyStat, 100 - 9,999
+                        TestSuccess:
+                            - Tell: Your Maximum Innate attributes are already 200.
+                        TestFailure:
+                            - InqYesNo: Would you like to Spend 1,000,000,000,000 Experience to raise your max base innate attributes by 5 points?
+                                TestSuccess:
+                                    - AwardXP: -1,000,000,000,000
+                                    - IncrementIntStat: AugmentationFamilyStat, 5
+                                    - CastSpellInstant: 2927 - Old School Fireworks
+                                    - Tell: Boop.
+                                TestFailure:
+                                    - Tell: Ok then.
+
+
+Use:
+    - InqQuestSolves: FunkySeerInnateAttributes, 0 - 90
+        QuestSuccess:
+            - TurnToTarget
+            - Tell: Greetings!
+            - InqInt64Stat: AvailableExperience, 0 - 10,000,000,000,000
+                TestSuccess:
+                    - Tell: You need 10,000,000,000,000 available experience to extend your maximum innate attributes by 5 points!
+                TestFailure:
+                    - InqYesNo: Would you like to Spend 10,000,000,000,000 (10T) Experience to raise your maximum innate attributes by 5 points?
+                        TestSuccess:
+                            - AwardXP: -10,000,000,000,000
+                            - Goto: Apply
+        QuestFailure:
+            - Tell: I have already expanded your maximum innate attributes as much as I can.
+
+
+
+Use:
+    - TurnToTarget
+    - InqIntStat: AugmentationFamilyStat, 50 - 9,999
+        TestSuccess:
+            - Tell: You cannot increase your Maximum Innate Attributes any further.
+        TestFailure:
+            - InqIntStat: AugmentationFamilyStat, 40
+                TestSuccess:
+                    - InqInt64Stat: AvailableExperience, 5,000,000,000,000
+                        TestSuccess:
+                            - InqYesNo: Do you wish to spend 5,000,000,000,000 Experience to increase your Maximum Innate Attributes (5/5)?
+                                TestSuccess:
+                                    - AwardXP: -5,000,000,000,000
+                                    - Goto: Apply
+                                TestFailure:
+                                    - DirectBroadcast: You decline to empower yourself at this time.
+                        TestFailure:
+                            - Tell: This augmentation costs 5,000,000,000,000 Experience, and will increase your Maximum Innate Attributes to 150 points.
+                TestFailure:
+                    - InqIntStat: AugmentationFamilyStat, 30
+                        TestSuccess:
+                            - InqInt64Stat: AvailableExperience, 1,000,000,000,000
+                                TestSuccess:
+                                    - InqYesNo: Do you wish to spend 1,000,000,000,000 Experience to increase your Maximum Innate Attributes (4/5)?
+                                        TestSuccess:
+                                            - AwardXP: -1,000,000,000,000
+                                            - Goto: Apply
+                                        TestFailure:
+                                            - DirectBroadcast: You decline to empower yourself at this time.
+                                TestFailure:
+                                    - Tell: This augmentation costs 1,000,000,000,000 Experience, and will increase your Maximum Innate Attributes to 140 points.
+                        TestFailure:
+                            - InqIntStat: AugmentationFamilyStat, 20
+                                TestSuccess:
+                                    - InqInt64Stat: AvailableExperience, 750,000,000,000
+                                        TestSuccess:
+                                            - InqYesNo: Do you wish to spend 750,000,000,000 Experience to increase your Maximum Innate Attributes (3/5)?
+                                                TestSuccess:
+                                                    - AwardXP: -750,000,000,000
+                                                    - Goto: Apply
+                                                TestFailure:
+                                                    - DirectBroadcast: You decline to empower yourself at this time.
+                                        TestFailure:
+                                            - Tell: This augmentation costs 750,000,000,000 Experience, and will increase your Maximum Innate Attributes to 130 points.
+                                TestFailure:
+                                    - InqIntStat: AugmentationFamilyStat, 10
+                                        TestSuccess:
+                                            - InqInt64Stat: AvailableExperience, 500,000,000,000
+                                                TestSuccess:
+                                                    - InqYesNo: Do you wish to spend 500,000,000,000 Experience to increase your Maximum Innate Attributes (2/5)?
+                                                        TestSuccess:
+                                                            - AwardXP: -500,000,000,000
+                                                            - Goto: Apply
+                                                        TestFailure:
+                                                            - DirectBroadcast: You decline to empower yourself at this time.
+                                                TestFailure:
+                                                    - Tell: This augmentation costs 500,000,000,000 Experience, and will increase your Maximum Innate Attributes to 120 points.
+                                        TestFailure:
+                                            - InqIntStat: AugmentationFamilyStat, 0
+                                                TestSuccess:
+                                                    - InqInt64Stat: AvailableExperience, 250,000,000,000
+                                                        TestSuccess:
+                                                            - InqYesNo: Do you wish to spend 250,000,000,000 Experience to increase your Maximum Innate Attributes (1/5)?
+                                                                TestSuccess:
+                                                                    - AwardXP: -250,000,000,000
+                                                                    - Goto: Apply
+                                                                TestFailure:
+                                                                    - DirectBroadcast: You decline to empower yourself at this time.
+                                                        TestFailure:
+                                                            - Tell: This augmentation costs 250,000,000,000 Experience, and will increase your Maximum Innate Attributes to 110 points.
+
+GotoSet: Apply
+    - IncrementQuest: FunkySeerInnateAttributes, 10
+    - IncrementIntStat: AugmentationFamilyStat, 10
+    - CastSpellInstant: 2927 - Old School Fireworks
+    - InqQuestSolves: FunkySeerInnateAttributes@0-9999_11, 0 - 9,999
+        QuestSuccess:
+            - DirectBroadcast: You feel a surge of energy pass through you as the Light empowers your being.
+            - Tell: Your Maximum Innate Attribute limit has been increased %tqc points beyond the retail limit of 100.
+
+
+
+//// existing table:
+Use:
+    - InqQuestSolves: FunkySeerInnateAttributes@0-40, 0 - 40
+        QuestSuccess:
+            - TurnToTarget
+            - Tell: Greetings!
+            - InqInt64Stat: AvailableExperience, 0 - 5,000,000,000,000
+                TestSuccess:
+                    - Tell: You need 5,000,000,000,000 (5T) Available Experience to extend your maximum innate attributes by 10 points!
+                TestFailure:
+                    - InqYesNo: Would you like to Spend 5,000,000,000,000 (5T) Experience Points to raise your maximum innate attributes by 10 points?
+                        TestSuccess:
+                            - AwardXP: -5,000,000,000,000
+                            - IncrementQuest: FunkySeerInnateAttributes, 10
+                            - IncrementIntStat: AugmentationFamilyStat, 10
+                            - InqQuestSolves: FunkySeerInnateAttributes@0-9999_7, 0 - 9,999
+                                QuestSuccess:
+                                    - Tell: Your maximum innate attributes have been increased %tqc beyond the retail limit of 100.
+        QuestFailure:
+            - Tell: I have already expanded your maximum innate attributes as much as I can.
+
+
+
+
+
+
+// cheater:
+Use: 
+    - InqQuestSolves: FunkyExperienceCheat, 55 - 9999
+        QuestSuccess:
+            - AwardXP: 100,000,000,000
+        QuestFailure:
+            - InqQuestSolves: FunkyExperienceCheat, 40-54
+                QuestSuccess:
+                    - InqYesNo: Do you wish to accept 50,000,000,000 Experience and forever be known as a dirty little cheater?
+                        TestSuccess:
+                            - AwardXP: 50,000,000,000
+                            - IncrementQuest: FunkyExperienceCheat, 1
+                QuestFailure:
+                    - InqQuestSolves: FunkyExperienceCheat, 25-39
+                        QuestSuccess:
+                            - InqYesNo: Do you wish to accept 25,000,000,000 Experience and forever be known as a dirty little cheater?
+                                TestSuccess:
+                                    - AwardXP: 25,000,000,000
+                                    - IncrementQuest: FunkyExperienceCheat, 1
+                        QuestFailure:
+                            - InqQuestSolves: FunkyExperienceCheat, 10-24
+                                QuestSuccess:
+                                    - InqYesNo: Do you wish to accept 10,000,000,000 Experience and forever be known as a dirty little cheater?
+                                        TestSuccess:
+                                            - AwardXP: 10,000,000,000
+                                            - IncrementQuest: FunkyExperienceCheat, 1
+                                QuestFailure:
+                                    - InqYesNo: Do you wish to accept 1,000,000,000 Experience and forever be known as a dirty little cheater?
+                                        TestSuccess:
+                                            - AwardXP: 1,000,000,000
+                                            - IncrementQuest: FunkyExperienceCheat, 1
+
+/// cheater table:
+Use:
+    - InqIntStat: Level, 0 - 274
+        TestSuccess:
+            - InqYesNo: 'Would you like to Gain 191,226,310,247 XP and forever be known as a dirty little cheater?'
+                TestSuccess:
+                    - AwardXP: 191,226,310,247
+                    - Tell: Ok then. Tell Ulgrim I said hi.
+        TestFailure:
+            - InqIntStat: Level, 0 - 279
+                TestSuccess:
+                    - InqYesNo: 'Would you like to Gain 1,775,312,342,196 XP and forever be known as a dirty little cheater?'
+                        TestSuccess:
+                            - AwardXP: 1,775,312,342,196
+                            - Tell: Ok then. Tell Ulgrim I said hi.
+                TestFailure:
+                    - InqIntStat: Level, 0 - 284
+                        TestSuccess:
+                            - InqYesNo: 'Would you like to Gain 33,439,250,371,602 XP and forever be known as a dirty little cheater?'
+                                TestSuccess:
+                                    - AwardXP: 33,439,250,371,602
+                                    - Tell: Ok then. Tell Ulgrim I said hi.
+                        TestFailure:
+                            - InqIntStat: Level, 0 - 289
+                                TestSuccess:
+                                    - InqYesNo: 'Would you like to Gain 526,367,387,874,008 XP and forever be known as a dirty little cheater?'
+                                        TestSuccess:
+                                            - AwardXP: 526,367,387,874,008
+                                            - Tell: Ok then. Tell Ulgrim I said hi.
+                                TestFailure:
+                                    - InqIntStat: Level, 0 - 294
+                                        TestSuccess:
+                                            - InqYesNo: 'Would you like to Gain 8,285,551,378,645,890 XP and forever be known as a dirty little cheater?'
+                                                TestSuccess:
+                                                    - AwardXP: 8,285,551,378,645,890
+                                                    - Tell: Ok then. Tell Ulgrim I said hi.
+                                        TestFailure:
+                                            - InqIntStat: Level, 0 - 299
+                                                TestSuccess:
+                                                    - InqYesNo: 'Would you like to Gain 130,422,900,866,748,000 XP and forever be known as a dirty little cheater?'
+                                                        TestSuccess:
+                                                            - AwardXP: 130,422,900,866,748,000
+                                                            - Tell: Ok then. Tell Ulgrim I said hi.
+                                                TestFailure:
+                                                    - Tell: Ok then.
