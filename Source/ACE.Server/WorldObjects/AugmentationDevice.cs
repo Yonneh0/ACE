@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
-
+using System.ComponentModel;
+using System.Linq;
 using ACE.Entity;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Entity.Models;
 using ACE.Server.Entity;
+using ACE.Server.Factories;
 using ACE.Server.Managers;
+using ACE.Server.Network;
 using ACE.Server.Network.GameMessages.Messages;
 
 namespace ACE.Server.WorldObjects
@@ -84,25 +87,26 @@ namespace ACE.Server.WorldObjects
             var augProp = AugProps[type];
             var curVal = player.GetProperty(augProp) ?? 0;
             var newVal = curVal + 1;
+            int augLim = MaxAugs[type];
             player.SetProperty(augProp, newVal);
 
             if (AugTypeHelper.IsAttribute(type))
             {
+                augLim += (player.AugmentationFamilyStat / 2);
                 player.AugmentationInnateFamily++;
 
                 var attr = AugTypeHelper.GetAttribute(type);
                 var playerAttr = player.Attributes[attr];
                 playerAttr.StartingValue += 5;
 
-
                 player.Session.Network.EnqueueSend(
                     new GameMessagePrivateUpdateAttribute(player, playerAttr),
-                    new GameMessageSystemChat($"You have acquired {player.AugmentationInnateFamily} of {(player.AugmentationFamilyStat / 2) + MaxAugs[type]} Maximum Innate Attribute Augmentations. Your base {attr} is now {playerAttr.Base}!", ChatMessageType.System)
+                    new GameMessageSystemChat($"You have acquired {player.AugmentationInnateFamily} of {augLim} Base Attribute Augmentation{(augLim==1?"":"s")}. Your base {attr} is now {playerAttr.Base}!", ChatMessageType.System)
                 );
             }
             else if (AugTypeHelper.IsResist(type))
             {
-                player.Session.Network.EnqueueSend(new GameMessageSystemChat($"You have acquired {newVal} of {MaxAugs[type] + (player.Level >= 350 ? 2 : player.Level > 275 ? 1 : 0)} {Name} Augmentation.", ChatMessageType.System));
+                augLim += (player.Level >= 350 ? 2 : player.Level > 275 ? 1 : 0);
             }
             else if (AugTypeHelper.IsSkill(type))
             {
@@ -127,6 +131,68 @@ namespace ACE.Server.WorldObjects
                 var capacity = player.GetEncumbranceCapacity();
                 player.Session.Network.EnqueueSend(new GameMessagePrivateUpdatePropertyInt(player, PropertyInt.EncumbranceCapacity, capacity));
             }
+            else if (type == AugmentationType.Mule)
+            {
+
+                // consume augmentation gem
+                player.TryConsumeFromInventoryWithNetworking(this, 1);
+
+                Enlightenment.RemoveAbility(player);
+                player.HeadObjectDID = 0;
+                player.SetupTableId = 0x02001B86;
+                player.Strength.StartingValue = 1500;
+                player.Endurance.StartingValue = 250;
+                player.Coordination.StartingValue = 250;
+                player.Quickness.StartingValue = 250;
+                player.Focus.StartingValue = 100;
+                player.Self.StartingValue = 100;
+                player.Health.StartingValue = 25000;
+                player.Health.Current = player.Health.MaxValue;
+                player.Stamina.StartingValue = 50000;
+                player.Stamina.Current = player.Stamina.MaxValue;
+                player.Mana.StartingValue = 100;
+                player.Mana.StartingValue = player.Mana.MaxValue;
+
+
+                player.Level = (int)Player.GetMaxLevel();
+                player.TotalSkillCredits = 0;
+                player.AvailableSkillCredits = 0;
+                player.TotalExperience = 0;
+                player.AvailableExperience = 0;
+                player.Name = "Mule " + player.Name.TrimStart('+');
+                AllegianceManager.HandlePlayerDelete(player.Guid.Full);
+                player.UpdateProperty(player, PropertyBool.Attackable, false, true);
+
+                foreach (var item in player.EquippedObjects.Keys.ToList())
+                    player.TryRemoveFromInventoryWithNetworking(item, out var _, Player.RemoveFromInventoryAction.ConsumeItem);
+                foreach (var item in player.Inventory.Keys.ToList())
+                    player.TryRemoveFromInventoryWithNetworking(item, out var _, Player.RemoveFromInventoryAction.ConsumeItem);
+                player.AugmentationIncreasedCarryingCapacity = 20;
+                player.AugmentationExtraPackSlot = 4;
+                player.AugmentationResistanceSlash = 10;
+                player.AugmentationResistancePierce = 10;
+                player.AugmentationResistanceBlunt = 10;
+                player.AugmentationResistanceFire = 10;
+                player.AugmentationResistanceFrost = 10;
+                player.AugmentationResistanceAcid = 10;
+                player.AugmentationResistanceLightning = 10;
+                player.AugmentationResistanceNether = 10;
+                player.ContainerCapacity = 10;
+                for (var i = 0; i < 10; i++) {
+                    var loot = WorldObjectFactory.CreateNewWorldObject(31000262);
+                    player.TryAddToInventory(loot, 0, true, false);
+                }
+                var tools = WorldObjectFactory.CreateNewWorldObject(31000264);
+                tools.SetStackSize(50);
+                player.TryAddToInventory(tools, 0, true, false);
+
+                player.SaveBiotaToDatabase();
+                player.EnqueueBroadcast(new GameMessageSystemChat($"You have been converted into a Mule. Monsters will only attack you if provoked by you first. Please log out and log back in, to continue.", ChatMessageType.Broadcast));
+                player.Session.LogOffPlayer(true);
+
+                return;
+
+            }
 
             // consume xp
             player.AvailableExperience -= AugmentationCost;
@@ -143,7 +209,7 @@ namespace ACE.Server.WorldObjects
 
             // also broadcast to nearby players
             player.EnqueueBroadcast(new GameMessageScript(player.Guid, AugTypeHelper.GetEffect(type)));
-            player.EnqueueBroadcast(new GameMessageSystemChat($"{player.Name} has acquired the {Name} augmentation!", ChatMessageType.Broadcast));
+            player.EnqueueBroadcast(new GameMessageSystemChat($"{player.Name} has acquired the {Name} augmentation!{(augLim>1?$" ({newVal}/{augLim})":"")}", ChatMessageType.Broadcast));
 
             player.SaveBiotaToDatabase();
         }
@@ -152,12 +218,6 @@ namespace ACE.Server.WorldObjects
         {
             var availableXP = player.AvailableExperience ?? 0;
             var augCost = AugmentationCost ?? 0;
-
-            if (AugmentationCost == null)
-            {
-                player.EnqueueBroadcast(new GameMessageSystemChat($"{Name} is missing AugmentationCost", ChatMessageType.System));
-                return false;
-            }
 
             if (availableXP < augCost)
             {
@@ -179,7 +239,7 @@ namespace ACE.Server.WorldObjects
                 var thisPropCount = player.AugmentationInnateFamily;
                 if (thisPropCount >= playerInnateAugCountLimit)
                 {
-                    player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already acquired {thisPropCount} of {playerInnateAugCountLimit} Maximum Innate Attribute Augmentations.", ChatMessageType.Broadcast));
+                    player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already acquired {thisPropCount} of {playerInnateAugCountLimit} Base Attribute Augmentations.", ChatMessageType.Broadcast));
                     player.SendWeenieError(WeenieError.AugmentationTypeUsedTooManyTimes);
                     return false;
                 }
@@ -274,6 +334,8 @@ namespace ACE.Server.WorldObjects
             { AugmentationType.DamageResist, 1 },
             { AugmentationType.AllStats, 1 },
             { AugmentationType.FociVoid, 1 },
+            { AugmentationType.MaximumInnateAttributes, 50 },
+            { AugmentationType.Mule, 1 },
         };
 
         public static Dictionary<AugmentationType, PropertyInt> AugProps = new Dictionary<AugmentationType, PropertyInt>()
@@ -320,6 +382,8 @@ namespace ACE.Server.WorldObjects
             { AugmentationType.AllStats, PropertyInt.AugmentationJackOfAllTrades },
             { AugmentationType.FociVoid, PropertyInt.AugmentationInfusedVoidMagic },
             { AugmentationType.ResistNether, PropertyInt.AugmentationResistanceNether },
+            { AugmentationType.MaximumInnateAttributes, PropertyInt.AugmentationFamilyStat },
+            { AugmentationType.Mule, PropertyInt.Enlightenment },
         };
     }
 }

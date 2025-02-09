@@ -174,6 +174,15 @@ namespace ACE.Entity.Enum
         /// Enchantment of the Yonneh - reduced nether damage
         /// </summary>
         ResistNether = 43,
+        /// <summary>
+        /// Maximum Innate Attributes -
+        /// </summary>
+        MaximumInnateAttributes = 44,
+        /// <summary>
+        /// Mule -
+        /// </summary>
+        Mule = 45,
+
     }
 
     public static class AugTypeHelper
