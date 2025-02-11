@@ -15,6 +15,7 @@ namespace ACE.Entity.Enum
          Penumbraen  = 10,
          Undead      = 11,
          Olthoi      = 12,
-         OlthoiAcid  = 13
-     }
+         OlthoiAcid  = 13,
+         Mule        = 14
+    }
  }

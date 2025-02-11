@@ -138,37 +138,52 @@ namespace ACE.Server.WorldObjects
                 player.TryConsumeFromInventoryWithNetworking(this, 1);
 
                 Enlightenment.RemoveAbility(player);
-                player.HeadObjectDID = 0;
+                player.HeadObjectDID = null;
                 player.SetupTableId = 0x02001B86;
-                player.Strength.StartingValue = 1500;
-                player.Endurance.StartingValue = 250;
-                player.Coordination.StartingValue = 250;
-                player.Quickness.StartingValue = 250;
-                player.Focus.StartingValue = 100;
-                player.Self.StartingValue = 100;
-                player.Health.StartingValue = 25000;
+                player.Strength.StartingValue = 2500;
+                player.Endurance.StartingValue = 10;
+                player.Coordination.StartingValue = 10;
+                player.Quickness.StartingValue = 500;
+                player.Focus.StartingValue = 10;
+                player.Self.StartingValue = 10;
+                player.Health.StartingValue = 25;
                 player.Health.Current = player.Health.MaxValue;
-                player.Stamina.StartingValue = 50000;
+                player.Stamina.StartingValue = 25;
                 player.Stamina.Current = player.Stamina.MaxValue;
                 player.Mana.StartingValue = 100;
                 player.Mana.StartingValue = player.Mana.MaxValue;
 
+                player.HeritageGroup = HeritageGroup.Mule;
+                player.HeritageGroupName = "Mule";
+                player.CharacterTitleId = null;
+                player.Sex = null;
+                player.ObjScale = 0.75f;
+                player.HairStyle = null;
+                player.HairPaletteDID = null;
+                player.EyesTextureDID = null;
+                player.DefaultEyesTextureDID = null;
+                player.NoseTextureDID = null;
+                player.DefaultNoseTextureDID = null;
+                player.MouthTextureDID = null;
+                player.DefaultMouthTextureDID= null;
+                player.SkinPaletteDID = null;
+                player.Shade = null;
+                player.Sanctuary = ACE.Server.Command.Handlers.PlayerCommands.HotelDrop;
+                player.RecallsDisabled = false;
+                player.QuestManager.EraseAll();
 
-                player.Level = (int)Player.GetMaxLevel();
+                player.Level = 1;
                 player.TotalSkillCredits = 0;
                 player.AvailableSkillCredits = 0;
                 player.TotalExperience = 0;
                 player.AvailableExperience = 0;
-                player.Name = "Mule " + player.Name.TrimStart('+');
-                AllegianceManager.HandlePlayerDelete(player.Guid.Full);
-                player.UpdateProperty(player, PropertyBool.Attackable, false, true);
-
-                foreach (var item in player.EquippedObjects.Keys.ToList())
-                    player.TryRemoveFromInventoryWithNetworking(item, out var _, Player.RemoveFromInventoryAction.ConsumeItem);
+                player.MaximumLuminance = null; // player.RemoveProperty(PropertyInt64.MaximumLuminance);
+                player.AvailableLuminance = null; // player.RemoveProperty(PropertyInt64.AvailableLuminance);
+                
                 foreach (var item in player.Inventory.Keys.ToList())
                     player.TryRemoveFromInventoryWithNetworking(item, out var _, Player.RemoveFromInventoryAction.ConsumeItem);
                 player.AugmentationIncreasedCarryingCapacity = 20;
-                player.AugmentationExtraPackSlot = 4;
+                player.AugmentationExtraPackSlot = 3;
                 player.AugmentationResistanceSlash = 10;
                 player.AugmentationResistancePierce = 10;
                 player.AugmentationResistanceBlunt = 10;
@@ -186,9 +201,14 @@ namespace ACE.Server.WorldObjects
                 tools.SetStackSize(50);
                 player.TryAddToInventory(tools, 0, true, false);
 
+                player.UpdateProperty(player, PropertyBool.Attackable, false, true);
+
+                player.EnqueueBroadcast(new GameMessageSystemChat($"You have been converted into a Mule. Please log back in, to continue.", ChatMessageType.Broadcast));
+                player.Teleport(ACE.Server.Command.Handlers.PlayerCommands.HotelDrop);
                 player.SaveBiotaToDatabase();
-                player.EnqueueBroadcast(new GameMessageSystemChat($"You have been converted into a Mule. Monsters will only attack you if provoked by you first. Please log out and log back in, to continue.", ChatMessageType.Broadcast));
+
                 player.Session.LogOffPlayer(true);
+                player.EnqueueBroadcast(new GameMessageSystemChat($"Please log back in, to continue.", ChatMessageType.Broadcast));
 
                 return;
 
@@ -229,16 +249,14 @@ namespace ACE.Server.WorldObjects
 
             var augProp = player.GetProperty(AugProps[type]) ?? 0;
             // per-type checks
-            if (AugTypeHelper.IsAttribute(type))
-            {
+            if (AugTypeHelper.IsAttribute(type)) {
                 // innate attributes shared cap
 
                 // YonnehTown Mod: allow 1 additional AugmentationInnateFamily Augmentation, per 2 levels of AugmentationFamilyStat.
                 uint playerInnateAugCountLimit = (uint)(player.AugmentationFamilyStat / 2) + (uint)MaxAugs[type];
 
                 var thisPropCount = player.AugmentationInnateFamily;
-                if (thisPropCount >= playerInnateAugCountLimit)
-                {
+                if (thisPropCount >= playerInnateAugCountLimit) {
                     player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already acquired {thisPropCount} of {playerInnateAugCountLimit} Base Attribute Augmentations.", ChatMessageType.Broadcast));
                     player.SendWeenieError(WeenieError.AugmentationTypeUsedTooManyTimes);
                     return false;
@@ -250,25 +268,19 @@ namespace ACE.Server.WorldObjects
 
                 // YonnehTown Mod: allow 1 additional starting level, per level of AugmentationFamilyStat.
                 uint playerLimit = (uint)player.AugmentationFamilyStat + 95;
-                if (playerAttribute.StartingValue > playerLimit)
-                {
+                if (playerAttribute.StartingValue > playerLimit) {
                     player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because your {playerAttribute.Attribute.ToString()} is already above {playerLimit}!");
                     return false;
                 }
                 return true;
-            }
-            else if (AugTypeHelper.IsSkill(type))
-            {
+            } else if (AugTypeHelper.IsSkill(type)) {
                 var playerSkill = player.GetCreatureSkill(AugTypeHelper.GetSkill(type));
 
-                if (playerSkill.AdvancementClass != SkillAdvancementClass.Trained)
-                {
+                if (playerSkill.AdvancementClass != SkillAdvancementClass.Trained) {
                     player.SendWeenieErrorWithString(WeenieErrorWithString.AugmentationSkillNotTrained, $"You are not able to purchase this augmentation because you are not trained in {playerSkill.Skill.ToSentence()}!");
                     return false;
                 }
-            }
-            else if (AugTypeHelper.IsResist(type))
-            {
+            } else if (AugTypeHelper.IsResist(type)) {
                 var resLimt = MaxAugs[type] + (player.Level >= 300 ? 2 : player.Level >= 275 ? 1 : 0);
                 if (augProp >= resLimt) {
 
@@ -277,6 +289,13 @@ namespace ACE.Server.WorldObjects
                     return false;
                 }
                 return true;
+            } else if (type == AugmentationType.Mule && !player.RecallsDisabled) {
+                // consume augmentation gem
+                player.Session.Network.EnqueueSend(new GameMessageSystemChat($"Your have already left the training academy, and are no longer eligible.", ChatMessageType.Broadcast));
+                player.SendWeenieError(WeenieError.AugmentationTypeUsedTooManyTimes);
+                player.TryConsumeFromInventoryWithNetworking(this, 1);
+                return false;
+
             }
 
             // common checks

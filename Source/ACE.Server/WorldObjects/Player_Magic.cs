@@ -743,6 +743,19 @@ namespace ACE.Server.WorldObjects
 
         public void DoCastSpell(Spell spell, WorldObject casterItem, uint magicSkill, uint manaUsed, WorldObject target, CastingPreCheckStatus castingPreCheckStatus, bool checkAngle = true)
         {
+
+
+
+            /// YonnehTown: Disable spellcasting, from non-attackable players
+            if (!Attackable) {
+                Session.Network.EnqueueSend(new GameEventCommunicationTransientString(Session, "Non-Attackable characters are not allowed to cast spells."));
+                FinishCast();
+                //SendUseDoneEvent();
+                return;
+            }
+
+
+
             if (target != null)
             {
                 // verify target still exists

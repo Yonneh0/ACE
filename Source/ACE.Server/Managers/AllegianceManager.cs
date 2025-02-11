@@ -383,10 +383,11 @@ namespace ACE.Server.Managers
 
             if (player.AllegianceRank != null)
             {
-                player.AllegianceRank = null;
+                // YonnehTown: add FunkyAugFakeRank to rank
+                player.AllegianceRank = player.GetProperty(PropertyInt.FunkyAugFakeRank);
 
                 if (onlinePlayer != null)
-                    onlinePlayer.Session.Network.EnqueueSend(new GameMessagePrivateUpdatePropertyInt(onlinePlayer, PropertyInt.AllegianceRank, 0));
+                    onlinePlayer.Session.Network.EnqueueSend(new GameMessagePrivateUpdatePropertyInt(onlinePlayer, PropertyInt.AllegianceRank, player.AllegianceRank??0));
 
                 updated = true;
             }

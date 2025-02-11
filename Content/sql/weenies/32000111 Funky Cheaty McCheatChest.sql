@@ -50,28 +50,6 @@ VALUES (32000111,   1, 0x0200007C) /* Setup */
 
 INSERT INTO `weenie_properties_generator` (`object_Id`, `probability`, `weenie_Class_Id`, `delay`, `init_Create`, `max_Create`, `when_Create`, `where_Create`, `stack_Size`, `palette_Id`, `shade`, `obj_Cell_Id`, `origin_X`, `origin_Y`, `origin_Z`, `angles_W`, `angles_X`, `angles_Y`, `angles_Z`)
 VALUES (32000111, -1, 30254, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Eternal Mana Charge (30254) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 1435, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Ice Tachi (1435) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 5017, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Dagger of Tikola (5017) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 42121, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Platemail Hauberk of the Ogre (42121) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 1518, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Superior Helmet (1518) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 7886, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Baron's Amulet of Life Giving (7886) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 38048, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Green Mire Yari (38048) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 38050, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Lilitha's Bow (38050) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 2018, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Trothyr's War Hammer (2018) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 3645, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Tibri's Fire Spear (3645) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 7770, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Mi Krau-Li's Jitte (7770) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 8363, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Mace of the Explorer (8363) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 29050, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Ruschk Hunter Leggings (29050) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 42210, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Ancient Arbalest (42210) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 2031, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Branith's Staff (2031) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 42209, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Tetsubo Slugger (42209) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 1439, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Acid Axe (1439) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 1481, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Quarter Staff of Fire (1481) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 31363, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Axe Head Helm (31363) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 1436, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Hammer of Lightning (1436) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 26004, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Crown of Bone (26004) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 7300, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Dansha-Ki's Ring (7300) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
-     , (32000111, -1, 27115, 0, 1, 1, 2, 8, -1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Elysa's Wondrous Orb (27115) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
      , (32000111, -1, 29295, 0, 1, 1, 2, 8, 250, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Blank Augmentation Gem (29295) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
      , (32000111, -1, 32000001, 0, 1, 1, 2, 8, 10000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Tier I Funky Rare Token (32000001) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */
      , (32000111, -1, 32000002, 0, 1, 1, 2, 8, 10000, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0) /* Generate Tier II Funky Rare Token (32000002) (x1 up to max of 1) - Regenerate upon PickUp - Location to (re)Generate: Contain */

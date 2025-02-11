@@ -119,7 +119,12 @@ namespace ACE.Server.WorldObjects
             if (target.Health.Current <= 0)
                 return null;
 
-                Session.Network.EnqueueSend(new GameEventCommunicationTransientString(Session, "Non-Attackable characters are not allowed to Damage Creatures."));
+            /// YonnehTown: Disable melee attacks, from non-attackable players
+            if (!Attackable) {
+                Session.Network.EnqueueSend(new GameEventCommunicationTransientString(Session, "Non-Attackable characters are not allowed to Damage Creatures with Melee Weapons."));
+                return null;
+            }
+
             var targetPlayer = target as Player;
 
             // check PK status

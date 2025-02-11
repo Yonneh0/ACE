@@ -617,6 +617,9 @@ namespace ACE.Entity.Enum.Properties
         Enlightenment                            = 390,
 
         /* Custom Properties */
+
+        FunkyAugFakeRank                         = 3300,
+
         PCAPRecordedAutonomousMovement           = 8007,
         PCAPRecordedMaxVelocityEstimated         = 8030,
         PCAPRecordedPlacement                    = 8041,

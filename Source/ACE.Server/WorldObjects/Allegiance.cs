@@ -343,10 +343,14 @@ namespace ACE.Server.WorldObjects
                     updated = true;
                 }
 
+                // YonnehTown: add PropertyInt.FunkyAugFakeRank to player.AllegianceRank
+                int funkyAugFakeRank = (int)member.Value.Rank + (player.GetProperty(PropertyInt.FunkyAugFakeRank) ?? 0);
+                if (funkyAugFakeRank > 10)
+                    funkyAugFakeRank = 10;
                 // if changed, update rank
-                if ((player.AllegianceRank ?? 0) != member.Value.Rank)
+                if ((player.AllegianceRank ?? 0) != funkyAugFakeRank)
                 {
-                    player.AllegianceRank = (int)member.Value.Rank;
+                    player.AllegianceRank = funkyAugFakeRank;
 
                     if (onlinePlayer != null)
                         onlinePlayer.Session.Network.EnqueueSend(new GameMessagePrivateUpdatePropertyInt(onlinePlayer, PropertyInt.AllegianceRank, player.AllegianceRank.Value));

@@ -39,7 +39,13 @@ namespace ACE.Server.WorldObjects
                 if (sourcePlayer != null)
                 {
                     // player damage monster or player
-                    damageEvent = sourcePlayer.DamageTarget(targetCreature, worldObject);
+
+                    /// YonnehTown: Disable missile attacks, from non-attackable players
+                    if (!sourcePlayer.Attackable) {
+                        sourcePlayer.Session.Network.EnqueueSend(new ACE.Server.Network.GameEvent.Events.GameEventCommunicationTransientString(sourcePlayer.Session, "Non-Attackable characters are not allowed to Damage Creatures with Missile Weapons."));
+                        damageEvent = null;
+                    } else
+                        damageEvent = sourcePlayer.DamageTarget(targetCreature, worldObject);
 
                     if (damageEvent != null && damageEvent.HasDamage)
                         worldObject.EnqueueBroadcast(new GameMessageSound(worldObject.Guid, Sound.Collision, 1.0f));

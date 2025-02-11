@@ -41,6 +41,8 @@ namespace ACE.Server.WorldObjects
 
             // YonnehTown: Add FunkyAugFakeRank to AllegianceRank
             int funkyAugFakeRank = (int)(AllegianceNode?.Rank ?? 0) + FunkyAugFakeRank??0;
+            if (funkyAugFakeRank > 10)
+                funkyAugFakeRank = 10;
             if (funkyAugFakeRank > 0)
                 AllegianceRank = funkyAugFakeRank;
             else

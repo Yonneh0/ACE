@@ -225,6 +225,12 @@ namespace ACE.Server.Factories
                 var starterGearConfig = StarterGearFactory.GetStarterGearConfiguration();
                 var grantedWeenies = new List<uint>();
 
+                // YonnehTown: Add Funky Mule Stone to inventory on creation.
+                player.TryAddToInventory(WorldObjectFactory.CreateNewWorldObject(32000105),0,true,false);
+
+                // YonnehTown: Add Funky Arena Backpack to inventory on creation.
+                player.TryAddToInventory(WorldObjectFactory.CreateNewWorldObject(31000262),0,true,false);
+
                 foreach (var skillGear in starterGearConfig.Skills)
                 {
                     //var charSkill = player.Skills[(Skill)skillGear.SkillId];

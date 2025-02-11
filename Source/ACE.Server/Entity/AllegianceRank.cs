@@ -42,6 +42,8 @@ namespace ACE.Server.Entity
                     return GetEmpyreanMaleTitle(rank);
                 case HeritageGroup.Undead:
                     return GetUndeadMaleTitle(rank);
+                case HeritageGroup.Mule:
+                    return GetMuleTitle(rank);
                 default:
                     return "";
             }
@@ -72,6 +74,8 @@ namespace ACE.Server.Entity
                     return GetEmpyreanFemaleTitle(rank);
                 case HeritageGroup.Undead:
                     return GetUndeadFemaleTitle(rank);
+                case HeritageGroup.Mule:
+                    return GetMuleTitle(rank);
                 default:
                     return "";
             }
@@ -380,6 +384,24 @@ namespace ACE.Server.Entity
                 case 9: return "Highness";
                 case 10: return "Annointed";
                 default: return "";
+            }
+        }
+
+        public static string GetMuleTitle(uint rank)
+        {
+            switch (rank)
+            {
+                case 1: return "mule";
+                case 2: return "Mule";
+                case 3: return "Airhead";
+                case 4: return "Dingaling";
+                case 5: return "Geezer";
+                case 6: return "Goon";
+                case 7: return "Knucklehead";
+                case 8: return "Patsy";
+                case 9: return "Stumblebum";
+                case 10: return "Twit";
+                default : return "";
             }
         }
     }

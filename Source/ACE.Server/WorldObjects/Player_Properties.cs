@@ -159,13 +159,13 @@ namespace ACE.Server.WorldObjects
         // ========================================
         // ========== Player Properties ===========
         // ========================================
-
+        
         public int? Age
         {
             get => GetProperty(PropertyInt.Age);
             set { if (!value.HasValue) RemoveProperty(PropertyInt.Age); else SetProperty(PropertyInt.Age, value.Value); }
         }
-
+        
         public long? AvailableExperience
         {
             get => GetProperty(PropertyInt64.AvailableExperience);
@@ -1134,7 +1134,12 @@ namespace ACE.Server.WorldObjects
             set { if (!value) RemoveProperty(PropertyBool.BarberActive); else SetProperty(PropertyBool.BarberActive, value); }
         }
 
-
+        
+        public int? FunkyAugFakeRank
+        {
+            get => GetProperty(PropertyInt.FunkyAugFakeRank);
+            set { if (!value.HasValue) RemoveProperty(PropertyInt.FunkyAugFakeRank); else SetProperty(PropertyInt.FunkyAugFakeRank, value.Value); }
+        }
         public void UpdateProperty(WorldObject obj, PropertyInt prop, int? value, bool broadcast = false)
         {
             if (value != null)

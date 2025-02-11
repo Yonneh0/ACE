@@ -1,3 +1,31 @@
+# Mule Characters
+- Upon creation, all characters are given the option to be converted to Mule Characters. This is a one way process. (`AugmentationType.Mule`, ACE.Server\WorldObjects\AugmentationDevice.cs#134, ACE.Server\Factories\PlayerFactory.cs#229), Mule Characters:
+  - heads are removed, and stored in a creepy underground lair.
+  - inventories are deleted. (TODO: remove just starter gear, selectively)
+  - SetupIDs are changed to 0x02001B86 - Hoshino Skeleton
+  - are not attackable by monsters, and can not take damage. (Player.Attackable = false)
+  - are set to level 1, with only the most basic of skills.
+  - are given 2500 Strength, and 500 Quickness.
+  - are given 10 pack slots, and 10x nnn slot packs, to fill them. (Player.AugmentationExtraPackSlot = 3; create 10x WCID:31000262)
+  - are unable to gain experience (ACE.Server\WorldObjects\Player_Xp.cs#55)
+  - are unable to damage Creatures with Melee Weapons (ACE.Server\WorldObjects\Player_Combat.cs#122)
+  - are unable to damage Creatures with Missile Weapons (ACE.Server\WorldObjects\ProjectileCollisionHelper.cs#42)
+  - HeritageGroup.cs#18, HeritageGroup.Mule
+  - AllegianceRank.cs#45, 77, 389: Mule Titles (appears in appraisal, if mule is patron and/or monarch): mule, Mule, Aidhead, Dingaling, Geezer, Goon, Knucklehead, Patsy, Stumblebum, Twit.
+
+- These charcters are intended to be used as safe storage characters, and exploration characters. You can take them anywhere a level 1 can go (without casting a spell)
+
+# Rank Augmentation
+- PropertyInt.cs#620, PropertyInt.FunkyAugFakeRank
+- AllegianceManager.cs#386, in HandleNoAllegiance- instead of removing Allegiance Rank, set to FunkyAugFakeRank value. sloppy logic, but it ends up properly nulled if FunkyAugFakeRank is null
+- Allegiance.cs#346, in Allegiance.UpdateProperties, add FunkyAugFakeRank to rank
+- Player_Networking.cs#42, add FunkyAugFakeRank to rank
+- Player_Properties.cs#1138, add FunkyAugFakeRank accessor
+
+# Player Creation Changes
+- Funky Mule Stone, WCID: 32000105 - to support instant creation of mules
+- Funky Arena Backpack, WCID: 31000262
+
 # Augmentation System (additions to the retail system)
 - Nether Resistance Augmentation added- available from aug gem vendor - 32000101 Enhancement of the Yonneh
   - TODO: Add Blank Augmentation Device cleaner machine next to vendor, add 32000101 to all other aug npcs
