@@ -39,8 +39,10 @@ namespace ACE.Server.WorldObjects
             if (BarberActive)
                 BarberActive = false;
 
-            if (AllegianceNode != null)
-                AllegianceRank = (int)AllegianceNode.Rank;
+            // YonnehTown: Add FunkyAugFakeRank to AllegianceRank
+            int funkyAugFakeRank = (int)(AllegianceNode?.Rank ?? 0) + FunkyAugFakeRank??0;
+            if (funkyAugFakeRank > 0)
+                AllegianceRank = funkyAugFakeRank;
             else
                 AllegianceRank = null;
 

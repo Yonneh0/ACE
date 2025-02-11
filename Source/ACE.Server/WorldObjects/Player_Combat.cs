@@ -119,6 +119,7 @@ namespace ACE.Server.WorldObjects
             if (target.Health.Current <= 0)
                 return null;
 
+                Session.Network.EnqueueSend(new GameEventCommunicationTransientString(Session, "Non-Attackable characters are not allowed to Damage Creatures."));
             var targetPlayer = target as Player;
 
             // check PK status
