@@ -104,6 +104,7 @@ namespace ACE.Database
         /// </summary>
         public uint GetAccountIdByName(string accountName)
         {
+            // why not return GetAccountByName(accountName)?.AccountId ?? 0;
             using (var context = new AuthDbContext())
             {
                 var result = context.Account

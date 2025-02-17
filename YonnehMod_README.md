@@ -11,7 +11,7 @@
   - are unable to damage Creatures with Melee Weapons (ACE.Server\WorldObjects\Player_Combat.cs#122)
   - are unable to damage Creatures with Missile Weapons (ACE.Server\WorldObjects\ProjectileCollisionHelper.cs#42)
   - HeritageGroup.cs#18, HeritageGroup.Mule
-  - AllegianceRank.cs#45, 77, 389: Mule Titles (appears in appraisal, if mule is patron and/or monarch): mule, Mule, Aidhead, Dingaling, Geezer, Goon, Knucklehead, Patsy, Stumblebum, Twit.
+  - AllegianceRank.cs#45, 77, 389: Mule Titles (appears in appraisal, if mule is patron and/or monarch): mule, Mule, Airhead, Dingaling, Geezer, Goon, Knucklehead, Patsy, Stumblebum, Twit.
 
 - These charcters are intended to be used as safe storage characters, and exploration characters. You can take them anywhere a level 1 can go (without casting a spell)
 
@@ -25,6 +25,46 @@
 # Player Creation Changes
 - Funky Mule Stone, WCID: 32000105 - to support instant creation of mules
 - Funky Arena Backpack, WCID: 31000262
+
+
+
+### Public Chat Commands:
+- Player_Location.cs#66: added universal HandleActionTeleTo command
+- `/hotel` Teleports you to Hotel Swank!: Primary quest giver/portal hub for Custom Content. PlayerCommands.cs#27
+- `/tn` Teleports you to the Town Network PlayerCommands.cs#32
+- `/sub` Teleports you to the Abandoned Mine (Subway) PlayerCommands.cs#36
+- `/fh` Teleports you to the Facility Hub: Requires level 10+ PlayerCommands.cs#42
+- All teleport commands animation time reduced to 4 seconds Player_Location.cs# HandleActionTeleTo, HandleActionTeleToHouse, HandleActionTeleToLifestone, HandleActionTeleToMarketPlace, HandleActionRecallAllegianceHometown, HandleActionTeleToMansion, 
+- All movement checks have been removed from teleport commands.
+
+# Augmentations
+- AugmentationType.cs#176: AugmentationType.ResistNether, Enchantment of the Yonneh - reduced nether damage
+- AugmentationType.cs#180: AugmentationType.MaximumInnateAttributes, Maximum Innate Attributes
+- AugmentationType.cs#184: AugmentationType.Mule, (covered above in Mule Characters)
+- AugmentationType.cs#205: AugTypeHelper.IsResist: Add || type == AugmentationType.ResistNether
+- AugmentationDevice.cs#342: MaxAugs[AugmentationType.ResistNether] = 2
+- AugmentationDevice.cs#356: MaxAugs[AugmentationType.MaximumInnateAttributes] = 50
+- AugmentationDevice.cs#357: MaxAugs[AugmentationType.Mule] = 1
+- AugmentationDevice.cs#403: AugProps[AugmentationType.ResistNether] = PropertyInt.AugmentationResistanceNether
+- AugmentationDevice.cs#404: AugProps[AugmentationType.MaximumInnateAttributes] = PropertyInt.AugmentationFamilyStat
+- AugmentationDevice.cs#405: AugProps[AugmentationType.Mule] = PropertyInt.Enlightenment
+- PropertyInt.cs#300: add `[SendOnLogin]` to PropertyInt.AugmentationFamilyStat
+- Player_Properties.cs#735: add Player.AugmentationFamilyStat => PropertyInt.AugmentationFamilyStat
+- Player_Properties.cs#1388: add GetAugmentationResistance(DamageType.Nether) => Player.AugmentationResistanceNether
+- AttributeTransferDevice.cs#64: AttributeTransferDevice.ActOnUse: Increase player maximum innate limit from 100, to include the value of Player.AugmentationFamilyStat
+- AugmentationDevice.cs#95: AugmentationDevice.DoAugmentation: Update output of retail Innate Attribute Augmentation to reflect custom limit.
+- AugmentationDevice.cs#107: AugmentationDevice.DoAugmentation: Update output of retail Resistance Augmentation to reflect custom limit.
+- AugmentationDevice.cs#232: AugmentationDevice.DoAugmentation: Update output of Augmentations, to include the augmentation number, and limit, if the limit is greater than 1.
+- AugmentationDevice.cs#255: AugmentationDevice.VerifyRequirements: increase retail Innate Attribute Augmentation limit by `(player.AugmentationFamilyStat / 2)`
+- AugmentationDevice.cs#269: AugmentationDevice.VerifyRequirements: Increase player maximum innate limit from 100, to include the value of Player.AugmentationFamilyStat
+- AugmentationDevice.cs#284: AugmentationDevice.VerifyRequirements: Allow 2 of EVERY Resistance Augmentation (including Nether, 16 total), instead of 2 total. Also increase retail Resist Augmentation limit by 1 at level 276 (24 total, 3 each), and again at level 300 (32 total, 4 each)`
+- AugmentationDevice.cs#292: AugmentationDevice.VerifyRequirements: consume AugmentationType.Mule gems, if player recalls are not disabled. (disables use of the augmentation after the training academy)
+  - TODO: Remove Funky Mule Augmentation Gem from inventory, when leaving the training academy.
+  - TODO: Add OnLevel text for levels 275 and 300, identifying the additional augmentation options
+
+
+
+--- todo: update this.
 
 # Augmentation System (additions to the retail system)
 - Nether Resistance Augmentation added- available from aug gem vendor - 32000101 Enhancement of the Yonneh
@@ -48,14 +88,6 @@
 - 25 additional levels added, with a fairly steep curve.
 - xp per level, starting at level 276 is: 198058069818, 218655824925, 301355811677, 633396258490, 1966538652443, 3319678182306, 4693114805116, 7460589600079, 14420788709410, 35405789024045, 56705564343399, 78324836292543, 121887669270068, 231448194208545, 561773176898053, 897053034327904, 1237362089619200, 1923084836031170, 3647677543257260, 8847324555543940, 14124966273014900, 19481772616248000, 30275737397862500, 57422558823623200, 139270225422292000
 - Every additional level comes with a skillpoint, for 25 additional skillpoints.
-
-### (Additional/Mod-specific) Public Chat Commands:
-- `/hotel` Teleports you to Hotel Swank!: Primary quest giver/portal hub for Custom Content.
-- `/tn` Teleports you to the Town Network
-- `/sub` Teleports you to the Abandoned Mine (Subway)
-- `/fh` Teleports you to the Facility Hub: Requires level 10+
-- All teleport commands animation time reduced to 4 seconds
-- All movement checks have been removed from teleport commands.
 
 # Attribute redistribution and respeccing
 - There is no pickup timer on the attribute redistribution gems, or the forgetfullness/enlightenment gems - at Hotel Swank! (`/hotel`)

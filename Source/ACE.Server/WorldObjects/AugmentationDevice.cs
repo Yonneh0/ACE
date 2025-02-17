@@ -138,7 +138,6 @@ namespace ACE.Server.WorldObjects
                 player.TryConsumeFromInventoryWithNetworking(this, 1);
 
                 Enlightenment.RemoveAbility(player);
-                player.HeadObjectDID = null;
                 player.SetupTableId = 0x02001B86;
                 player.Strength.StartingValue = 2500;
                 player.Endurance.StartingValue = 10;
@@ -154,11 +153,13 @@ namespace ACE.Server.WorldObjects
                 player.Mana.StartingValue = player.Mana.MaxValue;
 
                 player.HeritageGroup = HeritageGroup.Mule;
+                player.ObjScale = 0.75f;
                 player.HeritageGroupName = "Mule";
+
                 player.CharacterTitleId = null;
                 player.Sex = null;
-                player.ObjScale = 0.75f;
                 player.HairStyle = null;
+                player.HeadObjectDID = null;
                 player.HairPaletteDID = null;
                 player.EyesTextureDID = null;
                 player.DefaultEyesTextureDID = null;
@@ -177,8 +178,8 @@ namespace ACE.Server.WorldObjects
                 player.AvailableSkillCredits = 0;
                 player.TotalExperience = 0;
                 player.AvailableExperience = 0;
-                player.MaximumLuminance = null; // player.RemoveProperty(PropertyInt64.MaximumLuminance);
-                player.AvailableLuminance = null; // player.RemoveProperty(PropertyInt64.AvailableLuminance);
+                player.MaximumLuminance = null;
+                player.AvailableLuminance = null;
                 
                 foreach (var item in player.Inventory.Keys.ToList())
                     player.TryRemoveFromInventoryWithNetworking(item, out var _, Player.RemoveFromInventoryAction.ConsumeItem);
@@ -203,12 +204,11 @@ namespace ACE.Server.WorldObjects
 
                 player.UpdateProperty(player, PropertyBool.Attackable, false, true);
 
-                player.EnqueueBroadcast(new GameMessageSystemChat($"You have been converted into a Mule. Please log back in, to continue.", ChatMessageType.Broadcast));
                 player.Teleport(ACE.Server.Command.Handlers.PlayerCommands.HotelDrop);
                 player.SaveBiotaToDatabase();
 
                 player.Session.LogOffPlayer(true);
-                player.EnqueueBroadcast(new GameMessageSystemChat($"Please log back in, to continue.", ChatMessageType.Broadcast));
+                player.EnqueueBroadcast(new GameMessageSystemChat($"You have been converted into a Mule.", ChatMessageType.Broadcast), new GameMessageSystemChat($"Please log back in, to continue.", ChatMessageType.Broadcast));
 
                 return;
 
