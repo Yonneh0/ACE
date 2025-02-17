@@ -35,7 +35,7 @@ namespace ACE.DatLoader
 
             while (size > 0)
             {
-                if (nextAddress == 0)
+                if (size < blockSize)
                 {
                     stream.Read(buffer, bufferOffset, Convert.ToInt32(size));
                     size = 0; // We know we've read the only/last sector, so just set this to zero to proceed.
@@ -53,19 +53,6 @@ namespace ACE.DatLoader
             return buffer;
         }
 
-        private static byte[] ReadDat2(FileStream stream, uint offset, int size, int blockSize) {
-            var buffer = new byte[size];
-            uint nextAddress = 0;
-            int bufferOffset = 0;
-            stream.Seek(offset, SeekOrigin.Begin);
-            while ((nextAddress = GetNextAddress(stream, 0)) != 0) {
-                bufferOffset += stream.Read(buffer, bufferOffset, blockSize - 4);
-                stream.Seek(nextAddress, SeekOrigin.Begin);
-            }
-
-            stream.Read(buffer, bufferOffset, Convert.ToInt32(size % (blockSize - 4)));
-            return buffer;
-        }
         private static uint GetNextAddress(FileStream stream, int relOffset)
         {
             // The location of the start of the next sector is the first four bytes of the current sector. This should be 0x00000000 if no next sector.
